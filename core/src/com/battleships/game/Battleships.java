@@ -1,6 +1,7 @@
 package com.battleships.game;
 
 import com.badlogic.gdx.Game;
+import com.battleships.game.loader.B2dAssetManager;
 import com.battleships.game.views.*;
 
 public class Battleships extends Game {
@@ -11,6 +12,7 @@ public class Battleships extends Game {
 	private MainScreen mainScreen;
 	private EndScreen endScreen;
 	private AppPreferences preferences;
+	public B2dAssetManager assMan = new B2dAssetManager();
 
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
@@ -47,6 +49,11 @@ public class Battleships extends Game {
 
 	public AppPreferences getPreferences() {
 		return this.preferences;
+	}
+
+	@Override
+	public void dispose(){
+		assMan.manager.dispose();
 	}
 }
 

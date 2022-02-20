@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public class MenuScreen implements Screen {
 
     private final Stage stage;
+    private final Skin skin;
     private Battleships parent;
 
     public MenuScreen(Battleships battleships){
@@ -22,6 +23,10 @@ public class MenuScreen implements Screen {
 
         // Create a new stage and set it as the input processor
         stage = new Stage(new ScreenViewport());
+
+        parent.assMan.queueAddSkin();  //new
+        parent.assMan.manager.finishLoading(); // new
+        skin = parent.assMan.manager.get("skin/glassy-ui.json"); // new	
     }
 
     @Override
@@ -34,7 +39,6 @@ public class MenuScreen implements Screen {
         // table.setDebug(true);
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         TextButton newGame = new TextButton("New Game", skin);
         TextButton preferences = new TextButton("Settings", skin);
         TextButton exit = new TextButton("Exit", skin);
