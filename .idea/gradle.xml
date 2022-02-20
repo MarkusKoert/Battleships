@@ -8,7 +8,9 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$/core" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/desktop" />
           </set>
         </option>
       </GradleProjectSettings>
