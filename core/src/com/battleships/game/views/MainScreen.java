@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.battleships.game.B2DModel;
 import com.battleships.game.Battleships;
@@ -19,6 +23,10 @@ public class MainScreen implements Screen {
     private KeyboardController controller;
     private Battleships parent;
     private B2DModel model;
+
+    private TiledMapRenderer tiledMapRenderer;
+    Texture img;
+    TiledMap tiledMap;
 
     public MainScreen(Battleships battleships){
         parent = battleships;
@@ -35,6 +43,10 @@ public class MainScreen implements Screen {
         parent.assMan.manager.finishLoading();
         // gets the images as a texture
         playerTex = parent.assMan.manager.get("images/player.png");
+
+        // load tiled map
+        tiledMap = new TmxMapLoader().load("map/WorldMap.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     @Override
@@ -52,6 +64,9 @@ public class MainScreen implements Screen {
         sb.begin();
         sb.draw((Texture) playerTex,model.player.getPosition().x -1,model.player.getPosition().y -1,2,2);
         sb.end();
+
+        tiledMapRenderer.setView(cam);
+        tiledMapRenderer.render();
     }
 
     @Override
