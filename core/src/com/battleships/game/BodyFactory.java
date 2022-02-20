@@ -80,7 +80,6 @@ public class BodyFactory {
         return makeCirclePolyBody(posx, posy, radius, material, BodyDef.BodyType.DynamicBody,  false);
     }
 
-
     public Body makeBoxPolyBody(float posx, float posy, float width, float height,int material, BodyDef.BodyType bodyType){
         return makeBoxPolyBody(posx, posy, width, height, material, bodyType, false);
     }
@@ -118,7 +117,6 @@ public class BodyFactory {
         return boxBody;
     }
 
-
     public void makeConeSensor(Body body, float size){
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -137,6 +135,12 @@ public class BodyFactory {
         fixtureDef.shape = polygon;
         body.createFixture(fixtureDef);
         polygon.dispose();
+    }
+
+    public void makeAllFixturesSensors(Body bod){
+        for(Fixture fix :bod.getFixtureList()){
+            fix.setSensor(true);
+        }
     }
 
 }
