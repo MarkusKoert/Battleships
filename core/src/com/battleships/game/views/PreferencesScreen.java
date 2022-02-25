@@ -1,14 +1,12 @@
 package com.battleships.game.views;
 
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.battleships.game.Battleships;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -16,6 +14,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class PreferencesScreen implements Screen {
 
+    private final Sound buttonClick;
+    private final Sound buttonHover;
     private Battleships parent;
     private Stage stage;
     private Label titleLabel;
@@ -23,13 +23,21 @@ public class PreferencesScreen implements Screen {
     private Label volumeSoundLabel;
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
-
+    private boolean playing;
 
     public PreferencesScreen(Battleships battleships){
         parent = battleships;
 
         // Create a new stage and set it as the input processor
         stage = new Stage(new ScreenViewport());
+
+        // tells our asset manger that we want to load the sounds
+        parent.assMan.queueAddSounds();
+        // tells the asset manager to load the sounds and wait until finsihed loading.
+        parent.assMan.manager.finishLoading();
+        // loads the 2 sounds we use
+        buttonClick = parent.assMan.manager.get("sounds/button_click.wav", Sound.class);
+        buttonHover = parent.assMan.manager.get("sounds/button_hover.mp3", Sound.class);
     }
 
     @Override
@@ -44,7 +52,7 @@ public class PreferencesScreen implements Screen {
         stage.addActor(table);
 
         // Assign new skin to use for buttons
-        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/game-ui-skin.json"));
 
         // Slider for music volume
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
@@ -79,6 +87,12 @@ public class PreferencesScreen implements Screen {
                 return false;
             }
         });
+        musicCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buttonClick.play(0.7F);
+            }
+        });
 
         // Checkbox for sound volume
         final CheckBox soundCheckbox = new CheckBox(null, skin);
@@ -91,24 +105,50 @@ public class PreferencesScreen implements Screen {
                 return false;
             }
         });
-
-        // Button for returning to main menu
-        final TextButton backButton = new TextButton("back", skin, "small");
-        backButton.addListener(new ChangeListener() {
+        soundCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(Battleships.MENU);
+                buttonClick.play(0.7F);
             }
         });
 
-        titleLabel = new Label("Preferences", skin);
+        // Button for returning to main menu
+        final TextButton backButton = new TextButton("back", skin);
+
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buttonClick.play(0.7F);
+                parent.changeScreen(Battleships.MENU);
+            }
+        });
+        backButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                if (!playing) {
+                    buttonHover.play();
+                    playing = true;
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                playing = false;
+            }
+        });
+
+
+
+        titleLabel = new Label("SETTINGS", skin, "subtitle");
         volumeMusicLabel = new Label("Music volume", skin);
         volumeSoundLabel = new Label("Sound volume", skin);
         musicOnOffLabel = new Label("Music", skin);
         soundOnOffLabel = new Label("Sound", skin);
 
         table.add(titleLabel).colspan(2);
-        table.row().pad(10,0,0,10);
+        table.row().pad(25,0,0,10);
         table.add(volumeMusicLabel).left();
         table.add(volumeMusicSlider);
         table.row().pad(10,0,0,10);

@@ -1,5 +1,6 @@
 package com.battleships.game;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -10,8 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.battleships.game.controller.KeyboardController;
-
-import java.sql.Wrapper;
+import com.battleships.game.loader.B2dAssetManager;
 
 public class B2DModel {
     public World world;
@@ -21,8 +21,16 @@ public class B2DModel {
     private KeyboardController controller;
     private Camera camera;
     public Body player;
+    private B2dAssetManager assMan;
 
-    public B2DModel(KeyboardController cont, OrthographicCamera cam){
+    private Sound buttonClick;
+    private Sound buttonHover;
+
+    public static final int BUTTON_HOVER = 0; // new
+    public static final int BUTTON_CLICK = 1; //new
+
+    public B2DModel(KeyboardController cont, OrthographicCamera cam, B2dAssetManager assetManager){
+        assMan = assetManager;
         camera = cam;
         controller = cont;
         world = new World(new Vector2(0,0), true);
@@ -30,6 +38,14 @@ public class B2DModel {
         createObject();
         // createMovingObject();
         // createStaticObject();
+
+        // tells our asset manger that we want to load the images set in loadImages method
+        assMan.queueAddSounds();
+        // tells the asset manager to load the images and wait until finsihed loading.
+        assMan.manager.finishLoading();
+        // loads the 2 sounds we use
+        buttonClick = assMan.manager.get("sounds/button_click.wav", Sound.class);
+        buttonHover = assMan.manager.get("sounds/button_hover.mp3", Sound.class);
 
         // get our body factory singleton and store it in bodyFactory
         BodyFactory bodyFactory = BodyFactory.getInstance(world);
@@ -43,6 +59,7 @@ public class B2DModel {
         // check if mouse1 is down (player click) then if true check if point intersects
         if(controller.isMouse1Down && pointIntersectsBody(player,controller.mouseLocation)){
             System.out.println("Player was clicked");
+            playSound(BUTTON_HOVER);
         }
 
         if(controller.left){
@@ -74,6 +91,7 @@ public class B2DModel {
         }
         return false;
     }
+
     private void createObject(){
         // Create a new body definition
         BodyDef bodyDef = new BodyDef();
@@ -144,5 +162,16 @@ public class B2DModel {
         shape.dispose();
 
         bodyk.setLinearVelocity(0, 0.75f);
+    }
+
+    public void playSound(int sound){
+        switch(sound){
+            case BUTTON_HOVER:
+                buttonHover.play();
+                break;
+            case BUTTON_CLICK:
+                buttonClick.play();
+                break;
+        }
     }
 }
