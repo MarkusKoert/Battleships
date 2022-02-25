@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,24 +29,20 @@ public class MenuScreen implements Screen {
     private final Sound buttonHover;
     private Battleships parent;
     private boolean playing;
-    private TextureAtlas.AtlasRegion backGroundWater;
+    private SpriteBatch sb;
+    private OrthographicCamera cam;
 
     public MenuScreen(Battleships battleships){
         parent = battleships;
+        cam = new OrthographicCamera(1024, 576);
 
         // Create a new stage and set it as the input processor
         stage = new Stage(new ScreenViewport());
 
+
         parent.assMan.queueAddSkin();  //new
         parent.assMan.manager.finishLoading(); // new
         skin = parent.assMan.manager.get("skin/game-ui-skin.json"); // new
-        // load loading images and wait until finished
-        parent.assMan.queueAddImages();
-        parent.assMan.manager.finishLoading();
-        // get images used to display loading progress
-        TextureAtlas atlas = parent.assMan.manager.get("images/Battleships-pack1.atlas");
-        backGroundWater = atlas.findRegion("water");
-        parent.assMan.queueAddImages();
 
         // tells our asset manger that we want to load the sounds
         parent.assMan.queueAddSounds();
