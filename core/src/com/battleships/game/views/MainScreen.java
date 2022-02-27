@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.battleships.game.B2DModel;
 import com.battleships.game.Battleships;
@@ -25,14 +23,13 @@ public class MainScreen implements Screen {
     private B2DModel model;
 
     private TiledMapRenderer tiledMapRenderer;
-    Texture img;
     TiledMap tiledMap;
 
     public MainScreen(Battleships battleships){
         parent = battleships;
-        cam = new OrthographicCamera(32, 24);
+        cam = new OrthographicCamera(16, 16);
         controller = new KeyboardController();
-        model = new B2DModel(controller, cam);
+        model = new B2DModel(controller,cam,parent.assMan);
         debugRenderer = new Box2DDebugRenderer(true,true,true,true,true,true);
         sb = new SpriteBatch();
         sb.setProjectionMatrix(cam.combined);
@@ -45,8 +42,8 @@ public class MainScreen implements Screen {
         playerTex = parent.assMan.manager.get("images/player.png");
 
         // load tiled map
-        tiledMap = new TmxMapLoader().load("map/WorldMap.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        // tiledMap = new TmxMapLoader().load("map/WorldMap.tmx");
+        // tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     @Override
@@ -54,19 +51,22 @@ public class MainScreen implements Screen {
         Gdx.input.setInputProcessor(controller);
     }
 
+
     @Override
     public void render(float delta) {
         model.logicStep(delta);
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(0, 41, 58, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(model.world, cam.combined);
 
         sb.begin();
+
         sb.draw((Texture) playerTex,model.player.getPosition().x -1,model.player.getPosition().y -1,2,2);
         sb.end();
 
-        tiledMapRenderer.setView(cam);
-        tiledMapRenderer.render();
+        cam.update();
+        // tiledMapRenderer.setView(cam);
+        // tiledMapRenderer.render();
     }
 
     @Override
