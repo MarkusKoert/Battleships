@@ -29,6 +29,12 @@ public class B2DModel {
     public static final int BUTTON_HOVER = 0; // new
     public static final int BUTTON_CLICK = 1; //new
 
+    public final int BODY_WIDTH = 2;
+    public final int BODY_HEIGHT = 2;
+    // for moving map
+    public final float CAM_UPDATE = 1/16f;
+
+
     public B2DModel(KeyboardController cont, OrthographicCamera cam, B2dAssetManager assetManager){
         assMan = assetManager;
         camera = cam;
@@ -51,7 +57,7 @@ public class B2DModel {
         BodyFactory bodyFactory = BodyFactory.getInstance(world);
 
         // add a player
-        player = bodyFactory.makeBoxPolyBody(1, 1, 2, 2, BodyFactory.RUBBER, BodyDef.BodyType.DynamicBody,false);
+        player = bodyFactory.makeBoxPolyBody(1, 1, BODY_WIDTH, BODY_HEIGHT, BodyFactory.RUBBER, BodyDef.BodyType.DynamicBody,false);
     }
 
     public void logicStep(float delta) {
@@ -63,14 +69,17 @@ public class B2DModel {
 
         if(controller.left){
             player.applyForceToCenter(-10, 0,true);
+            camera.translate((-CAM_UPDATE),0,0);
         }else if(controller.right){
             player.applyForceToCenter(10, 0,true);
+            camera.translate(CAM_UPDATE,0,0);
         }else if(controller.up){
             player.applyForceToCenter(0, 10,true);
+            camera.translate(0,CAM_UPDATE,0);
         }else if(controller.down){
             player.applyForceToCenter(0, -10,true);
+            camera.translate(0,-CAM_UPDATE,0);
         }
-
         world.step(delta, 3, 3);
     }
 
