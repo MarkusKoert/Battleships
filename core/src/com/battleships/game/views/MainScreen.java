@@ -21,7 +21,6 @@ public class MainScreen implements Screen {
     private KeyboardController controller;
     private Battleships parent;
     private B2DModel model;
-
     private TiledMapRenderer tiledMapRenderer;
     TiledMap tiledMap;
 
@@ -60,7 +59,6 @@ public class MainScreen implements Screen {
         debugRenderer.render(model.world, cam.combined);
 
         sb.begin();
-
         sb.draw((Texture) playerTex,model.player.getPosition().x -1,model.player.getPosition().y -1,2,2);
         sb.end();
 

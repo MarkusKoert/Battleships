@@ -5,10 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -30,20 +28,26 @@ public class MenuScreen implements Screen {
     private Battleships parent;
     private boolean playing;
     private SpriteBatch sb;
-    private OrthographicCamera cam;
+    private Object backGroundTexture;
 
     public MenuScreen(Battleships battleships){
         parent = battleships;
-        cam = new OrthographicCamera(1024, 576);
 
         // Create a new stage and set it as the input processor
         stage = new Stage(new ScreenViewport());
-
 
         parent.assMan.queueAddSkin();  //new
         parent.assMan.manager.finishLoading(); // new
         skin = parent.assMan.manager.get("skin/game-ui-skin.json"); // new
 
+        // tells our asset manger that we want to load the images
+        parent.assMan.queueAddImages();
+        // tells the asset manager to load the images and wait until finished loading.
+        parent.assMan.manager.finishLoading();
+        // gets the images as a texture
+        backGroundTexture = parent.assMan.manager.get("images/water.png");
+
+        sb = new SpriteBatch();
         // tells our asset manger that we want to load the sounds
         parent.assMan.queueAddSounds();
         // tells the asset manager to load the sounds and wait until finsihed loading.
@@ -155,6 +159,10 @@ public class MenuScreen implements Screen {
         // clear screen
         Gdx.gl.glClearColor(0f,0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        sb.begin();
+        sb.draw((Texture) backGroundTexture, 0, 0,1024,576);
+        sb.end();
 
         // tell stage to do actions and draw
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

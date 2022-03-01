@@ -55,7 +55,6 @@ public class B2DModel {
     }
 
     public void logicStep(float delta) {
-
         // check if mouse1 is down (player click) then if true check if point intersects
         if(controller.isMouse1Down && pointIntersectsBody(player,controller.mouseLocation)){
             System.out.println("Player was clicked");
