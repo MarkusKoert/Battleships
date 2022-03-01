@@ -27,7 +27,7 @@ public class B2dAssetManager {
         manager.load(playerImage, Texture.class);
         manager.load(enemyImage, Texture.class);
         manager.load(gameImages, TextureAtlas.class);
-        manager.load(backGroundimage, TextureAtlas.class);
+        manager.load(backGroundimage, Texture.class);
     }
 
     public void queueAddSkin(){

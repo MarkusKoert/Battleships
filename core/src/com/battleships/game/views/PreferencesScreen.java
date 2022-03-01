@@ -1,6 +1,8 @@
 package com.battleships.game.views;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.battleships.game.Battleships;
 
@@ -24,6 +26,8 @@ public class PreferencesScreen implements Screen {
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
     private boolean playing;
+    private SpriteBatch sb;
+    private Object backGroundTexture;
 
     public PreferencesScreen(Battleships battleships){
         parent = battleships;
@@ -38,6 +42,14 @@ public class PreferencesScreen implements Screen {
         // loads the 2 sounds we use
         buttonClick = parent.assMan.manager.get("sounds/button_click.wav", Sound.class);
         buttonHover = parent.assMan.manager.get("sounds/button_hover.mp3", Sound.class);
+
+        // tells our asset manger that we want to load the images
+        parent.assMan.queueAddImages();
+        // tells the asset manager to load the images and wait until finished loading.
+        parent.assMan.manager.finishLoading();
+        // gets the images as a texture
+        backGroundTexture = parent.assMan.manager.get("images/water.png");
+        sb = new SpriteBatch();
     }
 
     @Override
@@ -169,6 +181,10 @@ public class PreferencesScreen implements Screen {
         // clear screen
         Gdx.gl.glClearColor(0f,0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        sb.begin();
+        sb.draw((Texture) backGroundTexture, 0, 0,1024,576);
+        sb.end();
 
         // tell stage to do actions and draw
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
