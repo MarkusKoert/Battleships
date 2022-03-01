@@ -1,58 +1,74 @@
 package com.battleships.game.views;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.battleships.game.B2DModel;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
+import com.battleships.game.B2dContactListener;
 import com.battleships.game.Battleships;
+import com.battleships.game.BodyFactory;
 import com.battleships.game.controller.KeyboardController;
+import com.battleships.game.entity.components.*;
+import com.battleships.game.entity.systems.*;
 
 public class MainScreen implements Screen {
-    private final Box2DDebugRenderer debugRenderer;
+    private final World world;
+    private TextureAtlas atlas;
+    private PooledEngine engine;
+    private BodyFactory bodyFactory;
     private SpriteBatch sb;
-    private Object playerTex;
     private OrthographicCamera cam;
     private KeyboardController controller;
     private Battleships parent;
-    private B2DModel model;
     private TiledMapRenderer tiledMapRenderer;
-    TiledMap tiledMap;
-
-
-    public Integer CAMERA_WIDTH = 16;
-    public Integer CAMERA_HEIGHT = 16;
-    public Integer PLAYER_WIDTH = 2;
-    public Integer PLAYER_HEIGHT = 2;
-    public float MAP_UNIT_SCALE = 1/8f;
-    public Integer PLAYER_POS = 1;
+    public TiledMap tiledMap;
+    public float MAP_UNIT_SCALE = 1/32f;
 
     public MainScreen(Battleships battleships){
         parent = battleships;
-        cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
         controller = new KeyboardController();
-        model = new B2DModel(controller,cam,parent.assMan);
-        debugRenderer = new Box2DDebugRenderer(true,true,true,true,true,true);
-        sb = new SpriteBatch();
-        sb.setProjectionMatrix(cam.combined);
+        world = new World(new Vector2(0,0), true);
+        world.setContactListener(new B2dContactListener());
+        bodyFactory = BodyFactory.getInstance(world);
 
-        // tells our asset manger that we want to load the images set in loadImages method
+        // loads and gets images with asset manager
         parent.assMan.queueAddImages();
-        // tells the asset manager to load the images and wait until finished loading.
         parent.assMan.manager.finishLoading();
-        // gets the images as a texture
-        playerTex = parent.assMan.manager.get("images/player.png");
+        atlas = parent.assMan.manager.get("images/Battleships-pack1.atlas", TextureAtlas.class);
 
         // load tiled map
-         tiledMap = new TmxMapLoader().load("map/WorldMap.tmx");
-         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, MAP_UNIT_SCALE);
+        tiledMap = new TmxMapLoader().load("map/WorldMap.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, MAP_UNIT_SCALE);
+
+        sb = new SpriteBatch();
+        RenderingSystem renderingSystem = new RenderingSystem(sb);
+        cam = renderingSystem.getCamera();
+        sb.setProjectionMatrix(cam.combined);
+
+        //create a pooled engine
+        engine = new PooledEngine();
+
+        // add all the relevant systems our engine should run
+        engine.addSystem(new AnimationSystem());
+        engine.addSystem(renderingSystem);
+        engine.addSystem(new PhysicsSystem(world));
+        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new PlayerControlSystem(controller, renderingSystem));
+
+        // create some game objects
+        createPlayer();
     }
 
     @Override
@@ -60,24 +76,16 @@ public class MainScreen implements Screen {
         Gdx.input.setInputProcessor(controller);
     }
 
-
     @Override
     public void render(float delta) {
-        model.logicStep(delta);
-        Gdx.gl.glClearColor(0, 41, 58, 1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        debugRenderer.render(model.world, cam.combined);
 
-        // order is important so that the player is on top of the map
-        cam.update();
         // for loading map
         tiledMapRenderer.setView(cam);
         tiledMapRenderer.render();
-        // for loading player
-        sb.begin();
-        sb.draw((Texture) playerTex,model.player.getPosition().x -PLAYER_POS,model.player.getPosition().y -PLAYER_POS,PLAYER_WIDTH,PLAYER_HEIGHT);
-        sb.end();
 
+        engine.update(delta);
     }
 
     @Override
@@ -104,4 +112,38 @@ public class MainScreen implements Screen {
     public void dispose() {
         // TODO Auto-generated method stub
     }
+
+    private void createPlayer(){
+        // Create the Entity and all the components that will go in the entity
+        Entity entity = engine.createEntity();
+        B2dBodyComponent b2dbody = engine.createComponent(B2dBodyComponent.class);
+        TransformComponent position = engine.createComponent(TransformComponent.class);
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        PlayerComponent player = engine.createComponent(PlayerComponent.class);
+        CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
+        TypeComponent type = engine.createComponent(TypeComponent.class);
+        StateComponent stateCom = engine.createComponent(StateComponent.class);
+
+        // create the data for the components and add them to the components
+        b2dbody.body = bodyFactory.makeCirclePolyBody(10,10,1, BodyFactory.STONE, BodyDef.BodyType.DynamicBody,true);
+        // set object position (x,y,z) z used to define draw order 0 first drawn
+        position.position.set(10,10,0);
+        texture.region = atlas.findRegion("player");
+        type.type = TypeComponent.PLAYER;
+        stateCom.set(StateComponent.STATE_NORMAL);
+        b2dbody.body.setUserData(entity);
+
+        // add the components to the entity
+        entity.add(b2dbody);
+        entity.add(position);
+        entity.add(texture);
+        entity.add(player);
+        entity.add(colComp);
+        entity.add(type);
+        entity.add(stateCom);
+
+        // add the entity to the engine
+        engine.addEntity(entity);
+    }
+
 }
