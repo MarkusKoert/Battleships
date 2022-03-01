@@ -12,8 +12,6 @@ public class B2dAssetManager {
     public final AssetManager manager = new AssetManager();
     // Textures
     public final String gameImages = "images/Battleships-pack1.atlas";
-    public final String playerImage = "images/player.png";
-    public final String enemyImage = "images/enemy.png";
     public final String backGroundimage = "images/water.png";
     // Skin
     public final String skin = "skin/game-ui-skin.json";
@@ -24,8 +22,6 @@ public class B2dAssetManager {
     public final String playingSong = "sounds/north_sea.mp3";
 
     public void queueAddImages(){
-        manager.load(playerImage, Texture.class);
-        manager.load(enemyImage, Texture.class);
         manager.load(gameImages, TextureAtlas.class);
         manager.load(backGroundimage, Texture.class);
     }
