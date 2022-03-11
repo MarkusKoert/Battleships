@@ -24,7 +24,8 @@ www-test/
 /android/libs/x86/
 /android/libs/x86_64/
 /android/gen/
-.idea/
+/Client/.idea/
+/Server/.idea/
 *.ipr
 *.iws
 *.iml
@@ -59,10 +60,13 @@ com_crashlytics_export_strings.xml
 /html/nbproject/private/
 /ios/nbproject/private/
 
-/build/
+/Client/build/
+/Server/build/
 /android/build/
-/core/build/
-/desktop/build/
+/Server/core/build/
+/Client/core/build/
+/Server/desktop/build/
+/client/desktop/build/
 /html/build/
 /ios/build/
 
@@ -92,13 +96,18 @@ nb-configuration.xml
 
 ## Gradle
 
-/local.properties
-.gradle/
+/Client/local.properties
+/Client/.gradle/
+/Server/local.properties
+/Server/.gradle/
+
+
 gradle-app.setting
 /build/
 /android/build/
-/core/build/
-/desktop/build/
+/Client/core/build/
+/Server/core/build/
+/Client/desktop/build/
 /html/build/
 /ios/build/
 
