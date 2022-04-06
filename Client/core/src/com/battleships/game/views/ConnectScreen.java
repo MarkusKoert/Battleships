@@ -117,7 +117,7 @@ public class ConnectScreen implements Screen {
 
                     buttonHover.play();
                     playing = true;
-                    System.out.println("Username: " + username);
+                    //System.out.println("Username: " + username);
                     parent.changeScreen(Battleships.APPLICATION);
                     return super.touchDown(event, x, y, pointer, button);
                 }
@@ -134,7 +134,6 @@ public class ConnectScreen implements Screen {
         table.row().pad(10, 0, 0, 10);
         table.add(backButton).left();
         table.add(connectButton).right();
-        //table.row().pad(10,0,0,10);
 
     }
 

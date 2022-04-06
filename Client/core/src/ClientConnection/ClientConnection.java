@@ -4,14 +4,14 @@ import Packets.PacketCreator;
 import Packets.PacketRemovePlayer;
 import Packets.PacketUpdatePlayerInfo;
 import Packets.PacketAddPlayer;
-import com.badlogic.gdx.Gdx;
 //import com.bigeggs.client.gameInfo.GameClient;
 //import com.bigeggs.client.models.GameCharacter;
 //import com.bigeggs.client.models.Player;
+import com.badlogic.gdx.Gdx;
 import com.battleships.game.Battleships;
 import com.battleships.game.BodyFactory;
 import com.battleships.game.views.MainScreen;
-import com.battleships.game.world.ClientWorld;
+import com.battleships.game.GameInfo.ClientWorld;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -24,29 +24,29 @@ import java.io.IOException;
 public class ClientConnection {
     private Client client;
     private MainScreen mainScreen;
-    private MainScreen player;
     private Battleships battleship;
     private ClientWorld clientWorld;
     private String playerName;
 
     public ClientConnection() {
         String ip = "localhost";
-
         final int tcpPort = 54555, udpPort = 54777;
+
+        //bodyFactory = BodyFactory.getInstance(world);
 
         client = new Client();
         client.start();
 
         // Register all packets that are sent over the network.
         client.getKryo().register(PacketAddPlayer.class);
-        client.getKryo().register(PacketRemovePlayer.class);
+/*      client.getKryo().register(PacketRemovePlayer.class);
         client.getKryo().register(PacketCreator.class);
         client.getKryo().register(PacketUpdatePlayerInfo.class);
         client.getKryo().register(Battleships.class);
-        client.getKryo().register(BodyFactory.class);
+        client.getKryo().register(MainScreen.class);*/
         // need to register packets of GameWorld and Player
 
-/*        client.addListener(new Listener() {
+        client.addListener(new Listener() {
             @Override
             public void received(final Connection connection, final Object object) {
                 if (object instanceof PacketAddPlayer && clientWorld != null) {
@@ -56,20 +56,19 @@ public class ClientConnection {
                             PacketAddPlayer successConnect = (PacketAddPlayer) object;
                             if (successConnect.getId() != connection.getID()
                                     || clientWorld.getPlayers().containsKey(successConnect.getId())) {
-                                final MainScreen player = MainScreen.createPlayer(200f, 300f, 0f, successConnect.getPlayerName());
-                                clientWorld.addPlayer(successConnect.getId(), player);
+                                MainScreen.createPlayer();
+
                             }
                             System.out.println(successConnect.getPlayerName() + " connected!");
+
                         }
                     });
                 } else if (object instanceof PacketUpdatePlayerInfo && clientWorld != null) {
                     final PacketUpdatePlayerInfo playerInfo = (PacketUpdatePlayerInfo) object;
                     if (clientWorld.getPlayers().containsKey(playerInfo.getId())) {
-                        Player newPlayer = clientWorld.getPlayers().get(playerInfo.getId());
-                        newPlayer.setPosition(playerInfo.getX(), playerInfo.getY());
-                        newPlayer.setAngle(playerInfo.getAngle());
-                        newPlayer.setDirection(playerInfo.getDirection());
-                        newPlayer.setHealth(playerInfo.getHealth());
+                        MainScreen.createPlayer();
+                        // here need to add new player: Position, Angle, Direction and etc.
+
                     }
                 } else if (object instanceof PacketRemovePlayer) {
                     PacketRemovePlayer removePlayer = (PacketRemovePlayer) object;
@@ -78,7 +77,7 @@ public class ClientConnection {
                     clientWorld.removePlayer(removePlayer.getId());
                 }
             }
-        });*/
+        });
 
         try {
             // Connected to the server - wait 5000ms before failing.
@@ -88,21 +87,20 @@ public class ClientConnection {
         }
     }
 
-/*    public void updatePlayer(float x, float y, float angle, String direction, int health) {
+    public void updatePlayer(float x, float y, float angle, String direction, int health) {
         PacketUpdatePlayerInfo updatePlayerInfo = PacketCreator.createPacketUpdatePlayer(x, y, angle, direction, health, client.getID());
         client.sendTCP(updatePlayerInfo);
-    }*/
+    }
 
     public void sendPacketConnect() {
         PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName);
         client.sendTCP(packetConnect);
     }
 
-
-
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
+
 
     public Client getClient() {
         return client;

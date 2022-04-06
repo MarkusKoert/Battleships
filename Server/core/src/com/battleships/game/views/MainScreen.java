@@ -146,4 +146,7 @@ public class MainScreen implements Screen {
         engine.addEntity(entity);
     }
 
+    public World getWorld() {
+        return world;
+    }
 }

@@ -22,7 +22,7 @@ import com.battleships.game.BodyFactory;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.*;
 import com.battleships.game.entity.systems.*;
-import com.battleships.game.world.ClientWorld;
+import com.battleships.game.GameInfo.ClientWorld;
 
 public class MainScreen implements Screen {
     private final World world;
@@ -37,7 +37,6 @@ public class MainScreen implements Screen {
     public TiledMap tiledMap;
     public float MAP_UNIT_SCALE = 1/32f;
     private ClientConnection clientConnection;
-    private ClientWorld clientWorld;
 
     public MainScreen(Battleships battleships){
         parent = battleships;
@@ -82,6 +81,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        // packets and server check for
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -119,7 +120,6 @@ public class MainScreen implements Screen {
 
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
-        clientWorld.setClientConnection(this.clientConnection);
     }
 
 

@@ -3,15 +3,12 @@ package ServerConnection;
 import Packets.PacketAddPlayer;
 import Packets.PacketCreator;
 import Packets.PacketRemovePlayer;
-import Packets.PacketUpdatePlayerInfo;
-import com.battleships.game.Battleships;
 import com.battleships.game.server.ServerWorld;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import javax.swing.*;
-import java.awt.peer.CanvasPeer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,13 +40,12 @@ public class ServerConnection extends Listener {
         // and are sent over the network.
         // register() from kryo:3.0.1 library
         server.getKryo().register(PacketAddPlayer.class);
-        server.getKryo().register(PacketRemovePlayer.class);
-        server.getKryo().register(PacketCreator.class);
-        server.getKryo().register(PacketUpdatePlayerInfo.class);
+       // server.getKryo().register(PacketRemovePlayer.class);
+      //  server.getKryo().register(PacketCreator.class);
+      //  server.getKryo().register(PacketUpdatePlayerInfo.class);
 
         // Listener to handle receiving objects
         server.addListener(new Listener() {
-
 
 
             public void received (Connection connection, Object object) {

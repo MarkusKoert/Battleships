@@ -5,7 +5,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.battleships.game.loader.B2dAssetManager;
 import com.battleships.game.views.*;
-import com.battleships.game.world.ClientWorld;
+import com.battleships.game.GameInfo.ClientWorld;
+
+import java.io.IOException;
 
 public class Battleships extends Game {
 
@@ -45,6 +47,14 @@ public class Battleships extends Game {
 		playingSong.setLooping(true);
 	}
 
+	// Method creates a new Client who connects to the Server withs its ClientWorld and MainScreen
+	public void createClient(MainScreen mainScreen) {
+		clientConnection = new ClientConnection();
+		// Todo: Need to set Game world
+		clientConnection.setPlayerName(connectScreen.getUsername());
+		clientConnection.sendPacketConnect();
+		mainScreen.setClientConnection(clientConnection);
+	}
 
 	public void changeScreen(int screen){
 		switch(screen){
@@ -58,7 +68,7 @@ public class Battleships extends Game {
 				break;
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
-				this.createClient(mainScreen, clientWorld);
+				this.createClient(mainScreen);
 				this.setScreen(mainScreen); // Todo: If connect OK - setScreen. If connect FAIL - show error window
 				break;
 			case ENDGAME:
@@ -76,15 +86,6 @@ public class Battleships extends Game {
 		return this.preferences;
 	}
 
-	public void createClient(MainScreen mainScreen, ClientWorld clientWorld) {
-		clientConnection = new ClientConnection();
-		// Todo: Need to set Game world
-		clientConnection.setPlayerName(connectScreen.getUsername());
-		clientConnection.sendPacketConnect();
-		mainScreen.setClientConnection(clientConnection);
-		clientWorld.setClientConnection(clientConnection);
-
-	}
 
 	@Override
 	public void dispose(){

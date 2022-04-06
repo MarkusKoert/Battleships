@@ -1,4 +1,4 @@
-package com.battleships.game.world;
+package com.battleships.game.GameInfo;
 
 import ClientConnection.ClientConnection;
 import com.battleships.game.BodyFactory;
