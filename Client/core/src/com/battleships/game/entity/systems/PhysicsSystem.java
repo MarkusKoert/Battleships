@@ -13,7 +13,7 @@ import com.battleships.game.entity.components.TransformComponent;
 
 public class PhysicsSystem extends IteratingSystem {
  
-    private static final float MAX_STEP_TIME = 1/45f;
+    private static final float MAX_STEP_TIME = 1/90f;
     private static float accumulator = 0f;
  
     private World world;
@@ -28,7 +28,7 @@ public class PhysicsSystem extends IteratingSystem {
         this.world = world;
         this.bodiesQueue = new Array<Entity>();
     }
- 
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -37,7 +37,6 @@ public class PhysicsSystem extends IteratingSystem {
         if(accumulator >= MAX_STEP_TIME) {
             world.step(MAX_STEP_TIME, 6, 2);
             accumulator -= MAX_STEP_TIME;
- 
             //Entity Queue
             for (Entity entity : bodiesQueue) {
                 TransformComponent tfm = tm.get(entity);
@@ -46,6 +45,11 @@ public class PhysicsSystem extends IteratingSystem {
                 tfm.position.x = position.x;
                 tfm.position.y = position.y;
                 tfm.rotation = bodyComp.body.getAngle() * MathUtils.radiansToDegrees;
+                if(bodyComp.isDead){
+                    System.out.println("Removing a body and entity");
+                    world.destroyBody(bodyComp.body);
+                    getEngine().removeEntity(entity);
+                }
             }
         }
         bodiesQueue.clear();

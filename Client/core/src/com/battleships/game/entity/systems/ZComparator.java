@@ -3,7 +3,6 @@ package com.battleships.game.entity.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.battleships.game.entity.components.TransformComponent;
-
 import java.util.Comparator;
 
 public class ZComparator implements Comparator<Entity> {

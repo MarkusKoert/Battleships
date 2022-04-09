@@ -14,6 +14,9 @@ public class AppPreferences {
         return Gdx.app.getPreferences(PREFS_NAME);
     }
 
+    /**
+     * @return boolean if music is enabled.
+     */
     public boolean isMusicEnabled() {
         return getPrefs().getBoolean(PREF_MUSIC_ENABLED, true);
     }
@@ -32,6 +35,9 @@ public class AppPreferences {
         getPrefs().flush();
     }
 
+    /**
+     * @return boolean
+     */
     public boolean isSoundEffectsEnabled() {
         return getPrefs().getBoolean(PREF_SOUND_ENABLED, true);
     }

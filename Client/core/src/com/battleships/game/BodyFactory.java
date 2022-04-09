@@ -7,10 +7,8 @@ public class BodyFactory {
     private final float DEGTORAD = 0.0174533f;
     private static BodyFactory thisInstance;
     private World world;
-    public static final int STEEL = 0;
-    public static final int WOOD = 1;
-    public static final int RUBBER = 2;
-    public static final int STONE = 3;
+    public static final int SHIP = 1;
+    public static final int BULLET = 2;
 
     private BodyFactory(World world) {
         this.world = world;
@@ -23,29 +21,23 @@ public class BodyFactory {
         return thisInstance;
     }
 
+    /**
+     * @param material - Material for fixture
+     * @param shape - shape for fixture
+     * @return - Fixturedef
+     */
     static public FixtureDef makeFixture(int material, Shape shape){
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
 
         switch(material){
-            case STEEL:
+            case BULLET:
                 fixtureDef.density = 1f;
-                fixtureDef.friction = 0.3f;
-                fixtureDef.restitution = 0.1f;
-                break;
-            case WOOD:
-                fixtureDef.density = 0.5f;
-                fixtureDef.friction = 0.7f;
-                fixtureDef.restitution = 0.3f;
-                break;
-            case RUBBER:
+                fixtureDef.friction = 0.01f;
+                fixtureDef.restitution = 0.01f;
+            case SHIP:
                 fixtureDef.density = 1f;
-                fixtureDef.friction = 0f;
-                fixtureDef.restitution = 1f;
-                break;
-            case STONE:
-                fixtureDef.density = 1f;
-                fixtureDef.friction = 0.9f;
+                fixtureDef.friction = 0.5f;
                 fixtureDef.restitution = 0.01f;
             default:
                 fixtureDef.density = 7f;

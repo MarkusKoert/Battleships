@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 public class RenderingSystem extends SortedIteratingSystem {
  
-    static final float PPM = 32.0f; // sets the amount of pixels each metre of box2d objects contains
+    static final float PPM = 12.0f; // sets the amount of pixels each metre of box2d objects contains
  
     // this gets the height and width of our camera frustrum based off the width and height of the screen and our pixel per meter ratio
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth()/PPM;
@@ -77,10 +77,9 @@ public class RenderingSystem extends SortedIteratingSystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
- 
         // sort the renderQueue based on z index
-        renderQueue.sort(comparator);
-        
+        // renderQueue.sort(comparator);
+
         // update camera and sprite batch
         cam.update();
         batch.setProjectionMatrix(cam.combined);

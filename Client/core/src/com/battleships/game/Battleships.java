@@ -5,7 +5,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.battleships.game.loader.B2dAssetManager;
 import com.battleships.game.views.*;
-import com.battleships.game.GameInfo.ClientWorld;
 
 import java.io.IOException;
 
@@ -16,9 +15,11 @@ public class Battleships extends Game {
 	private MenuScreen menuScreen;
 	private MainScreen mainScreen;
 	private EndScreen endScreen;
-	private AppPreferences preferences;
 	private ConnectScreen connectScreen;
+	private AppPreferences preferences;
 	public B2dAssetManager assMan = new B2dAssetManager();
+
+	private ClientConnection clientConnection;
 
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
@@ -26,9 +27,6 @@ public class Battleships extends Game {
 	public final static int ENDGAME = 3;
 	public final static int CONNECT = 4;
 	private Music playingSong;
-	private ClientConnection clientConnection;
-	private ClientWorld clientWorld;
-
 
 	@Override
 	public void create () {
@@ -47,15 +45,10 @@ public class Battleships extends Game {
 		playingSong.setLooping(true);
 	}
 
-	// Method creates a new Client who connects to the Server withs its ClientWorld and MainScreen
-	public void createClient(MainScreen mainScreen) {
-		clientConnection = new ClientConnection();
-		// Todo: Need to set Game world
-		clientConnection.setPlayerName(connectScreen.getUsername());
-		clientConnection.sendPacketConnect();
-		mainScreen.setClientConnection(clientConnection);
-	}
-
+	/**
+	 * @param screen - Screen
+	 * Method changes current screen.
+	 */
 	public void changeScreen(int screen){
 		switch(screen){
 			case MENU:
@@ -68,8 +61,8 @@ public class Battleships extends Game {
 				break;
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
-				this.createClient(mainScreen);
-				this.setScreen(mainScreen); // Todo: If connect OK - setScreen. If connect FAIL - show error window
+				System.out.println("TEST TEST");
+				this.setScreen(mainScreen);
 				break;
 			case ENDGAME:
 				if(endScreen == null) endScreen = new EndScreen(this);
@@ -79,6 +72,7 @@ public class Battleships extends Game {
 				if (connectScreen == null) connectScreen = new ConnectScreen(this);
 				this.setScreen(connectScreen);
 				break;
+
 		}
 	}
 
@@ -86,12 +80,13 @@ public class Battleships extends Game {
 		return this.preferences;
 	}
 
-
 	@Override
 	public void dispose(){
 		playingSong.dispose();
 		assMan.manager.dispose();
 	}
+
+
 }
 
 

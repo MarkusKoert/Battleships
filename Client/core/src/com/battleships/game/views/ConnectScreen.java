@@ -117,7 +117,7 @@ public class ConnectScreen implements Screen {
 
                     buttonHover.play();
                     playing = true;
-                    //System.out.println("Username: " + username);
+                    System.out.println("Username: " + username);
                     parent.changeScreen(Battleships.APPLICATION);
                     return super.touchDown(event, x, y, pointer, button);
                 }

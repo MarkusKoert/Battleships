@@ -69,7 +69,6 @@ public class MenuScreen implements Screen {
 
         Label titleLabel = new Label("BATTLESHIPS", skin, "title");
         TextButton newGame = new TextButton("New Game", skin);
-        // TextButton connect = new TextButton("Connect", skin); <------------------------------ CHECK OR DELETE
         TextButton preferences = new TextButton("Settings", skin);
         TextButton exit = new TextButton("Exit", skin);
 
@@ -110,7 +109,6 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 buttonClick.play(0.7F);
-                //parent.changeScreen(Battleships.APPLICATION);
                 parent.changeScreen(Battleships.CONNECT);
             }
         });

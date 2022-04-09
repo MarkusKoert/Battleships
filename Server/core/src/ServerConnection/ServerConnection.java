@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-// https://github.com/EsotericSoftware/kryonet#running-a-server
 public class ServerConnection extends Listener {
     //Server object
     private Server server;
@@ -40,7 +39,7 @@ public class ServerConnection extends Listener {
         // and are sent over the network.
         // register() from kryo:3.0.1 library
         server.getKryo().register(PacketAddPlayer.class);
-       // server.getKryo().register(PacketRemovePlayer.class);
+        server.getKryo().register(PacketRemovePlayer.class);
       //  server.getKryo().register(PacketCreator.class);
       //  server.getKryo().register(PacketUpdatePlayerInfo.class);
 
@@ -72,7 +71,7 @@ public class ServerConnection extends Listener {
         players.put(id, username);
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         new ServerConnection();
-    }
+    }*/
 }

@@ -4,6 +4,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * This class manages keyboard inputs. Methods return if key is pressed or not.
+ */
 public class KeyboardController implements InputProcessor {
     public boolean left, right, up, down;
     public boolean isMouse1Down, isMouse2Down, isMouse3Down;
@@ -15,19 +18,19 @@ public class KeyboardController implements InputProcessor {
         boolean keyProcessed = false;
         switch (keycode) // switch code base on the variable keycode
         {
-            case Input.Keys.LEFT:  	// if keycode is the same as Keys.LEFT a.k.a 21
+            case Input.Keys.A:  	// if keycode is the same as Keys.LEFT a.k.a 21
                 left = true;	// do this
                 keyProcessed = true;// we have reacted to a keypress
                 break;
-            case Input.Keys.RIGHT: 	// if keycode is the same as Keys.LEFT a.k.a 22
+            case Input.Keys.D: 	// if keycode is the same as Keys.LEFT a.k.a 22
                 right = true;	// do this
                 keyProcessed = true;// we have reacted to a keypress
                 break;
-            case Input.Keys.UP: 		// if keycode is the same as Keys.LEFT a.k.a 19
+            case Input.Keys.W: 		// if keycode is the same as Keys.LEFT a.k.a 19
                 up = true;		// do this
                 keyProcessed = true;// we have reacted to a keypress
                 break;
-            case Input.Keys.DOWN: 	// if keycode is the same as Keys.LEFT a.k.a 20
+            case Input.Keys.S: 	// if keycode is the same as Keys.LEFT a.k.a 20
                 down = true;	// do this
                 keyProcessed = true;// we have reacted to a keypress
         }
@@ -39,19 +42,19 @@ public class KeyboardController implements InputProcessor {
         boolean keyProcessed = false;
         switch (keycode) // switch code base on the variable keycode
         {
-            case Input.Keys.LEFT:  	// if keycode is the same as Keys.LEFT a.k.a 21
+            case Input.Keys.A:  	// if keycode is the same as Keys.LEFT a.k.a 21
                 left = false;	// do this
                 keyProcessed = true;	// we have reacted to a keypress
                 break;
-            case Input.Keys.RIGHT: 	// if keycode is the same as Keys.LEFT a.k.a 22
+            case Input.Keys.D: 	// if keycode is the same as Keys.LEFT a.k.a 22
                 right = false;	// do this
                 keyProcessed = true;	// we have reacted to a keypress
                 break;
-            case Input.Keys.UP: 		// if keycode is the same as Keys.LEFT a.k.a 19
+            case Input.Keys.W: 		// if keycode is the same as Keys.LEFT a.k.a 19
                 up = false;		// do this
                 keyProcessed = true;	// we have reacted to a keypress
                 break;
-            case Input.Keys.DOWN: 	// if keycode is the same as Keys.LEFT a.k.a. 20
+            case Input.Keys.S: 	// if keycode is the same as Keys.LEFT a.k.a. 20
                 down = false;	// do this
                 keyProcessed = true;	// we have reacted to a keypress
         }

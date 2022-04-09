@@ -6,6 +6,7 @@ import com.battleships.game.BodyFactory;
 import java.util.HashMap;
 
 public class ClientWorld {
+
     private ClientConnection clientConnection;
     private HashMap<Integer, BodyFactory> players = new HashMap<>(); // {id, player}
 
@@ -20,6 +21,8 @@ public class ClientWorld {
     public void removePlayer(int id) {
         players.remove(id);
     }
+
+
 /*
     public void addEnemy(int id, EnemyAI enemyAI) {
         enemyAIList.put(id, enemyAI);
