@@ -46,12 +46,22 @@ public class ServerConnection extends Listener {
         // Listener to handle receiving objects
         server.addListener(new Listener() {
 
-
+            @Override
             public void received (Connection connection, Object object) {
                 if (object instanceof PacketAddPlayer) {
                     PacketAddPlayer connect = (PacketAddPlayer) object;
-                    addPlayer(connect.getId(), connect.getPlayerName());
+                    server.sendToAllTCP(connect);
+                    addPlayer(connection.getID() - 1, connect.getPlayerName());
                     System.out.println(connect.getPlayerName() + " is connected to the server.");
+                    System.out.println(connection.getID() + " id player");
+
+                    // Add player on server and send to all client packet add player
+                    serverWorld.addPlayer(connection.getID(), connect);
+                    for (Map.Entry<Integer, PacketAddPlayer> integerPacketAddPlayerEntry : serverWorld.getPlayers().entrySet()) {
+                        PacketAddPlayer addPlayer = integerPacketAddPlayerEntry.getValue();
+                        addPlayer.setId(integerPacketAddPlayerEntry.getKey());
+                        server.sendToAllTCP(addPlayer);
+                    }
 
                 }
             }
@@ -71,7 +81,7 @@ public class ServerConnection extends Listener {
         players.put(id, username);
     }
 
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         new ServerConnection();
-    }*/
+    }
 }

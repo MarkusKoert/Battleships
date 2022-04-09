@@ -1,5 +1,6 @@
 package com.battleships.game.views;
 
+import ClientConnection.ClientConnection;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
@@ -16,19 +17,18 @@ import com.battleships.game.Battleships;
 import com.battleships.game.BodyFactory;
 import com.battleships.game.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
+import com.battleships.game.entity.components.ConnectionComponent;
 import com.battleships.game.entity.systems.*;
 
 public class MainScreen implements Screen {
-    private PooledEngine engine;
-    private SpriteBatch sb;
-    private OrthographicCamera cam;
     private KeyboardController controller;
+    private PooledEngine engine;
+    private LevelFactory lvlFactory;
+    private OrthographicCamera cam;
     private Battleships parent;
     private TiledMapRenderer tiledMapRenderer;
     public static TiledMap tiledMap;
     public float MAP_UNIT_SCALE = 1/12f;
-    private Entity player;
-    private LevelFactory lvlFactory;
 
     /**
      * @param battleships - Game instance
@@ -40,35 +40,19 @@ public class MainScreen implements Screen {
         parent.assMan.queueAddImages();
         parent.assMan.manager.finishLoading();
 
-        //create a pooled engine
-        engine = new PooledEngine();
-        controller = new KeyboardController();
-
-        //create a level factory (factory for making bullets, enemies, players etc)
-        lvlFactory = new LevelFactory(engine,parent.assMan);
-
         // load tiled map
         tiledMap = new TmxMapLoader().load("map/WorldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, MAP_UNIT_SCALE);
 
-        // make spritebatch
-        sb = new SpriteBatch();
-        RenderingSystem renderingSystem = new RenderingSystem(sb);
-        cam = renderingSystem.getCamera();
-        sb.setProjectionMatrix(cam.combined);
+        cam = parent.renderingSystem.getCamera();
+        parent.sb.setProjectionMatrix(cam.combined);
 
-        // add all the relevant systems our engine should run
-        engine.addSystem(new AnimationSystem());
-        engine.addSystem(new PhysicsSystem(LevelFactory.world));
-        engine.addSystem(renderingSystem);
-        // engine.addSystem(new PhysicsDebugSystem(LevelFactory.world, renderingSystem.getCamera()));
-        engine.addSystem(new CollisionSystem(lvlFactory));
-        engine.addSystem(new PlayerControlSystem(controller,lvlFactory));
-        player = lvlFactory.createPlayer(cam);
-        engine.addSystem(new EnemySystem(lvlFactory));
-        engine.addSystem(new BulletSystem(player));
-        engine.addSystem(new TiledMapCollisionSystem(engine));
+        controller = parent.getController();
+        engine = parent.getEngine();
+        lvlFactory = parent.getLvlFactory();
     }
+
+
 
     @Override
     public void show() {

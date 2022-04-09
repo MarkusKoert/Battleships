@@ -1,5 +1,6 @@
 package ClientConnection;
 
+import Packets.PacketCreator;
 import Packets.PacketRemovePlayer;
 import Packets.PacketAddPlayer;
 import com.badlogic.gdx.Gdx;
@@ -17,6 +18,8 @@ import java.io.IOException;
 public class ClientConnection {
     private Client client;
     private World clientWorld;
+    private String playerName;
+    private Battleships gameClient;
 
     public ClientConnection() {
         String ip = "localhost";
@@ -59,6 +62,23 @@ public class ClientConnection {
     public void setClientWorld(World world) {
         System.out.println(world);
         this.clientWorld = world;
+    }
+
+    public void sendPacketConnect() {
+        PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName);
+        client.sendTCP(packetConnect);
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public void setGameClient(Battleships client) {
+        this.gameClient = client;
+    }
+
+    public Battleships getGameClient() {
+        return gameClient;
     }
 
     public static void main(String[] args) {
