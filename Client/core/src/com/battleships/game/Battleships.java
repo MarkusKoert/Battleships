@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.systems.*;
 import com.battleships.game.loader.B2dAssetManager;
@@ -77,10 +78,10 @@ public class Battleships extends Game {
 		// engine.addSystem(new PhysicsDebugSystem(LevelFactory.world, renderingSystem.getCamera()));
 		engine.addSystem(new CollisionSystem(lvlFactory));
 		engine.addSystem(new PlayerControlSystem(controller,lvlFactory));
-		player = lvlFactory.createPlayer(cam);
-		lvlFactory.setPlayer(player);
+		//player = lvlFactory.createPlayer(cam);
+		//lvlFactory.setPlayer(player);
 		engine.addSystem(new EnemySystem(lvlFactory));
-		engine.addSystem(new BulletSystem(player));
+		//engine.addSystem(new BulletSystem(player));
 		engine.addSystem(new TiledMapCollisionSystem(engine));
 	}
 
@@ -100,8 +101,8 @@ public class Battleships extends Game {
 				break;
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
-				this.setScreen(mainScreen);
 				createClient(lvlFactory.getWorld());
+				this.setScreen(mainScreen);
 				break;
 			case ENDGAME:
 				if(endScreen == null) endScreen = new EndScreen(this);
@@ -125,8 +126,10 @@ public class Battleships extends Game {
 		assMan.manager.dispose();
 	}
 
-	public void createClient(World clientWorld) {
+	public void createClient(ClientWorld clientWorld) {
 		clientConnection = new ClientConnection();
+		clientConnection.setLvlFactory(lvlFactory);
+		clientConnection.setCam(cam);
 		clientConnection.setClientWorld(clientWorld);
 		clientConnection.setPlayerName(connectScreen.getPlayer());
 		clientConnection.setGameClient(this);

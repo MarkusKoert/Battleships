@@ -56,7 +56,7 @@ public class ServerConnection extends Listener {
                     System.out.println(connection.getID() + " id player");
 
                     // Add player on server and send to all client packet add player
-                    serverWorld.addPlayer(connection.getID(), connect);
+                    serverWorld.addPlayer(connection.getID() - 1, connect);
                     for (Map.Entry<Integer, PacketAddPlayer> integerPacketAddPlayerEntry : serverWorld.getPlayers().entrySet()) {
                         PacketAddPlayer addPlayer = integerPacketAddPlayerEntry.getValue();
                         addPlayer.setId(integerPacketAddPlayerEntry.getKey());
@@ -69,7 +69,7 @@ public class ServerConnection extends Listener {
             @Override
             public void disconnected(Connection connection) {
                 PacketRemovePlayer removePlayer = PacketCreator.createPacketRemovePlayer(connection.getID());
-                serverWorld.removeId(connection.getID());
+                serverWorld.removeId(connection.getID() - 1);
                 System.out.println(players.get(connection.getID() - 1) + " is disconnected from the server.");
 
                 server.sendToAllTCP(removePlayer);

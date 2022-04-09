@@ -9,5 +9,5 @@ public class PlayerComponent implements Component {
     public OrthographicCamera cam = null;
     public float shootDelay = 2f;
     public float timeSinceLastShot = 0f;
-
+    public int id;
 }

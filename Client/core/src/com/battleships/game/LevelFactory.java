@@ -2,6 +2,7 @@ package com.battleships.game;
 
 import ClientConnection.ClientConnection;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.entity.components.*;
 import com.battleships.game.loader.B2dAssetManager;
 import com.badlogic.ashley.core.Entity;
@@ -15,8 +16,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class LevelFactory {
 	public static World world;
+	private ClientWorld clientWorld = new ClientWorld();
 	private BodyFactory bodyFactory;
-	private PooledEngine engine;
+	public PooledEngine engine;
 	private TextureRegion playerTex;
 	private TextureRegion enemyTex;
 	private TextureRegion bulletTex;
@@ -37,7 +39,6 @@ public class LevelFactory {
 
 		this.atlas = assMan.manager.get("images/ships.atlas", TextureAtlas.class);
 		this.assman = assMan;
-
 
 		bulletTex = atlas.findRegion("cannonBall");
 		playerTex = atlas.findRegion("ship (5)");
@@ -79,8 +80,8 @@ public class LevelFactory {
 		return entity;
 	}
 
-	public World getWorld() {
-		return world;
+	public ClientWorld getWorld() {
+		return clientWorld;
 	}
 
 	public Entity createPlayer(OrthographicCamera cam){
@@ -171,6 +172,6 @@ public class LevelFactory {
 
 	public void setClientConnection(ClientConnection clientConnection) {
 		this.clientConnection = clientConnection;
-		player.getComponent(ConnectionComponent.class).setClientConnection(clientConnection);
+		//player.getComponent(ConnectionComponent.class).setClientConnection(clientConnection);
 	}
 }
