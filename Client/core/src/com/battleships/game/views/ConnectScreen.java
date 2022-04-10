@@ -124,10 +124,6 @@ public class ConnectScreen implements Screen {
             }
         });
 
-
-
-
-
         table.add(titleLabel).colspan(2);
         table.row().pad(25, 0, 0, 10);
         table.add(usernameField).colspan(2).width(350f);
@@ -180,5 +176,9 @@ public class ConnectScreen implements Screen {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
+    }
+
+    public String getPlayer() {
+        return username;
     }
 }

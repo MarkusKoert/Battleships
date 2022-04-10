@@ -1,15 +1,19 @@
 package com.battleships.game.server;
 
+import Packets.PacketAddPlayer;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class ServerWorld {
-    private HashMap<Integer, String> players = new LinkedHashMap<>();
+    private Map<Integer, PacketAddPlayer> players = new LinkedHashMap<>();
 
-    public void addPlayer(int id, String name) {
-        players.put(id, name);
+    public void addPlayer(Integer id, PacketAddPlayer addPlayer) {
+        players.put(id, addPlayer);
     }
+
 
     public void removeId(int id) {
         players.remove(id);
@@ -19,8 +23,9 @@ public class ServerWorld {
         return players.keySet();
     }
 
-    public HashMap<Integer, String> getPlayers() {
+    public Map<Integer, PacketAddPlayer> getPlayers() {
         return players;
     }
+
 
 }

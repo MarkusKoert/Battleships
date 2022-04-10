@@ -18,7 +18,7 @@ import com.battleships.game.entity.components.StateComponent;
 
 import java.util.Random;
 
-public class PlayerControlSystem extends IteratingSystem{
+public class PlayerControlSystem extends IteratingSystem {
 	private final Sound cannonBlast1;
 	private final Sound cannonBlast2;
 	private final Sound cannonBlast3;
@@ -76,7 +76,6 @@ public class PlayerControlSystem extends IteratingSystem{
 		B2dBodyComponent b2body = bodm.get(entity);
 		StateComponent state = sm.get(entity);
 		PlayerComponent player = pm.get(entity);
-
 		player.cam.position.set(b2body.body.getPosition().x, b2body.body.getPosition().y, 0);
 
 		if(controller.left){

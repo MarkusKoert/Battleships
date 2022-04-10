@@ -1,20 +1,23 @@
 package com.battleships.game.GameInfo;
 
 import ClientConnection.ClientConnection;
+import com.badlogic.ashley.core.Entity;
 import com.battleships.game.BodyFactory;
 
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ClientWorld {
 
     private ClientConnection clientConnection;
-    private HashMap<Integer, BodyFactory> players = new HashMap<>(); // {id, player}
+    private Map<Integer, Entity> players =  new LinkedHashMap<>(); // {id, player}
 
-    public HashMap<Integer, BodyFactory> getPlayers() {
+    public Map<Integer, Entity> getPlayers() {
         return players;
     }
 
-    public void addPlayer(int id, BodyFactory player) {
+    public void addPlayer(int id, Entity player) {
         players.put(id, player);
     }
 
@@ -22,23 +25,6 @@ public class ClientWorld {
         players.remove(id);
     }
 
-
-/*
-    public void addEnemy(int id, EnemyAI enemyAI) {
-        enemyAIList.put(id, enemyAI);
-    }
-
-    public void removeEnemy(int id) {
-        enemyAIList.remove(id);
-    }
-
-    public HashMap<Integer, EnemyAI> getEnemyAIList() {
-        return enemyAIList;
-    }
-
-    public Set<Integer> getEnemyAIListIds() {
-        return enemyAIList.keySet();
-    }*/
 
     public ClientConnection getClientConnection() {
         return clientConnection;
