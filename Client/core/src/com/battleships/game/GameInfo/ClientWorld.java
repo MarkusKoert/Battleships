@@ -2,9 +2,6 @@ package com.battleships.game.GameInfo;
 
 import ClientConnection.ClientConnection;
 import com.badlogic.ashley.core.Entity;
-import com.battleships.game.BodyFactory;
-
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,7 +22,6 @@ public class ClientWorld {
         players.remove(id);
     }
 
-
     public ClientConnection getClientConnection() {
         return clientConnection;
     }
@@ -34,4 +30,7 @@ public class ClientWorld {
         this.clientConnection = clientConnection;
     }
 
+    public int getThisClientId() {
+        return clientConnection.getThisClientId();
+    }
 }

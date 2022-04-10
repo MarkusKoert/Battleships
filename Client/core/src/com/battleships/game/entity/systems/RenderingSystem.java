@@ -1,6 +1,5 @@
 package com.battleships.game.entity.systems;
 
-
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import com.battleships.game.entity.components.TextureComponent;
 import com.battleships.game.entity.components.TransformComponent;
 

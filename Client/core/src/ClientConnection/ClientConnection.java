@@ -3,19 +3,16 @@ package ClientConnection;
 import Packets.PacketCreator;
 import Packets.PacketRemovePlayer;
 import Packets.PacketAddPlayer;
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.battleships.game.Battleships;
 import com.battleships.game.GameInfo.ClientWorld;
-import com.battleships.game.LevelFactory;
+import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.util.Map;
@@ -28,6 +25,7 @@ public class ClientConnection {
     private Battleships gameClient;
     private LevelFactory lvlFactory;
     private OrthographicCamera cam;
+    private int playerId;
 
     public ClientConnection() {
         String ip = "localhost";
@@ -44,58 +42,43 @@ public class ClientConnection {
         client.addListener(new Listener() {
             @Override
             public void received(final Connection connection, final Object object) {
-
+                playerId = connection.getID();
                 if (object instanceof PacketAddPlayer && clientWorld != null) {
-
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
                             PacketAddPlayer addPlayer = (PacketAddPlayer) object;
-                            // Check if client world not contains and packet if not equal current id
+                            System.out.println(addPlayer.getPlayerId() + " Recieved packet player ID");
 
-                            System.out.println(addPlayer.getId() + " != " + connection.getID());
-                            // Check if client world not contains and packet if not equal current id
-                            if (addPlayer.getId() != connection.getID() && !clientWorld.getPlayers().containsKey(addPlayer.getId())) {
+                            // Check if client world doesn't contain this player
+                            if (!clientWorld.getPlayers().containsKey(addPlayer.getPlayerId())) {
                                 Entity player = lvlFactory.createPlayer(cam);
-                                lvlFactory.setPlayer(player);
-                                player.getComponent(PlayerComponent.class).id = addPlayer.getId();
-                                clientWorld.addPlayer(addPlayer.getId(), player);
-
+                                player.getComponent(PlayerComponent.class).id = addPlayer.getPlayerId();
+                                clientWorld.addPlayer(addPlayer.getPlayerId(), player);
                             }
-                            System.out.println(addPlayer.getPlayerName() + " connected!");
-
                         }
                     });
                 }  else if (object instanceof PacketRemovePlayer) {
-                    // Get packet to remove player
                     PacketRemovePlayer removePlayer = (PacketRemovePlayer) object;
-                    System.out.println("Player disconnected: " + connection.getID());
 
-                    System.out.println("GET PLAYERS: " + clientWorld.getPlayers());
-                    for (Map.Entry<Integer, Entity> client : clientWorld.getPlayers().entrySet()) {
-                        System.out.println("Key: " + client.getKey() + " Value: "  + client.getValue());
-                        if (client.getKey() == removePlayer.getId()) {
-                            clientWorld.removePlayer(client.getKey());
-                            System.out.println("TEST #1 " + client);
+                    // Remove player from clientWorld map.
+                    for (Map.Entry<Integer, Entity> player : clientWorld.getPlayers().entrySet()) {
+                        if (player.getKey() == removePlayer.getId()) {
+                            clientWorld.removePlayer(player.getKey());
                         }
                     }
+
+                    // Remove player entity from client engine
                     for (Entity entity : lvlFactory.engine.getEntities()) {
-                        System.out.println("player id: " + removePlayer.getId());
                         try {
                             if (entity.getComponent(PlayerComponent.class).id == removePlayer.getId()) {
                                 entity.removeAll();
-                                System.out.println("TEST #2 " + entity);
                             }
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
-
                     }
-
-
-
                 }
-
             }
         });
 
@@ -107,6 +90,11 @@ public class ClientConnection {
         }
     }
 
+    public void sendPacketConnect() {
+        PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName, playerId);
+        client.sendTCP(packetConnect);
+    }
+
     public void setLvlFactory(LevelFactory lvlFactory) {
         this.lvlFactory = lvlFactory;
     }
@@ -116,13 +104,7 @@ public class ClientConnection {
     }
 
     public void setClientWorld(ClientWorld world) {
-        System.out.println(world);
         this.clientWorld = world;
-    }
-
-    public void sendPacketConnect() {
-        PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName);
-        client.sendTCP(packetConnect);
     }
 
     public void setPlayerName(String playerName) {
@@ -133,12 +115,12 @@ public class ClientConnection {
         this.gameClient = client;
     }
 
-    public Battleships getGameClient() {
-        return gameClient;
-    }
-
     public static void main(String[] args) {
         new ClientConnection();
+    }
+
+    public int getThisClientId() {
+        return playerId;
     }
 }
 

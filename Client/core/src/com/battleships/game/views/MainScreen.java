@@ -1,24 +1,17 @@
 package com.battleships.game.views;
 
-import ClientConnection.ClientConnection;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.battleships.game.Battleships;
-import com.battleships.game.BodyFactory;
-import com.battleships.game.LevelFactory;
+import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
-import com.battleships.game.entity.components.ConnectionComponent;
-import com.battleships.game.entity.systems.*;
 
 public class MainScreen implements Screen {
     private KeyboardController controller;

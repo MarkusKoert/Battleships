@@ -1,10 +1,7 @@
 package com.battleships.game.entity.systems;
 
-import com.badlogic.gdx.math.Vector2;
-import com.battleships.game.DFUtils;
-import com.battleships.game.LevelFactory;
+import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.B2dBodyComponent;
-import com.battleships.game.entity.components.BulletComponent;
 import com.battleships.game.entity.components.EnemyComponent;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -12,11 +9,9 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 public class EnemySystem extends IteratingSystem {
-
 	private ComponentMapper<EnemyComponent> em;
 	private ComponentMapper<B2dBodyComponent> bodm;
 	private LevelFactory levelFactory;
-	private Entity player;
 
 	@SuppressWarnings("unchecked")
 	public EnemySystem(LevelFactory lvlf){
@@ -24,7 +19,6 @@ public class EnemySystem extends IteratingSystem {
 		em = ComponentMapper.getFor(EnemyComponent.class);
 		bodm = ComponentMapper.getFor(B2dBodyComponent.class);
 		levelFactory = lvlf;
-		player = levelFactory.player;
 	}
 
 	@Override

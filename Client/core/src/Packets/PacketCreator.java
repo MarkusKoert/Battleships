@@ -2,7 +2,7 @@ package Packets;
 
 public class PacketCreator {
 
-    public static PacketAddPlayer createPacketAddPlayer(String name) {
+    public static PacketAddPlayer createPacketAddPlayer(String name, int id) {
         PacketAddPlayer packetConnect = new PacketAddPlayer();
         packetConnect.setPlayerName(name);
         return packetConnect;

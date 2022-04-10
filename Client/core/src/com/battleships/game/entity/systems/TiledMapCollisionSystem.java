@@ -1,6 +1,5 @@
 package com.battleships.game.entity.systems;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.maps.MapObject;
@@ -9,11 +8,8 @@ import com.badlogic.gdx.maps.objects.*;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.battleships.game.BodyFactory;
-import com.battleships.game.ShapeFactory;
-import com.battleships.game.entity.components.*;
-import com.battleships.game.views.MainScreen;
-import com.battleships.game.LevelFactory;
+import com.battleships.game.factory.ShapeFactory;
+import com.battleships.game.factory.LevelFactory;
 
 public class TiledMapCollisionSystem extends EntitySystem {
     private PooledEngine engine;

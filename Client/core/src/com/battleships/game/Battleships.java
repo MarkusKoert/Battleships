@@ -1,23 +1,19 @@
 package com.battleships.game;
 
 import ClientConnection.ClientConnection;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.World;
 import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.systems.*;
+import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.loader.B2dAssetManager;
 import com.battleships.game.views.*;
 
-import java.io.IOException;
-
 public class Battleships extends Game {
-
 	private LoadingScreen loadingScreen;
 	private PreferencesScreen preferencesScreen;
 	private MenuScreen menuScreen;
@@ -26,14 +22,10 @@ public class Battleships extends Game {
 	private ConnectScreen connectScreen;
 	private AppPreferences preferences;
 	public B2dAssetManager assMan = new B2dAssetManager();
-	private Entity player;
 	public SpriteBatch sb;
 	private OrthographicCamera cam;
 	public RenderingSystem renderingSystem;
-
-
 	private ClientConnection clientConnection;
-
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
 	public final static int APPLICATION = 2;
@@ -43,6 +35,7 @@ public class Battleships extends Game {
 	private LevelFactory lvlFactory;
 	private PooledEngine engine;
 	private KeyboardController controller;
+	private ClientWorld clientWorld;
 
 	@Override
 	public void create () {
@@ -70,6 +63,7 @@ public class Battleships extends Game {
 
 		//create a level factory (factory for making bullets, enemies, players etc)
 		lvlFactory = new LevelFactory(engine,this.assMan);
+		clientWorld = new ClientWorld();
 
 		// add all the relevant systems our engine should run
 		engine.addSystem(new AnimationSystem());
@@ -77,9 +71,7 @@ public class Battleships extends Game {
 		engine.addSystem(renderingSystem);
 		// engine.addSystem(new PhysicsDebugSystem(LevelFactory.world, renderingSystem.getCamera()));
 		engine.addSystem(new CollisionSystem(lvlFactory));
-		engine.addSystem(new PlayerControlSystem(controller,lvlFactory));
-		//player = lvlFactory.createPlayer(cam);
-		//lvlFactory.setPlayer(player);
+		engine.addSystem(new PlayerControlSystem(controller,lvlFactory,clientWorld));
 		engine.addSystem(new EnemySystem(lvlFactory));
 		//engine.addSystem(new BulletSystem(player));
 		engine.addSystem(new TiledMapCollisionSystem(engine));
@@ -101,7 +93,7 @@ public class Battleships extends Game {
 				break;
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
-				createClient(lvlFactory.getWorld());
+				createClient(this.clientWorld);
 				this.setScreen(mainScreen);
 				break;
 			case ENDGAME:
@@ -112,7 +104,6 @@ public class Battleships extends Game {
 				if (connectScreen == null) connectScreen = new ConnectScreen(this);
 				this.setScreen(connectScreen);
 				break;
-
 		}
 	}
 
@@ -126,7 +117,7 @@ public class Battleships extends Game {
 		assMan.manager.dispose();
 	}
 
-	public void createClient(ClientWorld clientWorld) {
+	private void createClient(ClientWorld clientWorld) {
 		clientConnection = new ClientConnection();
 		clientConnection.setLvlFactory(lvlFactory);
 		clientConnection.setCam(cam);
@@ -134,7 +125,11 @@ public class Battleships extends Game {
 		clientConnection.setPlayerName(connectScreen.getPlayer());
 		clientConnection.setGameClient(this);
 		clientConnection.sendPacketConnect();
-		lvlFactory.setClientConnection(clientConnection);
+		clientWorld.setClientConnection(clientConnection);
+	}
+
+	public ClientWorld getClientWorld() {
+		return clientWorld;
 	}
 
 	public PooledEngine getEngine() {
@@ -148,11 +143,4 @@ public class Battleships extends Game {
 	public LevelFactory getLvlFactory() {
 		return lvlFactory;
 	}
-
-	public Entity getPlayer() {
-		return player;
-	}
 }
-
-
-

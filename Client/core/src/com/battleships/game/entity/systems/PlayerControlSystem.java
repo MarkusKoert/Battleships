@@ -1,5 +1,6 @@
 package com.battleships.game.entity.systems;
 
+import ClientConnection.ClientConnection;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -9,7 +10,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.battleships.game.DFUtils;
-import com.battleships.game.LevelFactory;
+import com.battleships.game.GameInfo.ClientWorld;
+import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.entity.components.BulletComponent;
@@ -33,15 +35,17 @@ public class PlayerControlSystem extends IteratingSystem {
 	private float entityMaxSpeed = 10f;
 	private int bulletSpeedMultiplier = 2;
 	private Sound[] cannonSounds = new Sound[5];
+	private ClientWorld clientWorld;
 
 	@SuppressWarnings("unchecked")
-	public PlayerControlSystem(KeyboardController keyCon, LevelFactory lvlf) {
+	public PlayerControlSystem(KeyboardController keyCon, LevelFactory lvlf, ClientWorld clientWorld) {
 		super(Family.all(PlayerComponent.class).get());
 		controller = keyCon;
 		lvlFactory = lvlf;
 		pm = ComponentMapper.getFor(PlayerComponent.class);
 		bodm = ComponentMapper.getFor(B2dBodyComponent.class);
 		sm = ComponentMapper.getFor(StateComponent.class);
+		this.clientWorld = clientWorld;
 
 		// tells our asset manger that we want to load the sounds
 		lvlFactory.assman.queueAddSounds();
@@ -74,49 +78,53 @@ public class PlayerControlSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		B2dBodyComponent b2body = bodm.get(entity);
-		StateComponent state = sm.get(entity);
 		PlayerComponent player = pm.get(entity);
-		player.cam.position.set(b2body.body.getPosition().x, b2body.body.getPosition().y, 0);
 
-		if(controller.left){
-			b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, -entityMaxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
-		}
-		if(controller.right){
-			b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, entityMaxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
-		}
-		if(controller.up){
-			b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, entityMaxSpeed, entityAcceleration));
-		}
-		if(controller.down){
-			b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, -entityMaxSpeed, entityAcceleration));
-		}
+		if (this.clientWorld.getThisClientId() == player.id) {
+			player.cam.position.set(b2body.body.getPosition().x, b2body.body.getPosition().y, 0);
 
-		if(player.timeSinceLastShot > 0){
-			player.timeSinceLastShot -= deltaTime;
-		}
-
-		if(controller.isMouse1Down){ // if mouse button is pressed
-			// System.out.println(player.timeSinceLastShot+" ls:sd "+player.shootDelay);
-			// user wants to fire
-			if(player.timeSinceLastShot <=0){ // check the player hasn't just shot
-				//player can shoot so do player shoot
-				Vector3 mousePos = new Vector3(controller.mouseLocation.x,controller.mouseLocation.y,0); // get mouse position
-				player.cam.unproject(mousePos); // convert position from screen to box2d world position
-
-				Vector2 aim = DFUtils.aimTo(b2body.body.getPosition(), mousePos);
-				aim.scl(7);
-				// create a bullet
-				getRandomSound(cannonSounds).play();
-				lvlFactory.createBullet(b2body.body.getPosition().x,
-						b2body.body.getPosition().y,
-						aim.x * bulletSpeedMultiplier,
-						aim.y * bulletSpeedMultiplier,
-						BulletComponent.Owner.PLAYER);
-				//reset timeSinceLastShot
-				player.timeSinceLastShot = player.shootDelay;
+			if(controller.left) {
+				b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, -entityMaxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
 			}
-		}
+			if(controller.right) {
+				b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, entityMaxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
+			}
+			if(controller.up) {
+				b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, entityMaxSpeed, entityAcceleration));
+			}
+			if(controller.down) {
+				b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, -entityMaxSpeed, entityAcceleration));
+			}
 
-		ChangeBodyAngle(b2body);
+			if(player.timeSinceLastShot > 0) {
+				player.timeSinceLastShot -= deltaTime;
+			}
+
+			if(controller.isMouse1Down){
+
+				// user wants to fire
+				if(player.timeSinceLastShot <=0) {
+					//player can shoot so do player shoot
+					Vector3 mousePos = new Vector3(controller.mouseLocation.x,controller.mouseLocation.y,0); // get mouse position
+					player.cam.unproject(mousePos); // convert position from screen to box2d world position
+
+					Vector2 aim = DFUtils.aimTo(b2body.body.getPosition(), mousePos);
+					aim.scl(7);
+
+					// create a bullet
+					getRandomSound(cannonSounds).play();
+					lvlFactory.createBullet(b2body.body.getPosition().x,
+							b2body.body.getPosition().y,
+							aim.x * bulletSpeedMultiplier,
+							aim.y * bulletSpeedMultiplier,
+							BulletComponent.Owner.PLAYER);
+
+					//reset timeSinceLastShot
+					player.timeSinceLastShot = player.shootDelay;
+				}
+			}
+
+			ChangeBodyAngle(b2body);
+		}
 	}
 }

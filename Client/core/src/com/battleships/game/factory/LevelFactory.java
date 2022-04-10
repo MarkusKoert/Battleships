@@ -1,7 +1,7 @@
-package com.battleships.game;
+package com.battleships.game.factory;
 
-import ClientConnection.ClientConnection;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.battleships.game.B2dContactListener;
 import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.entity.components.*;
 import com.battleships.game.loader.B2dAssetManager;
@@ -16,19 +16,16 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class LevelFactory {
 	public static World world;
-	private ClientWorld clientWorld = new ClientWorld();
 	private BodyFactory bodyFactory;
 	public PooledEngine engine;
 	private TextureRegion playerTex;
 	private TextureRegion enemyTex;
 	private TextureRegion bulletTex;
 	private TextureAtlas atlas;
-	public Entity player;
 	public B2dAssetManager assman;
 	private Entity enemy1;
 	private Entity enemy2;
 	private Entity enemy3;
-	private ClientConnection clientConnection;
 
 	public LevelFactory(PooledEngine en, B2dAssetManager assMan){
 		engine = en;
@@ -78,10 +75,6 @@ public class LevelFactory {
 		engine.addEntity(entity);
 		
 		return entity;
-	}
-
-	public ClientWorld getWorld() {
-		return clientWorld;
 	}
 
 	public Entity createPlayer(OrthographicCamera cam){
@@ -164,14 +157,5 @@ public class LevelFactory {
 	
 	public void removeEntity(Entity ent){
 		engine.removeEntity(ent);
-	}
-
-	public void setPlayer(Entity player) {
-		this.player = player;
-	}
-
-	public void setClientConnection(ClientConnection clientConnection) {
-		this.clientConnection = clientConnection;
-		//player.getComponent(ConnectionComponent.class).setClientConnection(clientConnection);
 	}
 }

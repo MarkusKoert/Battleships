@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.battleships.game.Battleships;
-import com.battleships.game.BodyFactory;
+import com.battleships.game.factory.BodyFactory;
 
 import javax.swing.*;
 
