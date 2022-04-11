@@ -73,8 +73,7 @@ public class Battleships extends Game {
 		engine.addSystem(new CollisionSystem(lvlFactory));
 		engine.addSystem(new PlayerControlSystem(controller,lvlFactory,clientWorld));
 		engine.addSystem(new EnemySystem(lvlFactory));
-		//engine.addSystem(new BulletSystem(player));
-		engine.addSystem(new TiledMapCollisionSystem(engine));
+		engine.addSystem(new BulletSystem());
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package com.battleships.game.entity.systems;
 
-import ClientConnection.ClientConnection;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -14,7 +13,6 @@ import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;
-import com.battleships.game.entity.components.BulletComponent;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.battleships.game.entity.components.StateComponent;
 
@@ -80,6 +78,13 @@ public class PlayerControlSystem extends IteratingSystem {
 		B2dBodyComponent b2body = bodm.get(entity);
 		PlayerComponent player = pm.get(entity);
 
+		//check if player is dead
+		if(player.isDead){
+			System.out.println("Player died");
+			b2body.isDead = true;
+		}
+
+		// Movement with controller, check is player is this client.
 		if (this.clientWorld.getThisClientId() == player.id) {
 			player.cam.position.set(b2body.body.getPosition().x, b2body.body.getPosition().y, 0);
 
@@ -101,7 +106,6 @@ public class PlayerControlSystem extends IteratingSystem {
 			}
 
 			if(controller.isMouse1Down){
-
 				// user wants to fire
 				if(player.timeSinceLastShot <=0) {
 					//player can shoot so do player shoot
@@ -117,9 +121,9 @@ public class PlayerControlSystem extends IteratingSystem {
 							b2body.body.getPosition().y,
 							aim.x * bulletSpeedMultiplier,
 							aim.y * bulletSpeedMultiplier,
-							BulletComponent.Owner.PLAYER);
+							player.id);
 
-					//reset timeSinceLastShot
+					// reset timeSinceLastShot
 					player.timeSinceLastShot = player.shootDelay;
 				}
 			}

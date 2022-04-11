@@ -10,13 +10,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.battleships.game.factory.ShapeFactory;
 import com.battleships.game.factory.LevelFactory;
+import com.battleships.game.views.MainScreen;
 
 public class TiledMapCollisionSystem extends EntitySystem {
     private PooledEngine engine;
 
     public TiledMapCollisionSystem(PooledEngine en) {
-        //MapObjects objects = MainScreen.tiledMap.getLayers().get(4).getObjects();
-        MapObjects objects = new MapObjects();
+        MapObjects objects = MainScreen.tiledMap.getLayers().get(4).getObjects();
         engine = en;
 
         for (MapObject object : objects) {

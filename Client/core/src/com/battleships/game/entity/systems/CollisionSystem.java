@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.audio.Sound;
+import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.*;
 
@@ -17,12 +18,13 @@ public class CollisionSystem extends IteratingSystem {
 	private final Sound cannonImpact2;
 	private final Sound cannonImpact3;
 	private Sound[] impactSounds = new Sound[3];
-
+	private LevelFactory lvlFactory;
 
 	@SuppressWarnings("unchecked")
 	public CollisionSystem(LevelFactory lvlFactory) {
 		super(Family.all(CollisionComponent.class).get());
-		
+		this.lvlFactory = lvlFactory;
+
 		cm = ComponentMapper.getFor(CollisionComponent.class);
 		pm = ComponentMapper.getFor(PlayerComponent.class);
 
@@ -38,7 +40,6 @@ public class CollisionSystem extends IteratingSystem {
 		impactSounds[1] = cannonImpact2;
 		impactSounds[2] = cannonImpact3;
 	}
-
 
 	public static Sound getRandomSound(Sound[] array) {
 		int rnd = new Random().nextInt(array.length);
@@ -74,26 +75,30 @@ public class CollisionSystem extends IteratingSystem {
 						System.out.println("player hit other");
 						break;
 					case TypeComponent.BULLET:
-						// TODO add mask so player can't hit themselves
 						BulletComponent bullet = Mapper.bulletCom.get(collidedEntity);
-						if(bullet.owner != BulletComponent.Owner.PLAYER){ // can't shoot own team
-							pl.isDead = true;
+						// cant shoot yourself
+						if(bullet.ownerId != pl.id) {
+							bullet.isDead = true;
+							getRandomSound(impactSounds).play(0.4f);
+							pl.health -= 25;
+							if (pl.health <= 0) {
+								pl.isDead = true;
+							}
+							System.out.println("A player just got shot.");
 						}
-						System.out.println("Player just shot. bullet in player atm");
 						break;
 					default:
 						System.out.println("No matching type found");
 					}
 					cc.collisionEntity = null; // collision handled reset component
-				}else{
-					System.out.println("Player: collidedEntity.type == null");
 				}
 			}
-		}else if(thisType.type == TypeComponent.ENEMY){  	// Do enemy collisions
-			if(collidedEntity != null){
+		// Enemy type collisions (AI)
+		}else if(thisType.type == TypeComponent.ENEMY) {
+			if(collidedEntity != null) {
 				TypeComponent type = collidedEntity.getComponent(TypeComponent.class);
-				if(type != null){
-					switch(type.type){
+				if(type != null) {
+					switch(type.type) {
 					case TypeComponent.PLAYER:
 						System.out.println("enemy hit player");
 						break;
@@ -109,23 +114,18 @@ public class CollisionSystem extends IteratingSystem {
 					case TypeComponent.BULLET:
 						EnemyComponent enemy = Mapper.enemyCom.get(entity);
 						BulletComponent bullet = Mapper.bulletCom.get(collidedEntity);
-						if(bullet.owner != BulletComponent.Owner.ENEMY){ // can't shoot own team
-							bullet.isDead = true;
-							getRandomSound(impactSounds).play(0.4f);
-							enemy.health -= 25;
-							if (enemy.health <= 0) {
-								enemy.isDead = true;
-							}
-							System.out.println("enemy got shot");
+						bullet.isDead = true;
+						getRandomSound(impactSounds).play(0.4f);
+						enemy.health -= 25;
+						if (enemy.health <= 0) {
+							enemy.isDead = true;
 						}
-						System.out.println(enemy.isDead);
+						System.out.println("enemy got shot");
 						break;
 					default:
 						System.out.println("No matching type found");
 					}
 					cc.collisionEntity = null; // collision handled reset component
-				}else{
-					System.out.println("Enemy: collidedEntity.type == null");
 				}
 			}
 		}else{

@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.battleships.game.Battleships;
+import com.battleships.game.entity.systems.TiledMapCollisionSystem;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
 
@@ -42,6 +43,8 @@ public class MainScreen implements Screen {
 
         controller = parent.getController();
         engine = parent.getEngine();
+        engine.addSystem(new TiledMapCollisionSystem(engine));
+
         lvlFactory = parent.getLvlFactory();
     }
 

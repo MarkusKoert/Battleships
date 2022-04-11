@@ -41,7 +41,7 @@ public class EnemySystem extends IteratingSystem {
 				bodyCom.body.getAngle());
 
 
-		//check if bullet is dead
+		//check if enemy is dead
 		if(enemyCom.isDead){
 			System.out.println("Enemy died");
 		 	bodyCom.isDead = true;

@@ -10,4 +10,5 @@ public class PlayerComponent implements Component {
     public float shootDelay = 2f;
     public float timeSinceLastShot = 0f;
     public int id;
+    public int health = 100;
 }

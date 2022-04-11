@@ -7,15 +7,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
-public class BulletSystem extends IteratingSystem{
-	private Entity player;
+public class BulletSystem extends IteratingSystem {
 	private int bulletSpeedMultiplier = 3;
 	private int bulletRange = 40;
 
 	@SuppressWarnings("unchecked")
-	public BulletSystem(Entity player){
+	public BulletSystem() {
 		super(Family.all(BulletComponent.class).get());
-		this.player = player;
 	}
 
 	@Override
@@ -27,17 +25,12 @@ public class BulletSystem extends IteratingSystem{
 		// apply bullet velocity to bullet body
 		b2body.body.setLinearVelocity(bullet.xVel * bulletSpeedMultiplier, bullet.yVel * bulletSpeedMultiplier);
 
-		// get player pos
-		B2dBodyComponent playerBodyComp = Mapper.b2dCom.get(player);
-		float px = playerBodyComp.body.getPosition().x;
-		float py = playerBodyComp.body.getPosition().y;
-
 		//get bullet pos
 		float bx = b2body.body.getPosition().x;
 		float by = b2body.body.getPosition().y;
 
 		// if bullet is 20 units away from player on any axis then it is probably off screen
-		if(bx - px > bulletRange || by - py > bulletRange){
+		if(bx - bullet.initalBulletX > bulletRange || by - bullet.initalBulletY > bulletRange){
 			bullet.isDead = true;
 		}
 

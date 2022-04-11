@@ -117,7 +117,7 @@ public class LevelFactory {
 		return entity;
 	}
 
-	public Entity createBullet(float x, float y, float xVel, float yVel, BulletComponent.Owner own){
+	public Entity createBullet(float x, float y, float xVel, float yVel, int ownerId){
 		System.out.println("Making bullet"+x+":"+y+":"+xVel+":"+yVel);
 		Entity entity = engine.createEntity();
 		B2dBodyComponent b2dbody = engine.createComponent(B2dBodyComponent.class);
@@ -129,7 +129,7 @@ public class LevelFactory {
 		CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
 		BulletComponent bul = engine.createComponent(BulletComponent.class);
 
-		bul.owner = own;
+		bul.ownerId = ownerId;
 
 		b2dbody.body = bodyFactory.makeCirclePolyBody(x,y,0.5f, BodyFactory.BULLET, BodyType.DynamicBody,true);
 		b2dbody.body.setBullet(true); // increase physics computation to limit body travelling through other objects
@@ -141,6 +141,9 @@ public class LevelFactory {
 		b2dbody.body.setUserData(entity);
 		bul.xVel = xVel;
 		bul.yVel = yVel;
+
+		bul.initalBulletX = x;
+		bul.initalBulletY = y;
 
 		entity.add(bul);
 		entity.add(colComp);
