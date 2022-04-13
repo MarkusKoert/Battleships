@@ -3,6 +3,8 @@ package ServerConnection;
 import Packets.PacketAddPlayer;
 import Packets.PacketCreator;
 import Packets.PacketRemovePlayer;
+import Packets.PacketUpdatePlayerInfo;
+import com.badlogic.gdx.math.Vector2;
 import com.battleships.game.server.ServerWorld;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -35,6 +37,9 @@ public class ServerConnection extends Listener {
         // Register all packets from package Packets that match with the ClientConnection
         server.getKryo().register(PacketAddPlayer.class);
         server.getKryo().register(PacketRemovePlayer.class);
+        server.getKryo().register(PacketUpdatePlayerInfo.class);
+        server.getKryo().register(Vector2.class);
+
 
         // Listener to handle receiving objects
         server.addListener(new Listener() {
@@ -50,8 +55,12 @@ public class ServerConnection extends Listener {
 
                     // add existing players to newly connected players game.
                     for (Map.Entry<Integer, PacketAddPlayer> entry : serverWorld.getPlayers().entrySet()) {
-                        PacketAddPlayer packetAddExistingPlayer = PacketCreator.createPacketAddPlayer(entry.getValue().getPlayerName(), entry.getValue().getPlayerId());
-                        server.sendToTCP(connection.getID(), packetAddExistingPlayer);
+                        server.sendToTCP(connection.getID(), entry.getValue());
+                    }
+                } else if (object instanceof PacketUpdatePlayerInfo) {
+                    // update existing players clients x, y, angle, vel etc with update package
+                    for (Map.Entry<Integer, PacketAddPlayer> entry : serverWorld.getPlayers().entrySet()) {
+                        server.sendToAllTCP(object);
                     }
                 }
             }

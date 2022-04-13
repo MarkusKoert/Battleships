@@ -2,7 +2,6 @@ package Packets;
 
 public class PacketUpdatePlayerInfo {
     private float x, y, angle;
-    private String direction;
     private int health, id;
 
     public int getId() {
@@ -37,14 +36,6 @@ public class PacketUpdatePlayerInfo {
         this.angle = angle;
     }
 
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
     public int getHealth() {
         return health;
     }
@@ -52,4 +43,6 @@ public class PacketUpdatePlayerInfo {
     public void setHealth(int health) {
         this.health = health;
     }
+
+
 }

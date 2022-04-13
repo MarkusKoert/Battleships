@@ -1,5 +1,7 @@
 package Packets;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class PacketCreator {
 
     public static PacketAddPlayer createPacketAddPlayer(String name, int id) {
@@ -8,12 +10,11 @@ public class PacketCreator {
         return packetConnect;
     }
 
-    public static PacketUpdatePlayerInfo createPacketUpdatePlayer(float x, float y, float angle, String direction, int health, int id) {
+    public static PacketUpdatePlayerInfo createPacketUpdatePlayer(float x, float y, float angle, int health, int id) {
         PacketUpdatePlayerInfo packetPlayerInfo = new PacketUpdatePlayerInfo();
         packetPlayerInfo.setX(x);
         packetPlayerInfo.setY(y);
         packetPlayerInfo.setAngle(angle);
-        packetPlayerInfo.setDirection(direction);
         packetPlayerInfo.setHealth(health);
         packetPlayerInfo.setId(id);
         return packetPlayerInfo;

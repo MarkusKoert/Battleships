@@ -1,5 +1,8 @@
 package com.battleships.game.entity.systems;
 
+import Packets.PacketAddPlayer;
+import Packets.PacketCreator;
+import Packets.PacketUpdatePlayerInfo;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -127,8 +130,16 @@ public class PlayerControlSystem extends IteratingSystem {
 					player.timeSinceLastShot = player.shootDelay;
 				}
 			}
-
 			ChangeBodyAngle(b2body);
+
+
+			float xSend = b2body.body.getPosition().x;
+			float ySend = b2body.body.getPosition().y;
+			float angleSend = b2body.body.getAngle();
+			int healthSend = player.health;
+			int playerId = clientWorld.getClientConnection().getThisClientId();
+			PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, healthSend, playerId);
+			clientWorld.getClientConnection().getClient().sendTCP(packetUpdatePlayer);
 		}
 	}
 }
