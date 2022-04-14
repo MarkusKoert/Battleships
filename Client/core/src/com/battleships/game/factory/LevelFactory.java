@@ -2,7 +2,7 @@ package com.battleships.game.factory;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.battleships.game.B2dContactListener;
-import com.battleships.game.GameInfo.ClientWorld;
+import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.entity.components.*;
 import com.battleships.game.loader.B2dAssetManager;
 import com.badlogic.ashley.core.Entity;
@@ -37,7 +37,7 @@ public class LevelFactory {
 		this.assman = assMan;
 
 		bulletTex = atlas.findRegion("cannonBall");
-		playerTex = atlas.findRegion("ship (5)");
+		playerTex = atlas.findRegion("ship (1)");
 		enemyTex = atlas.findRegion("ship (2)");
 		world = new World(new Vector2(0,0), true);
 		world.setContactListener(new B2dContactListener());
@@ -180,5 +180,4 @@ public class LevelFactory {
 	public ClientWorld getClientWorld() {
 		return clientWorld;
 	}
-
 }

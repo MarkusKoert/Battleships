@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.battleships.game.DFUtils;
-import com.battleships.game.GameInfo.ClientWorld;
+import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;

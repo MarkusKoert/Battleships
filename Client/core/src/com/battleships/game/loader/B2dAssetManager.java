@@ -13,6 +13,7 @@ public class B2dAssetManager {
     // Textures
     public final String gameImages = "images/ships.atlas";
     public final String backGroundimage = "images/water.png";
+    public final String connectGroundimage = "images/waterConnect.png";
     // Skin
     public final String skin = "skin/game-ui-skin.json";
     // Sounds
@@ -32,6 +33,7 @@ public class B2dAssetManager {
     public void queueAddImages(){
         manager.load(gameImages, TextureAtlas.class);
         manager.load(backGroundimage, Texture.class);
+        manager.load(connectGroundimage, Texture.class);
     }
 
     public void queueAddSkin(){

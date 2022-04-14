@@ -6,10 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -46,7 +43,7 @@ public class ConnectScreen implements Screen {
         // tells the asset manager to load the images and wait until finished loading.
         parent.assMan.manager.finishLoading();
         // gets the images as a texture
-        backGroundTexture = parent.assMan.manager.get("images/water.png");
+        backGroundTexture = parent.assMan.manager.get("images/waterConnect.png");
         sb = new SpriteBatch();
     }
 
@@ -66,6 +63,7 @@ public class ConnectScreen implements Screen {
         // Title of screen and text field for user input "username"
         final TextField usernameField = new TextField("Username", skin, "default");
         Label titleLabel = new Label("Your nickname", skin, "subtitle");
+        Label chooseLabel = new Label("Choose a skin for your ship:", skin, "subtitle");
 
         // Making buttons
         final TextButton backButton = new TextButton("back", skin);
@@ -116,12 +114,86 @@ public class ConnectScreen implements Screen {
             }
         });
 
-        table.add(titleLabel).colspan(2);
+        // Checkbox for music volume
+        final CheckBox skinOneCheckbox = new CheckBox(null, skin);
+        final CheckBox skinTwoCheckbox = new CheckBox(null, skin);
+        final CheckBox skinThreeCheckbox = new CheckBox(null, skin);
+        final CheckBox skinFourCheckbox = new CheckBox(null, skin);
+
+        skinOneCheckbox.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = skinOneCheckbox.isChecked();
+                // do stuff
+                return false;
+            }
+        });
+        skinOneCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buttonClick.play(0.7F);
+            }
+        });
+
+        skinTwoCheckbox.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = skinTwoCheckbox.isChecked();
+                // do stuff
+                return false;
+            }
+        });
+        skinTwoCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buttonClick.play(0.7F);
+            }
+        });
+
+        skinThreeCheckbox.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = skinThreeCheckbox.isChecked();
+                // do stuff
+                return false;
+            }
+        });
+        skinThreeCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buttonClick.play(0.7F);
+            }
+        });
+
+        skinFourCheckbox.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = skinFourCheckbox.isChecked();
+                // do stuff
+                return false;
+            }
+        });
+        skinFourCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buttonClick.play(0.7F);
+            }
+        });
+
+
+        table.add(titleLabel).colspan(4);
         table.row().pad(25, 0, 0, 10);
-        table.add(usernameField).colspan(2).width(350f);
+        table.add(usernameField).colspan(4).width(350f);
         table.row().pad(10, 0, 0, 10);
-        table.add(backButton).left();
-        table.add(connectButton).right();
+        table.add(backButton).colspan(2).left();
+        table.add(connectButton).colspan(2).right();
+        table.row().pad(50, 0, 0, 10);
+        table.add(chooseLabel).colspan(4);
+        table.row().pad(100, 0, 0, 10);
+        table.add(skinOneCheckbox);
+        table.add(skinTwoCheckbox);
+        table.add(skinThreeCheckbox);
+        table.add(skinFourCheckbox);
     }
 
     public String getUsername() {

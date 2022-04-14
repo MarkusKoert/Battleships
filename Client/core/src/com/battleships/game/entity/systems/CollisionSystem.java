@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.audio.Sound;
-import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.*;
 

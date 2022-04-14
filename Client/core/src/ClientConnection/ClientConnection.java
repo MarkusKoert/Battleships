@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.battleships.game.GameInfo.ClientWorld;
+import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.PlayerComponent;
