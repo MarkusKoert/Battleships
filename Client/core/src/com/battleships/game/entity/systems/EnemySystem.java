@@ -9,11 +9,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 public class EnemySystem extends IteratingSystem {
-	private ComponentMapper<EnemyComponent> em;
-	private ComponentMapper<B2dBodyComponent> bodm;
-	private LevelFactory levelFactory;
+	private final ComponentMapper<EnemyComponent> em;
+	private final ComponentMapper<B2dBodyComponent> bodm;
+	private final LevelFactory levelFactory;
 
-	@SuppressWarnings("unchecked")
 	public EnemySystem(LevelFactory lvlf){
 		super(Family.all(EnemyComponent.class).get());
 		em = ComponentMapper.getFor(EnemyComponent.class);
@@ -30,7 +29,7 @@ public class EnemySystem extends IteratingSystem {
 		float distFromOrig = Math.abs(enemyCom.xPosCenter - bodyCom.body.getPosition().x);
 
 		// if distance > 1 swap direction
-		enemyCom.isGoingLeft = (distFromOrig > 1)? !enemyCom.isGoingLeft:enemyCom.isGoingLeft;
+		enemyCom.isGoingLeft = (distFromOrig > 1) != enemyCom.isGoingLeft;
 
 		// set speed base on direction
 		float speed = enemyCom.isGoingLeft?-0.01f:0.01f;

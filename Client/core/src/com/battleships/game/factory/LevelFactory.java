@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class LevelFactory {
 	public static World world;
+	private ClientWorld clientWorld;
 	private BodyFactory bodyFactory;
 	public PooledEngine engine;
 	private TextureRegion playerTex;
@@ -23,12 +24,10 @@ public class LevelFactory {
 	private TextureRegion bulletTex;
 	private TextureAtlas atlas;
 	public B2dAssetManager assman;
-	private Entity enemy1;
-	private Entity enemy2;
-	private Entity enemy3;
 
-	public LevelFactory(PooledEngine en, B2dAssetManager assMan){
+	public LevelFactory(PooledEngine en, B2dAssetManager assMan, ClientWorld clientWorld){
 		engine = en;
+		this.clientWorld = clientWorld;
 
 		// loads and gets images with asset manager
 		assMan.queueAddImages();
@@ -43,12 +42,13 @@ public class LevelFactory {
 		world = new World(new Vector2(0,0), true);
 		world.setContactListener(new B2dContactListener());
 		bodyFactory = BodyFactory.getInstance(world);
-
-		enemy1 = createEnemy(100, 100);
-		enemy2 = createEnemy(120, 120);
-		enemy3 = createEnemy(140, 140);
 	}
 
+	/**
+	 * @param x - x coordinate for new enemy
+	 * @param y - y coordinate for new enemy
+	 * @return enemy entity
+	 */
 	public Entity createEnemy(float x, float y){
 		Entity entity = engine.createEntity();
 		B2dBodyComponent b2dbody = engine.createComponent(B2dBodyComponent.class);
@@ -70,13 +70,17 @@ public class LevelFactory {
 		entity.add(position);
 		entity.add(texture);
 		entity.add(enemy);
-		entity.add(type);	
-		
+		entity.add(type);
+
 		engine.addEntity(entity);
-		
+
 		return entity;
 	}
 
+	/**
+	 * @param cam - clients camera
+	 * @return - player entity
+	 */
 	public Entity createPlayer(OrthographicCamera cam){
 		// Create the Entity and all the components that will go in the entity
 		Entity entity = engine.createEntity();
@@ -117,6 +121,14 @@ public class LevelFactory {
 		return entity;
 	}
 
+	/**
+	 * @param x - bullets initial x coordinate
+	 * @param y - bullets initial y coordinate
+	 * @param xVel - bullets initial x velocity
+	 * @param yVel - bullets initial y velocity
+	 * @param ownerId - owner entity ID
+	 * @return - bullet Entity
+	 */
 	public Entity createBullet(float x, float y, float xVel, float yVel, int ownerId){
 		System.out.println("Making bullet"+x+":"+y+":"+xVel+":"+yVel);
 		Entity entity = engine.createEntity();
@@ -157,8 +169,16 @@ public class LevelFactory {
 		engine.addEntity(entity);
 		return entity;
 	}
-	
+
+	/**
+	 * @param ent - removes entity from game engine
+	 */
 	public void removeEntity(Entity ent){
 		engine.removeEntity(ent);
 	}
+
+	public ClientWorld getClientWorld() {
+		return clientWorld;
+	}
+
 }

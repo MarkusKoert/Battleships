@@ -12,18 +12,14 @@ import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.entity.components.TransformComponent;
 
 public class PhysicsSystem extends IteratingSystem {
- 
     private static final float MAX_STEP_TIME = 1/90f;
     private static float accumulator = 0f;
- 
     private World world;
     private Array<Entity> bodiesQueue;
- 
     private ComponentMapper<B2dBodyComponent> bm = ComponentMapper.getFor(B2dBodyComponent.class);
     private ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
  
-    @SuppressWarnings("unchecked")
-	public PhysicsSystem(World world) {
+    public PhysicsSystem(World world) {
         super(Family.all(B2dBodyComponent.class, TransformComponent.class).get());
         this.world = world;
         this.bodiesQueue = new Array<Entity>();

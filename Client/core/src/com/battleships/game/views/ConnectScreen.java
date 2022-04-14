@@ -15,13 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.battleships.game.Battleships;
-import com.battleships.game.factory.BodyFactory;
-
-import javax.swing.*;
-
+import javax.swing.JOptionPane;
 
 public class ConnectScreen implements Screen {
-    private BodyFactory player;
     private final Sound buttonClick;
     private final Sound buttonHover;
     private final Battleships parent;
@@ -62,7 +58,6 @@ public class ConnectScreen implements Screen {
         // Create table that fills the screen. Everything else goes inside this table.
         Table table = new Table();
         table.setFillParent(true);
-        // table.setDebug(true);
         stage.addActor(table);
 
         // Assign new skin to use for buttons
@@ -72,9 +67,11 @@ public class ConnectScreen implements Screen {
         final TextField usernameField = new TextField("Username", skin, "default");
         Label titleLabel = new Label("Your nickname", skin, "subtitle");
 
-        // Button for returning to main menu
+        // Making buttons
         final TextButton backButton = new TextButton("back", skin);
+        final TextButton connectButton = new TextButton("Connect", skin);
 
+        // Listeners for buttons
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -91,17 +88,12 @@ public class ConnectScreen implements Screen {
                     playing = true;
                 }
             }
-
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
                 playing = false;
             }
         });
-
-
-        // Button for connect to the server
-        final TextButton connectButton = new TextButton("Connect", skin);
 
         connectButton.addListener(new ClickListener() {
             @Override
@@ -114,10 +106,10 @@ public class ConnectScreen implements Screen {
                     return false;
                 } else {
                     // change screen
-
                     buttonHover.play();
                     playing = true;
                     System.out.println("Username: " + username);
+                    parent.createClient(parent.getClientWorld());
                     parent.changeScreen(Battleships.APPLICATION);
                     return super.touchDown(event, x, y, pointer, button);
                 }
@@ -130,7 +122,6 @@ public class ConnectScreen implements Screen {
         table.row().pad(10, 0, 0, 10);
         table.add(backButton).left();
         table.add(connectButton).right();
-
     }
 
     public String getUsername() {

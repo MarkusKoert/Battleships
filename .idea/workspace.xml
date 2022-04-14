@@ -4,14 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="fix bulletsystem&#10;fix collisionsystem&#10;fix multiplayer controller&#10;players can now get hit by bullets">
+    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="updateplayerpackage">
+      <change afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketAddBullet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketAddBullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketUpdatePlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketUpdatePlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketRemovePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketRemovePlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/PlayerComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/PlayerComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/EnemySystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/EnemySystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PhysicsSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PhysicsSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/RenderingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/RenderingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/BodyFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/BodyFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/ShapeFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/ShapeFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/core/src/Packets/PacketCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/core/src/Packets/PacketUpdatePlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketUpdatePlayerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/core/src/ServerConnection/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/ServerConnection/ServerConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -186,7 +198,11 @@
       <workItem from="1649492308781" duration="24484000" />
       <workItem from="1649697766174" duration="4638000" />
       <workItem from="1649778948466" duration="18000" />
-      <workItem from="1649875008354" duration="3640000" />
+      <workItem from="1649875008354" duration="3970000" />
+      <workItem from="1649879727406" duration="2000" />
+      <workItem from="1649879809151" duration="595000" />
+      <workItem from="1649919973385" duration="586000" />
+      <workItem from="1649926737362" duration="13205000" />
     </task>
     <task id="LOCAL-00001" summary="Clear unused methods, dependencies, classes and etc. Update Client module. 3h">
       <created>1649497410891</created>
@@ -216,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649701211505</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="updateplayerpackage">
+      <created>1649878934559</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1649878934559</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,7 +261,8 @@
     <MESSAGE value="Packets moving between Server and Client. 3h" />
     <MESSAGE value="fixed ID assigning for players.&#10;controller now moves only one clients ship" />
     <MESSAGE value="fix bulletsystem&#10;fix collisionsystem&#10;fix multiplayer controller&#10;players can now get hit by bullets" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bulletsystem&#10;fix collisionsystem&#10;fix multiplayer controller&#10;players can now get hit by bullets" />
+    <MESSAGE value="updateplayerpackage" />
+    <option name="LAST_COMMIT_MESSAGE" value="updateplayerpackage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

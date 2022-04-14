@@ -1,6 +1,6 @@
 package com.battleships.game.entity.components;
 
-import ClientConnection.ClientConnection;
+import Packets.PacketUpdatePlayerInfo;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -11,4 +11,6 @@ public class PlayerComponent implements Component {
     public float timeSinceLastShot = 0f;
     public int id;
     public int health = 100;
+    public PacketUpdatePlayerInfo lastUpdatePacket;
+    public boolean needsUpdate = false;
 }

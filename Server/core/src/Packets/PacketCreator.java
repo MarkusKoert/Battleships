@@ -25,4 +25,14 @@ public class PacketCreator {
         removePlayer.setId(id);
         return removePlayer;
     }
+
+    public static PacketAddBullet createPacketAddBullet(float x, float y, float xVel, float yVel, int ownerId) {
+        PacketAddBullet packetAddBullet = new PacketAddBullet();
+        packetAddBullet.setX(x);
+        packetAddBullet.setY(y);
+        packetAddBullet.setxVel(xVel);
+        packetAddBullet.setyVel(yVel);
+        packetAddBullet.setOwnerId(ownerId);
+        return packetAddBullet;
+    }
 }

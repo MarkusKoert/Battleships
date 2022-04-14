@@ -4,9 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class BodyFactory {
-    private final float DEGTORAD = 0.0174533f;
     private static BodyFactory thisInstance;
-    private World world;
+    private final World world;
     public static final int SHIP = 1;
     public static final int BULLET = 2;
 
@@ -110,7 +109,6 @@ public class BodyFactory {
     }
 
     public void makeConeSensor(Body body, float size){
-
         FixtureDef fixtureDef = new FixtureDef();
         //fixtureDef.isSensor = true; // will add in future
 
@@ -120,6 +118,7 @@ public class BodyFactory {
         Vector2[] vertices = new Vector2[5];
         vertices[0] = new Vector2(0,0);
         for (int i = 2; i < 6; i++) {
+            float DEGTORAD = 0.0174533f;
             float angle = (float) (i  / 6.0 * 145 * DEGTORAD); // convert degrees to radians
             vertices[i-1] = new Vector2( radius * ((float)Math.cos(angle)), radius * ((float)Math.sin(angle)));
         }
@@ -134,5 +133,4 @@ public class BodyFactory {
             fix.setSensor(true);
         }
     }
-
 }

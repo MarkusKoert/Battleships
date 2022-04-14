@@ -14,16 +14,10 @@ import java.util.Random;
 public class CollisionSystem extends IteratingSystem {
 	ComponentMapper<CollisionComponent> cm;
 	ComponentMapper<PlayerComponent> pm;
-	private final Sound cannonImpact1;
-	private final Sound cannonImpact2;
-	private final Sound cannonImpact3;
-	private Sound[] impactSounds = new Sound[3];
-	private LevelFactory lvlFactory;
+	private final Sound[] impactSounds = new Sound[3];
 
-	@SuppressWarnings("unchecked")
 	public CollisionSystem(LevelFactory lvlFactory) {
 		super(Family.all(CollisionComponent.class).get());
-		this.lvlFactory = lvlFactory;
 
 		cm = ComponentMapper.getFor(CollisionComponent.class);
 		pm = ComponentMapper.getFor(PlayerComponent.class);
@@ -33,14 +27,18 @@ public class CollisionSystem extends IteratingSystem {
 		// tells the asset manager to load the sounds and wait until finsihed loading.
 		lvlFactory.assman.manager.finishLoading();
 		// loads the cannonball sounds
-		cannonImpact1 = lvlFactory.assman.manager.get("sounds/cannonImpact1.mp3", Sound.class);
-		cannonImpact2 = lvlFactory.assman.manager.get("sounds/cannonImpact2.mp3", Sound.class);
-		cannonImpact3 = lvlFactory.assman.manager.get("sounds/cannonImpact3.mp3", Sound.class);
+		Sound cannonImpact1 = lvlFactory.assman.manager.get("sounds/cannonImpact1.mp3", Sound.class);
+		Sound cannonImpact2 = lvlFactory.assman.manager.get("sounds/cannonImpact2.mp3", Sound.class);
+		Sound cannonImpact3 = lvlFactory.assman.manager.get("sounds/cannonImpact3.mp3", Sound.class);
 		impactSounds[0] = cannonImpact1;
 		impactSounds[1] = cannonImpact2;
 		impactSounds[2] = cannonImpact3;
 	}
 
+	/**
+	 * @param array - array of sounds
+	 * @return - random sound from array
+	 */
 	public static Sound getRandomSound(Sound[] array) {
 		int rnd = new Random().nextInt(array.length);
 		return array[rnd];
@@ -94,7 +92,8 @@ public class CollisionSystem extends IteratingSystem {
 				}
 			}
 		// Enemy type collisions (AI)
-		}else if(thisType.type == TypeComponent.ENEMY) {
+		}
+		else if(thisType.type == TypeComponent.ENEMY) {
 			if(collidedEntity != null) {
 				TypeComponent type = collidedEntity.getComponent(TypeComponent.class);
 				if(type != null) {
@@ -128,7 +127,8 @@ public class CollisionSystem extends IteratingSystem {
 					cc.collisionEntity = null; // collision handled reset component
 				}
 			}
-		}else{
+		}
+		else{
 			cc.collisionEntity = null;
 		}
 	}
