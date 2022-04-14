@@ -1,4 +1,4 @@
-package com.battleships.game.GameInfo;
+package com.battleships.game.gameinfo;
 
 import ClientConnection.ClientConnection;
 import com.badlogic.ashley.core.Entity;

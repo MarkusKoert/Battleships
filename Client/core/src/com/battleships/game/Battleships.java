@@ -6,7 +6,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.battleships.game.GameInfo.ClientWorld;
+import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.systems.*;
 import com.battleships.game.factory.LevelFactory;
