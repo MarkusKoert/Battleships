@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.battleships.game.entity.components.TextureComponent;
 import com.battleships.game.entity.components.TransformComponent;
-
 import java.util.Comparator;
 
 public class RenderingSystem extends SortedIteratingSystem {

@@ -1,6 +1,6 @@
 package com.battleships.game.entity.systems;
 
-import Packets.PacketAddPlayer;
+import Packets.PacketAddBullet;
 import Packets.PacketCreator;
 import Packets.PacketUpdatePlayerInfo;
 import com.badlogic.ashley.core.ComponentMapper;
@@ -22,12 +22,7 @@ import com.battleships.game.entity.components.StateComponent;
 import java.util.Random;
 
 public class PlayerControlSystem extends IteratingSystem {
-	private final Sound cannonBlast1;
-	private final Sound cannonBlast2;
-	private final Sound cannonBlast3;
-	private final Sound cannonBlast4;
-	private final Sound cannonBlast5;
-	private LevelFactory lvlFactory;
+	private final LevelFactory lvlFactory;
 	ComponentMapper<PlayerComponent> pm;
 	ComponentMapper<B2dBodyComponent> bodm;
 	ComponentMapper<StateComponent> sm;
@@ -38,42 +33,31 @@ public class PlayerControlSystem extends IteratingSystem {
 	private Sound[] cannonSounds = new Sound[5];
 	private ClientWorld clientWorld;
 
-	@SuppressWarnings("unchecked")
-	public PlayerControlSystem(KeyboardController keyCon, LevelFactory lvlf, ClientWorld clientWorld) {
+	public PlayerControlSystem(KeyboardController keyCon, LevelFactory lvlf) {
 		super(Family.all(PlayerComponent.class).get());
 		controller = keyCon;
 		lvlFactory = lvlf;
+		this.clientWorld = lvlf.getClientWorld();
+
 		pm = ComponentMapper.getFor(PlayerComponent.class);
 		bodm = ComponentMapper.getFor(B2dBodyComponent.class);
 		sm = ComponentMapper.getFor(StateComponent.class);
-		this.clientWorld = clientWorld;
 
 		// tells our asset manger that we want to load the sounds
 		lvlFactory.assman.queueAddSounds();
 		// tells the asset manager to load the sounds and wait until finsihed loading.
 		lvlFactory.assman.manager.finishLoading();
 		// loads the cannonball sounds
-		cannonBlast1 = lvlFactory.assman.manager.get("sounds/CannonBlast1.mp3", Sound.class);
-		cannonBlast2 = lvlFactory.assman.manager.get("sounds/CannonBlast2.mp3", Sound.class);
-		cannonBlast3 = lvlFactory.assman.manager.get("sounds/CannonBlast3.mp3", Sound.class);
-		cannonBlast4 = lvlFactory.assman.manager.get("sounds/CannonBlast4.mp3", Sound.class);
-		cannonBlast5 = lvlFactory.assman.manager.get("sounds/CannonBlast5.mp3", Sound.class);
+		Sound cannonBlast1 = lvlFactory.assman.manager.get("sounds/CannonBlast1.mp3", Sound.class);
+		Sound cannonBlast2 = lvlFactory.assman.manager.get("sounds/CannonBlast2.mp3", Sound.class);
+		Sound cannonBlast3 = lvlFactory.assman.manager.get("sounds/CannonBlast3.mp3", Sound.class);
+		Sound cannonBlast4 = lvlFactory.assman.manager.get("sounds/CannonBlast4.mp3", Sound.class);
+		Sound cannonBlast5 = lvlFactory.assman.manager.get("sounds/CannonBlast5.mp3", Sound.class);
 		cannonSounds[0] = cannonBlast1;
 		cannonSounds[1] = cannonBlast2;
 		cannonSounds[2] = cannonBlast3;
 		cannonSounds[3] = cannonBlast4;
 		cannonSounds[4] = cannonBlast5;
-	}
-
-	protected void ChangeBodyAngle(B2dBodyComponent b2body) {
-		Vector2 vec = b2body.body.getLinearVelocity();
-		double angle = Math.atan2(vec.y, vec.x);
-		b2body.body.setTransform(b2body.body.getPosition(), (float) angle);
-	}
-
-	public static Sound getRandomSound(Sound[] array) {
-		int rnd = new Random().nextInt(array.length);
-		return array[rnd];
 	}
 
 	@Override
@@ -82,9 +66,15 @@ public class PlayerControlSystem extends IteratingSystem {
 		PlayerComponent player = pm.get(entity);
 
 		//check if player is dead
-		if(player.isDead){
+		if(player.isDead) {
 			System.out.println("Player died");
 			b2body.isDead = true;
+		}
+
+		// update other client entities
+		if (this.clientWorld.getThisClientId() != player.id && player.needsUpdate) {
+			PacketUpdatePlayerInfo object = player.lastUpdatePacket;
+			b2body.body.setTransform(((PacketUpdatePlayerInfo) object).getX(), ((PacketUpdatePlayerInfo) object).getY(), ((PacketUpdatePlayerInfo) object).getAngle());
 		}
 
 		// Movement with controller, check is player is this client.
@@ -126,20 +116,57 @@ public class PlayerControlSystem extends IteratingSystem {
 							aim.y * bulletSpeedMultiplier,
 							player.id);
 
+					// send bullet to server
+					sendBulletUpdatePackage(b2body.body.getPosition().x,
+							b2body.body.getPosition().y,
+							aim.x * bulletSpeedMultiplier,
+							aim.y * bulletSpeedMultiplier,
+							player.id);
+
 					// reset timeSinceLastShot
 					player.timeSinceLastShot = player.shootDelay;
 				}
 			}
 			ChangeBodyAngle(b2body);
-
-
-			float xSend = b2body.body.getPosition().x;
-			float ySend = b2body.body.getPosition().y;
-			float angleSend = b2body.body.getAngle();
-			int healthSend = player.health;
-			int playerId = clientWorld.getClientConnection().getThisClientId();
-			PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, healthSend, playerId);
-			clientWorld.getClientConnection().getClient().sendTCP(packetUpdatePlayer);
+			// Send update package
+			sendPlayerUpdatePackage(b2body, player);
 		}
+	}
+
+	/**
+	 * @param b2body - body component
+	 * @param player - player component
+	 */
+	private void sendPlayerUpdatePackage(B2dBodyComponent b2body, PlayerComponent player) {
+		float xSend = b2body.body.getPosition().x;
+		float ySend = b2body.body.getPosition().y;
+		float angleSend = b2body.body.getAngle();
+		int healthSend = player.health;
+		int playerId = clientWorld.getClientConnection().getThisClientId();
+		PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, healthSend, playerId);
+		clientWorld.getClientConnection().getClient().sendTCP(packetUpdatePlayer);
+	}
+
+	/**
+	 * @param x - bullets initial x coordinate
+	 * @param y - bullets initial y coordinate
+	 * @param xVel - bullets initial x velocity
+	 * @param yVel - bullets initial y velocity
+	 * @param ownerId - owner entity ID
+	 */
+	private void sendBulletUpdatePackage(float x, float y, float xVel, float yVel, int ownerId) {
+		PacketAddBullet packetAddBullet = PacketCreator.createPacketAddBullet(x, y, xVel, yVel, ownerId);
+		clientWorld.getClientConnection().getClient().sendTCP(packetAddBullet);
+	}
+
+	protected void ChangeBodyAngle(B2dBodyComponent b2body) {
+		Vector2 vec = b2body.body.getLinearVelocity();
+		double angle = Math.atan2(vec.y, vec.x);
+		b2body.body.setTransform(b2body.body.getPosition(), (float) angle);
+	}
+
+	public static Sound getRandomSound(Sound[] array) {
+		int rnd = new Random().nextInt(array.length);
+		return array[rnd];
 	}
 }

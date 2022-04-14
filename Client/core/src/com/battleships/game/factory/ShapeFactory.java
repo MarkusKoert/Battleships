@@ -20,19 +20,16 @@ public final class ShapeFactory {
 
     public static PolygonShape getRectangle(Rectangle rectangle) {
         PolygonShape polygon = new PolygonShape();
-
         Vector2 size = new Vector2(
                 Physics.toUnits(rectangle.x + rectangle.width * 0.5f),
                 Physics.toUnits(rectangle.y + rectangle.height * 0.5f)
         );
-
         polygon.setAsBox(
                 Physics.toUnits(rectangle.width * 0.5f),
                 Physics.toUnits(rectangle.height * 0.5f),
                 size,
                 0.0f
         );
-
         return polygon;
     }
 
@@ -44,7 +41,6 @@ public final class ShapeFactory {
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(Physics.toUnits(circle.radius));
         circleShape.setPosition(new Vector2(Physics.toUnits(circle.x), Physics.toUnits(circle.y)));
-
         return circleShape;
     }
 
@@ -54,7 +50,6 @@ public final class ShapeFactory {
 
     public static PolygonShape getPolygon(Polygon polygon) {
         PolygonShape polygonShape = new PolygonShape();
-
         float[] vertices = polygon.getTransformedVertices();
         float[] worldVertices = new float[vertices.length];
 
@@ -63,7 +58,6 @@ public final class ShapeFactory {
         }
 
         polygonShape.set(worldVertices);
-
         return polygonShape;
     }
 
@@ -84,7 +78,6 @@ public final class ShapeFactory {
         }
 
         chain.createChain(worldVertices);
-
         return chain;
     }
 }

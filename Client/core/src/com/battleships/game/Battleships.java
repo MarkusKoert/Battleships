@@ -57,13 +57,15 @@ public class Battleships extends Game {
 		renderingSystem = new RenderingSystem(sb);
 		cam = renderingSystem.getCamera();
 
-		//create a pooled engine
+		// create a pooled engine
 		engine = new PooledEngine();
 		controller = new KeyboardController();
 
-		//create a level factory (factory for making bullets, enemies, players etc)
-		lvlFactory = new LevelFactory(engine,this.assMan);
+		// create client world to hold game info
 		clientWorld = new ClientWorld();
+
+		// create a level factory (factory for making bullets, enemies, players etc)
+		lvlFactory = new LevelFactory(engine,this.assMan, clientWorld);
 
 		// add all the relevant systems our engine should run
 		engine.addSystem(new AnimationSystem());
@@ -71,9 +73,15 @@ public class Battleships extends Game {
 		engine.addSystem(renderingSystem);
 		// engine.addSystem(new PhysicsDebugSystem(LevelFactory.world, renderingSystem.getCamera()));
 		engine.addSystem(new CollisionSystem(lvlFactory));
-		engine.addSystem(new PlayerControlSystem(controller,lvlFactory,clientWorld));
+		engine.addSystem(new PlayerControlSystem(controller,lvlFactory));
 		engine.addSystem(new EnemySystem(lvlFactory));
 		engine.addSystem(new BulletSystem());
+	}
+
+	@Override
+	public void dispose(){
+		playingSong.dispose();
+		assMan.manager.dispose();
 	}
 
 	/**
@@ -92,7 +100,6 @@ public class Battleships extends Game {
 				break;
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
-				createClient(this.clientWorld);
 				this.setScreen(mainScreen);
 				break;
 			case ENDGAME:
@@ -110,19 +117,12 @@ public class Battleships extends Game {
 		return this.preferences;
 	}
 
-	@Override
-	public void dispose(){
-		playingSong.dispose();
-		assMan.manager.dispose();
-	}
-
-	private void createClient(ClientWorld clientWorld) {
+	public void createClient(ClientWorld clientWorld) {
 		clientConnection = new ClientConnection();
 		clientConnection.setLvlFactory(lvlFactory);
 		clientConnection.setCam(cam);
 		clientConnection.setClientWorld(clientWorld);
 		clientConnection.setPlayerName(connectScreen.getPlayer());
-		clientConnection.setGameClient(this);
 		clientConnection.sendPacketConnect();
 		clientWorld.setClientConnection(clientConnection);
 	}

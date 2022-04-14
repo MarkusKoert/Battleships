@@ -1,15 +1,10 @@
 package ClientConnection;
 
-import Packets.PacketCreator;
-import Packets.PacketRemovePlayer;
-import Packets.PacketAddPlayer;
-import Packets.PacketUpdatePlayerInfo;
+import Packets.*;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.battleships.game.Battleships;
 import com.battleships.game.GameInfo.ClientWorld;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.factory.LevelFactory;
@@ -17,16 +12,14 @@ import com.battleships.game.entity.components.PlayerComponent;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Vector;
 
 public class ClientConnection {
-    private Client client;
+    private final Client client;
     private ClientWorld clientWorld;
     private String playerName;
-    private Battleships gameClient;
     private LevelFactory lvlFactory;
     private OrthographicCamera cam;
     private int playerId;
@@ -43,6 +36,7 @@ public class ClientConnection {
         client.getKryo().register(PacketRemovePlayer.class);
         client.getKryo().register(PacketUpdatePlayerInfo.class);
         client.getKryo().register(Vector2.class);
+        client.getKryo().register(PacketAddBullet.class);
 
         client.addListener(new Listener() {
             @Override
@@ -63,7 +57,8 @@ public class ClientConnection {
                             }
                         }
                     });
-                }  else if (object instanceof PacketRemovePlayer) {
+                }
+                else if (object instanceof PacketRemovePlayer) {
                     PacketRemovePlayer removePlayer = (PacketRemovePlayer) object;
 
                     // Remove player from clientWorld map.
@@ -77,23 +72,35 @@ public class ClientConnection {
                     for (Entity entity : lvlFactory.engine.getEntities()) {
                         try {
                             if (entity.getComponent(PlayerComponent.class).id == removePlayer.getId()) {
-                                entity.removeAll();
+                                lvlFactory.removeEntity(entity);
                             }
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
                     }
-                } else if (object instanceof PacketUpdatePlayerInfo) {
+                }
+                else if (object instanceof PacketUpdatePlayerInfo) {
                     if (((PacketUpdatePlayerInfo) object).getId() != connection.getID()) {
                         for (Map.Entry<Integer, Entity> entry : clientWorld.getPlayers().entrySet()) {
                             if (entry.getKey() == ((PacketUpdatePlayerInfo) object).getId()) {
-                                System.out.println("matching entity, updating...");
                                 PlayerComponent playerCom = entry.getValue().getComponent(PlayerComponent.class);
                                 B2dBodyComponent bodyCom = entry.getValue().getComponent(B2dBodyComponent.class);
                                 playerCom.health = ((PacketUpdatePlayerInfo) object).getHealth();
-                                bodyCom.body.setTransform(((PacketUpdatePlayerInfo) object).getX(), ((PacketUpdatePlayerInfo) object).getY(), ((PacketUpdatePlayerInfo) object).getAngle());
+                                playerCom.lastUpdatePacket = (PacketUpdatePlayerInfo) object;
+                                playerCom.needsUpdate = true;
                             }
                         }
+                    }
+                }
+                else if (object instanceof PacketAddBullet) {
+                    // System.out.println("recieved bullet packet");
+                    int id = ((PacketAddBullet) object).getOwnerId();
+                    if (id != connection.getID()) {
+                        float x = ((PacketAddBullet) object).getX();
+                        float y = ((PacketAddBullet) object).getY();
+                        float xVel = ((PacketAddBullet) object).getxVel();
+                        float yVel = ((PacketAddBullet) object).getyVel();
+                        lvlFactory.createBullet(x, y, xVel, yVel, id);
                     }
                 }
             }
@@ -128,23 +135,15 @@ public class ClientConnection {
         this.playerName = playerName;
     }
 
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setGameClient(Battleships client) {
-        this.gameClient = client;
-    }
-
-    public static void main(String[] args) {
-        new ClientConnection();
-    }
-
     public int getThisClientId() {
         return playerId;
     }
 
     public Client getClient() {
         return client;
+    }
+
+    public static void main(String[] args) {
+        new ClientConnection();
     }
 }
