@@ -3,6 +3,7 @@ package Packets;
 public class PacketAddPlayer {
     private String playerName;
     private int playerId;
+    private int skinId;
 
     public String getPlayerName() {
         return playerName;
@@ -18,5 +19,13 @@ public class PacketAddPlayer {
 
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
+    }
+
+    public int getSkinId() {
+        return skinId;
+    }
+
+    public void setSkinId(int skinId) {
+        this.skinId = skinId;
     }
 }

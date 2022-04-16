@@ -2,9 +2,10 @@ package Packets;
 
 public class PacketCreator {
 
-    public static PacketAddPlayer createPacketAddPlayer(String name, int id) {
+    public static PacketAddPlayer createPacketAddPlayer(String name, int id, int skinId) {
         PacketAddPlayer packetConnect = new PacketAddPlayer();
         packetConnect.setPlayerName(name);
+        packetConnect.setSkinId(skinId);
         return packetConnect;
     }
 

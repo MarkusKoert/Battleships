@@ -23,6 +23,7 @@ public class ClientConnection {
     private LevelFactory lvlFactory;
     private OrthographicCamera cam;
     private int playerId;
+    private int playerskinId;
 
     public ClientConnection() {
         String ip = "localhost";
@@ -47,11 +48,10 @@ public class ClientConnection {
                         @Override
                         public void run() {
                             PacketAddPlayer addPlayer = (PacketAddPlayer) object;
-                            System.out.println(addPlayer.getPlayerId() + " Recieved packet player ID");
 
                             // Check if client world doesn't contain this player
                             if (!clientWorld.getPlayers().containsKey(addPlayer.getPlayerId()) && addPlayer.getPlayerId() != 0) {
-                                Entity player = lvlFactory.createPlayer(cam);
+                                Entity player = lvlFactory.createPlayer(cam, addPlayer.getSkinId());
                                 player.getComponent(PlayerComponent.class).id = addPlayer.getPlayerId();
                                 clientWorld.addPlayer(addPlayer.getPlayerId(), player);
                             }
@@ -115,7 +115,7 @@ public class ClientConnection {
     }
 
     public void sendPacketConnect() {
-        PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName, playerId);
+        PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName, playerId, playerskinId);
         client.sendTCP(packetConnect);
     }
 
@@ -141,6 +141,14 @@ public class ClientConnection {
 
     public Client getClient() {
         return client;
+    }
+
+    public void setPlayerskinId(int playerskinId) {
+        this.playerskinId = playerskinId;
+    }
+
+    public int getPlayerskinId() {
+        return playerskinId;
     }
 
     public static void main(String[] args) {

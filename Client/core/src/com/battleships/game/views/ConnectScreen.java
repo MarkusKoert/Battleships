@@ -23,6 +23,7 @@ public class ConnectScreen implements Screen {
     private final SpriteBatch sb;
     private final Object backGroundTexture;
     private String username;
+    private ButtonGroup buttonGroup;
 
     public ConnectScreen(Battleships battleships) {
         parent = battleships;
@@ -32,7 +33,7 @@ public class ConnectScreen implements Screen {
 
         // tells our asset manger that we want to load the sounds
         parent.assMan.queueAddSounds();
-        // tells the asset manager to load the sounds and wait until finsihed loading.
+        // tells the asset manager to load the sounds and wait until finished loading.
         parent.assMan.manager.finishLoading();
         // loads the 2 sounds we use
         buttonClick = parent.assMan.manager.get("sounds/button_click.wav", Sound.class);
@@ -114,11 +115,14 @@ public class ConnectScreen implements Screen {
             }
         });
 
-        // Checkbox for music volume
+        // Checkbox skin choosing
         final CheckBox skinOneCheckbox = new CheckBox(null, skin);
         final CheckBox skinTwoCheckbox = new CheckBox(null, skin);
         final CheckBox skinThreeCheckbox = new CheckBox(null, skin);
         final CheckBox skinFourCheckbox = new CheckBox(null, skin);
+        buttonGroup = new ButtonGroup(skinOneCheckbox, skinTwoCheckbox, skinThreeCheckbox, skinFourCheckbox);
+        buttonGroup.setMaxCheckCount(1);
+        buttonGroup.setMinCheckCount(1);
 
         skinOneCheckbox.addListener(new EventListener() {
             @Override
@@ -179,7 +183,6 @@ public class ConnectScreen implements Screen {
                 buttonClick.play(0.7F);
             }
         });
-
 
         table.add(titleLabel).colspan(4);
         table.row().pad(25, 0, 0, 10);
@@ -243,5 +246,12 @@ public class ConnectScreen implements Screen {
 
     public String getPlayer() {
         return username;
+    }
+
+    /**
+     * @return the chosen player skin index.
+     */
+    public int getCheckedSkin() {
+        return buttonGroup.getCheckedIndex();
     }
 }

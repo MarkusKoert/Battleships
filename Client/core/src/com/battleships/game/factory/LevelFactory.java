@@ -81,7 +81,7 @@ public class LevelFactory {
 	 * @param cam - clients camera
 	 * @return - player entity
 	 */
-	public Entity createPlayer(OrthographicCamera cam){
+	public Entity createPlayer(OrthographicCamera cam, int skinId){
 		// Create the Entity and all the components that will go in the entity
 		Entity entity = engine.createEntity();
 		B2dBodyComponent b2dbody = engine.createComponent(B2dBodyComponent.class);
@@ -104,6 +104,7 @@ public class LevelFactory {
 		type.type = TypeComponent.PLAYER;
 		stateCom.set(StateComponent.STATE_NORMAL);
 		b2dbody.body.setUserData(entity);
+		player.skinId = skinId;
 
 		// add the components to the entity
 		entity.add(b2dbody);
@@ -175,6 +176,10 @@ public class LevelFactory {
 	 */
 	public void removeEntity(Entity ent){
 		engine.removeEntity(ent);
+	}
+
+	public TextureAtlas getShipAtlas() {
+		return atlas;
 	}
 
 	public ClientWorld getClientWorld() {

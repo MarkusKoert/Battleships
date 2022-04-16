@@ -5,20 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="Bulletpackages moving.&#10;cleaned code and removed redundant code.">
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_09_04_2022__11_17__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_09_04_2022__11_17__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketAddPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketAddPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/GameInfo/ClientWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/gameinfo/ClientWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/PlayerComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/PlayerComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/loader/B2dAssetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/loader/B2dAssetManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/MainScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/MainScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/Packets/PacketAddPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketAddPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Client">
@@ -94,6 +102,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
   <component name="ProjectId" id="27YLgBmkypvUD2BXKxHDqpg37eW" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -104,9 +115,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Client/core/src/Packets" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Markus Koert\IdeaProjects\iti0301-2022-game\Client\core\src\Packets" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="Packets" />
     </key>

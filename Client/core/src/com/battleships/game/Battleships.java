@@ -123,8 +123,17 @@ public class Battleships extends Game {
 		clientConnection.setCam(cam);
 		clientConnection.setClientWorld(clientWorld);
 		clientConnection.setPlayerName(connectScreen.getPlayer());
+		clientConnection.setPlayerskinId(connectScreen.getCheckedSkin());
 		clientConnection.sendPacketConnect();
 		clientWorld.setClientConnection(clientConnection);
+	}
+
+	public ClientConnection getClientConnection() {
+		return clientConnection;
+	}
+
+	public ClientConnection clientConnection () {
+		return clientConnection;
 	}
 
 	public ClientWorld getClientWorld() {

@@ -13,4 +13,5 @@ public class PlayerComponent implements Component {
     public int health = 100;
     public PacketUpdatePlayerInfo lastUpdatePacket;
     public boolean needsUpdate = false;
+    public int skinId;
 }

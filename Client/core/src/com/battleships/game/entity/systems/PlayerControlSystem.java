@@ -8,16 +8,19 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.battleships.game.DFUtils;
+import com.battleships.game.entity.components.TextureComponent;
 import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.battleships.game.entity.components.StateComponent;
+import com.battleships.game.loader.B2dAssetManager;
 
 import java.util.Random;
 
@@ -26,22 +29,26 @@ public class PlayerControlSystem extends IteratingSystem {
 	ComponentMapper<PlayerComponent> pm;
 	ComponentMapper<B2dBodyComponent> bodm;
 	ComponentMapper<StateComponent> sm;
+	ComponentMapper<TextureComponent> txm;
 	KeyboardController controller;
 	private float entityAcceleration = 0.2f;
 	private float entityMaxSpeed = 10f;
 	private int bulletSpeedMultiplier = 2;
 	private Sound[] cannonSounds = new Sound[5];
 	private ClientWorld clientWorld;
+	private TextureAtlas shipAtlas;
 
 	public PlayerControlSystem(KeyboardController keyCon, LevelFactory lvlf) {
 		super(Family.all(PlayerComponent.class).get());
 		controller = keyCon;
 		lvlFactory = lvlf;
 		this.clientWorld = lvlf.getClientWorld();
+		shipAtlas = lvlFactory.getShipAtlas();
 
 		pm = ComponentMapper.getFor(PlayerComponent.class);
 		bodm = ComponentMapper.getFor(B2dBodyComponent.class);
 		sm = ComponentMapper.getFor(StateComponent.class);
+		txm = ComponentMapper.getFor(TextureComponent.class);
 
 		// tells our asset manger that we want to load the sounds
 		lvlFactory.assman.queueAddSounds();
@@ -64,6 +71,42 @@ public class PlayerControlSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		B2dBodyComponent b2body = bodm.get(entity);
 		PlayerComponent player = pm.get(entity);
+		TextureComponent texture = txm.get(entity);
+
+		// Changing player skin according to HP
+		if (player.skinId == 0) {
+			if (player.health > 50) {
+				texture.region = shipAtlas.findRegion("ship (4)");
+			} else if (player.health < 50 && player.health > 25) {
+				texture.region = shipAtlas.findRegion("ship (10)");
+			} else if (player.health <= 25) {
+				texture.region = shipAtlas.findRegion("ship (16)");
+			}
+		} else if (player.skinId == 1) {
+			if (player.health > 50) {
+				texture.region = shipAtlas.findRegion("ship (5)");
+			} else if (player.health < 50 && player.health > 25) {
+				texture.region = shipAtlas.findRegion("ship (11)");
+			} else if (player.health <= 25) {
+				texture.region = shipAtlas.findRegion("ship (17)");
+			}
+		} else if (player.skinId == 2) {
+			if (player.health > 50) {
+				texture.region = shipAtlas.findRegion("ship (3)");
+			} else if (player.health < 50 && player.health > 25) {
+				texture.region = shipAtlas.findRegion("ship (9)");
+			} else if (player.health <= 25) {
+				texture.region = shipAtlas.findRegion("ship (15)");
+			}
+		} else if (player.skinId == 3) {
+			if (player.health > 50) {
+				texture.region = shipAtlas.findRegion("ship (6)");
+			} else if (player.health < 50 && player.health > 25) {
+				texture.region = shipAtlas.findRegion("ship (12)");
+			} else if (player.health <= 25) {
+				texture.region = shipAtlas.findRegion("ship (18)");
+			}
+		}
 
 		//check if player is dead
 		if(player.isDead) {
