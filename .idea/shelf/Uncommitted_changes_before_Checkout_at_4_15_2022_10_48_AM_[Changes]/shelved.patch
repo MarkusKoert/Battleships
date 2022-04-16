@@ -1,0 +1,43 @@
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"RemoteRepositoriesConfiguration\">\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"central\" />\r\n      <option name=\"name\" value=\"Maven Central repository\" />\r\n      <option name=\"url\" value=\"https://repo1.maven.org/maven2\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"jboss.community\" />\r\n      <option name=\"name\" value=\"JBoss Community repository\" />\r\n      <option name=\"url\" value=\"https://repository.jboss.org/nexus/content/repositories/public/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"MavenRepo\" />\r\n      <option name=\"name\" value=\"MavenRepo\" />\r\n      <option name=\"url\" value=\"https://repo.maven.apache.org/maven2/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"maven2\" />\r\n      <option name=\"name\" value=\"maven2\" />\r\n      <option name=\"url\" value=\"https://oss.sonatype.org/content/repositories/releases/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"Gradle Central Plugin Repository\" />\r\n      <option name=\"name\" value=\"Gradle Central Plugin Repository\" />\r\n      <option name=\"url\" value=\"https://plugins.gradle.org/m2\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"maven\" />\r\n      <option name=\"name\" value=\"maven\" />\r\n      <option name=\"url\" value=\"https://oss.sonatype.org/content/repositories/snapshots/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"MavenLocal\" />\r\n      <option name=\"name\" value=\"MavenLocal\" />\r\n      <option name=\"url\" value=\"file:/$PROJECT_DIR$/../../Users/Markus%20Koert/.m2/repository\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"Google\" />\r\n      <option name=\"name\" value=\"Google\" />\r\n      <option name=\"url\" value=\"https://dl.google.com/dl/android/maven2/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"MavenLocal\" />\r\n      <option name=\"name\" value=\"MavenLocal\" />\r\n      <option name=\"url\" value=\"file:/$PROJECT_DIR$/../../Users/Markus%20Koert/.m2/repository/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"MavenLocal\" />\r\n      <option name=\"name\" value=\"MavenLocal\" />\r\n      <option name=\"url\" value=\"file:/$MAVEN_REPOSITORY$/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"MavenLocal\" />\r\n      <option name=\"name\" value=\"MavenLocal\" />\r\n      <option name=\"url\" value=\"file:/C:/Users/Markus%20Koert/.m2/repository/\" />\r\n    </remote-repository>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+--- a/.idea/jarRepositories.xml	
++++ b/.idea/jarRepositories.xml	
+@@ -34,7 +34,7 @@
+     <remote-repository>
+       <option name="id" value="MavenLocal" />
+       <option name="name" value="MavenLocal" />
+-      <option name="url" value="file:/$PROJECT_DIR$/../../Users/Markus%20Koert/.m2/repository" />
++      <option name="url" value="file:/$USER_HOME$/Users/Markus%20Koert/.m2/repository" />
+     </remote-repository>
+     <remote-repository>
+       <option name="id" value="Google" />
+@@ -44,7 +44,7 @@
+     <remote-repository>
+       <option name="id" value="MavenLocal" />
+       <option name="name" value="MavenLocal" />
+-      <option name="url" value="file:/$PROJECT_DIR$/../../Users/Markus%20Koert/.m2/repository/" />
++      <option name="url" value="file:/$USER_HOME$/Users/Markus%20Koert/.m2/repository/" />
+     </remote-repository>
+     <remote-repository>
+       <option name="id" value="MavenLocal" />
+@@ -54,7 +54,12 @@
+     <remote-repository>
+       <option name="id" value="MavenLocal" />
+       <option name="name" value="MavenLocal" />
+-      <option name="url" value="file:/C:/Users/Markus%20Koert/.m2/repository/" />
++      <option name="url" value="file:/$PROJECT_DIR$/../../../Markus%20Koert/.m2/repository/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenLocal" />
++      <option name="name" value="MavenLocal" />
++      <option name="url" value="file:/$PROJECT_DIR$/../../../Markus%20Koert/.m2/repository" />
+     </remote-repository>
+   </component>
+ </project>
+\ No newline at end of file
