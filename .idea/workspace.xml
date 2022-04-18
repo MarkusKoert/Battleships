@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="sprint 6">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="Bulletpackages moving.&#10;cleaned code and removed redundant code.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
