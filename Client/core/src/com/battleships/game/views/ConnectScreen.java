@@ -1,5 +1,6 @@
 package com.battleships.game.views;
 
+import ClientConnection.ClientConnection;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -24,6 +25,7 @@ public class ConnectScreen implements Screen {
     private final Object backGroundTexture;
     private String username;
     private ButtonGroup buttonGroup;
+    private boolean isSkinSelected = false;
 
     public ConnectScreen(Battleships battleships) {
         parent = battleships;
@@ -98,16 +100,16 @@ public class ConnectScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 username = usernameField.getText();
-                if (username.replaceAll("\\s", "").equals("") || username.equals("Username")) {
-                    buttonHover.play();
-                    playing = true;
+                buttonHover.play();
+                playing = true;
+                if (username.replaceAll("\\s", "").equals("")
+                        || username.equals("Username") ) {
                     JOptionPane.showMessageDialog(null, "Please write your player name");
                     return false;
+                } else if (!isSkinSelected) {
+                    JOptionPane.showMessageDialog(null, "Please choose the skin for your ship");
+                    return false;
                 } else {
-                    // change screen
-                    buttonHover.play();
-                    playing = true;
-                    System.out.println("Username: " + username);
                     parent.createClient(parent.getClientWorld());
                     parent.changeScreen(Battleships.APPLICATION);
                     return super.touchDown(event, x, y, pointer, button);
@@ -127,8 +129,8 @@ public class ConnectScreen implements Screen {
         skinOneCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                boolean enabled = skinOneCheckbox.isChecked();
-                // do stuff
+                isSkinSelected = skinOneCheckbox.isChecked();
+                // asd
                 return false;
             }
         });
@@ -142,7 +144,7 @@ public class ConnectScreen implements Screen {
         skinTwoCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                boolean enabled = skinTwoCheckbox.isChecked();
+                isSkinSelected = skinTwoCheckbox.isChecked();
                 // do stuff
                 return false;
             }
@@ -157,7 +159,7 @@ public class ConnectScreen implements Screen {
         skinThreeCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                boolean enabled = skinThreeCheckbox.isChecked();
+                isSkinSelected = skinThreeCheckbox.isChecked();
                 // do stuff
                 return false;
             }
@@ -172,7 +174,7 @@ public class ConnectScreen implements Screen {
         skinFourCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                boolean enabled = skinFourCheckbox.isChecked();
+                isSkinSelected = skinFourCheckbox.isChecked();
                 // do stuff
                 return false;
             }
@@ -199,9 +201,7 @@ public class ConnectScreen implements Screen {
         table.add(skinFourCheckbox);
     }
 
-    public String getUsername() {
-        return username;
-    }
+
 
     @Override
     public void render(float delta) {
