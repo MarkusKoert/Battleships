@@ -100,7 +100,11 @@ public class Battleships extends Game {
 				break;
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
-				this.setScreen(mainScreen);
+				if (clientConnection.getIsConnected()) {
+					this.setScreen(mainScreen);
+				} else {
+					this.setScreen(menuScreen);
+				}
 				break;
 			case ENDGAME:
 				if(endScreen == null) endScreen = new EndScreen(this);

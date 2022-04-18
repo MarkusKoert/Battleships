@@ -24,6 +24,7 @@ public class ClientConnection {
     private OrthographicCamera cam;
     private int playerId;
     private int playerskinId;
+    private boolean isConnected = false;
 
     public ClientConnection() {
         String ip = "localhost";
@@ -42,6 +43,7 @@ public class ClientConnection {
         client.addListener(new Listener() {
             @Override
             public void received(final Connection connection, final Object object) {
+                isConnected = true;
                 playerId = connection.getID();
                 if (object instanceof PacketAddPlayer && clientWorld != null) {
                     Gdx.app.postRunnable(new Runnable() {
@@ -153,5 +155,9 @@ public class ClientConnection {
 
     public static void main(String[] args) {
         new ClientConnection();
+    }
+
+    public boolean getIsConnected() {
+        return isConnected;
     }
 }
