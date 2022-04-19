@@ -20,7 +20,6 @@ import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.battleships.game.entity.components.StateComponent;
-import com.battleships.game.loader.B2dAssetManager;
 
 import java.util.Random;
 
@@ -34,7 +33,6 @@ public class PlayerControlSystem extends IteratingSystem {
 	private float entityAcceleration = 0.2f;
 	private float entityMaxSpeed = 10f;
 	private int bulletSpeedMultiplier = 2;
-	private Sound[] cannonSounds = new Sound[5];
 	private ClientWorld clientWorld;
 	private TextureAtlas shipAtlas;
 
@@ -49,22 +47,6 @@ public class PlayerControlSystem extends IteratingSystem {
 		bodm = ComponentMapper.getFor(B2dBodyComponent.class);
 		sm = ComponentMapper.getFor(StateComponent.class);
 		txm = ComponentMapper.getFor(TextureComponent.class);
-
-		// tells our asset manger that we want to load the sounds
-		lvlFactory.assman.queueAddSounds();
-		// tells the asset manager to load the sounds and wait until finsihed loading.
-		lvlFactory.assman.manager.finishLoading();
-		// loads the cannonball sounds
-		Sound cannonBlast1 = lvlFactory.assman.manager.get("sounds/CannonBlast1.mp3", Sound.class);
-		Sound cannonBlast2 = lvlFactory.assman.manager.get("sounds/CannonBlast2.mp3", Sound.class);
-		Sound cannonBlast3 = lvlFactory.assman.manager.get("sounds/CannonBlast3.mp3", Sound.class);
-		Sound cannonBlast4 = lvlFactory.assman.manager.get("sounds/CannonBlast4.mp3", Sound.class);
-		Sound cannonBlast5 = lvlFactory.assman.manager.get("sounds/CannonBlast5.mp3", Sound.class);
-		cannonSounds[0] = cannonBlast1;
-		cannonSounds[1] = cannonBlast2;
-		cannonSounds[2] = cannonBlast3;
-		cannonSounds[3] = cannonBlast4;
-		cannonSounds[4] = cannonBlast5;
 	}
 
 	@Override
@@ -151,8 +133,6 @@ public class PlayerControlSystem extends IteratingSystem {
 					Vector2 aim = DFUtils.aimTo(b2body.body.getPosition(), mousePos);
 					aim.scl(7);
 
-					// create a bullet
-					getRandomSound(cannonSounds).play();
 					lvlFactory.createBullet(b2body.body.getPosition().x,
 							b2body.body.getPosition().y,
 							aim.x * bulletSpeedMultiplier,
@@ -208,8 +188,5 @@ public class PlayerControlSystem extends IteratingSystem {
 		b2body.body.setTransform(b2body.body.getPosition(), (float) angle);
 	}
 
-	public static Sound getRandomSound(Sound[] array) {
-		int rnd = new Random().nextInt(array.length);
-		return array[rnd];
-	}
+
 }
