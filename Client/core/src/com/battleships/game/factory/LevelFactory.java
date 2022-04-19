@@ -112,7 +112,6 @@ public class LevelFactory {
 		TypeComponent type = engine.createComponent(TypeComponent.class);
 		StateComponent stateCom = engine.createComponent(StateComponent.class);
 		ConnectionComponent connCom = engine.createComponent(ConnectionComponent.class);
-		System.out.println(cam);
 		player.cam = cam;
 
 		// create the data for the components and add them to the components

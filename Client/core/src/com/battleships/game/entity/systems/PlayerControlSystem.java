@@ -7,7 +7,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -20,8 +19,6 @@ import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.battleships.game.entity.components.StateComponent;
-
-import java.util.Random;
 
 public class PlayerControlSystem extends IteratingSystem {
 	private final LevelFactory lvlFactory;
@@ -57,35 +54,35 @@ public class PlayerControlSystem extends IteratingSystem {
 
 		// Changing player skin according to HP
 		if (player.skinId == 0) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (4)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (10)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (16)");
 			}
 		} else if (player.skinId == 1) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (5)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (11)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (17)");
 			}
 		} else if (player.skinId == 2) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (3)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (9)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (15)");
 			}
 		} else if (player.skinId == 3) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (6)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (12)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (18)");
 			}
 		}
@@ -164,7 +161,7 @@ public class PlayerControlSystem extends IteratingSystem {
 		float xSend = b2body.body.getPosition().x;
 		float ySend = b2body.body.getPosition().y;
 		float angleSend = b2body.body.getAngle();
-		int healthSend = player.health;
+		int healthSend = player.currentHealth;
 		int playerId = clientWorld.getClientConnection().getThisClientId();
 		PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, healthSend, playerId);
 		clientWorld.getClientConnection().getClient().sendTCP(packetUpdatePlayer);

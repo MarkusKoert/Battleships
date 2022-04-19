@@ -10,8 +10,10 @@ public class PlayerComponent implements Component {
     public float shootDelay = 2f;
     public float timeSinceLastShot = 0f;
     public int id;
-    public int health = 100;
+    public int maxHealth = 100;
+    public int currentHealth = 100;
     public PacketUpdatePlayerInfo lastUpdatePacket;
     public boolean needsUpdate = false;
     public int skinId;
+    public boolean isThisClient = false;
 }
