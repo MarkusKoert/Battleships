@@ -27,6 +27,8 @@ public class ConnectScreen implements Screen {
     private ButtonGroup buttonGroup;
     private boolean isSkinSelected = false;
 
+
+
     public ConnectScreen(Battleships battleships) {
         parent = battleships;
 
@@ -114,6 +116,14 @@ public class ConnectScreen implements Screen {
                     parent.changeScreen(Battleships.APPLICATION);
                     return super.touchDown(event, x, y, pointer, button);
                 }
+            }
+        });
+
+        // Delete username on click
+        usernameField.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                usernameField.setText("");
             }
         });
 

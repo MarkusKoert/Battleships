@@ -15,6 +15,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class LevelFactory {
@@ -117,7 +119,6 @@ public class LevelFactory {
 		// create the data for the components and add them to the components
 		b2dbody.body = bodyFactory.makeBoxPolyBody(50,50,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
 
-		// set object position (x,y,z) z used to define draw order 0 first drawn
 		position.position.set(10,10,1);
 		texture.region = playerTex;
 		type.type = TypeComponent.PLAYER;
