@@ -1,10 +1,14 @@
+
+project.ext.mainClassName = "ServerConnection.ServerConnection"
+
+dependencies {
+    implementation 'com.esotericsoftware.kryo:kryo:2.24.0'
+    implementation 'kryonet:kryonet:2.21-2'
+}
+
 sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 eclipse.project.name = appName + "-core"
-
-task wrapper(type: Wrapper){
-    gradleVersion = '7.4'
-}

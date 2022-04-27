@@ -1,20 +1,19 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-    }
 }
+
 
 allprojects {
     apply plugin: "eclipse"
 
     version = '1.0'
     ext {
-        appName = "Battleships"
+        appName = "BattleshipsServer"
         gdxVersion = '1.10.0'
         roboVMVersion = '2.3.12'
         box2DLightsVersion = '1.5'
@@ -39,14 +38,12 @@ project(":core") {
 
 
     dependencies {
+        implementation "com.esotericsoftware:kryo:3.0.1"
+        implementation group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        compile "com.badlogicgames.ashley:ashley:1.7.0"
-        compile ("com.esotericsoftware:kryonet:2.22.0-RC1") {
-            exclude module : 'kryo'
-        }
-        compile "com.esotericsoftware:kryo:3.0.1"
+        implementation "com.badlogicgames.ashley:ashley:1.7.0"
     }
 }
