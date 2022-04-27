@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/assets/map/WorldMap.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/assets/map/WorldMap.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +115,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Client/core/src/Packets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../java_game/Racing/iti0301-2022-server-main" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.57931036" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -264,7 +269,13 @@
       <option name="project" value="LOCAL" />
       <updated>1650304818276</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL−00009" summary="ConnectScreen.java &#10;&#10;Delete username on Click">
+      <created>1651075724292</created>
+      <option name="number" value="LOCAL−00009" />
+      <option name="presentableId" value="LOCAL−00009" />
+      <updated>1651075724292</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -289,7 +300,8 @@
     <MESSAGE value="updateplayerpackage" />
     <MESSAGE value="Bulletpackages moving.&#10;cleaned code and removed redundant code." />
     <MESSAGE value="Moving bullet sounds to lvlfactory" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moving bullet sounds to lvlfactory" />
+    <MESSAGE value="ConnectScreen.java &#10;&#10;Delete username on Click" />
+    <option name="LAST_COMMIT_MESSAGE" value="ConnectScreen.java &#10;&#10;Delete username on Click" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

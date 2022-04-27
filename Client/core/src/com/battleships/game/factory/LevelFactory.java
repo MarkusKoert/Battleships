@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 
-import java.util.Random;
+import java.util.*;
 
 public class LevelFactory {
 	public static World world;
@@ -28,6 +28,9 @@ public class LevelFactory {
 	private TextureAtlas atlas;
 	public B2dAssetManager assman;
 	private Sound[] cannonSounds = new Sound[5];
+	Map<Integer, List<Integer>> spawnMap = new HashMap<Integer, List<Integer>>(); // storing the spawnpoints
+	private int playerId;
+
 
 	public LevelFactory(PooledEngine en, B2dAssetManager assMan, ClientWorld clientWorld){
 		engine = en;
@@ -101,7 +104,7 @@ public class LevelFactory {
 	 * @param cam - clients camera
 	 * @return - player entity
 	 */
-	public Entity createPlayer(OrthographicCamera cam, int skinId){
+	public Entity createPlayer(OrthographicCamera cam, int skinId, int playerId){
 		// Create the Entity and all the components that will go in the entity
 		Entity entity = engine.createEntity();
 		B2dBodyComponent b2dbody = engine.createComponent(B2dBodyComponent.class);
@@ -114,10 +117,12 @@ public class LevelFactory {
 		ConnectionComponent connCom = engine.createComponent(ConnectionComponent.class);
 		player.cam = cam;
 
-		// create the data for the components and add them to the components
-		b2dbody.body = bodyFactory.makeBoxPolyBody(50,50,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
+		// get positsion of spawnpoints
+		float posx = takeSpawnPoints(playerId).get(0);
+		float posy = takeSpawnPoints(playerId).get(1);
 
-		// set object position (x,y,z) z used to define draw order 0 first drawn
+		// create the data for the components and add them to the components
+		b2dbody.body = bodyFactory.makeBoxPolyBody(posx,posy,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
 		position.position.set(10,10,1);
 		texture.region = playerTex;
 		type.type = TypeComponent.PLAYER;
@@ -139,6 +144,43 @@ public class LevelFactory {
 		engine.addEntity(entity);
 
 		return entity;
+	}
+
+	/**
+	 * @param positionMapCounter
+	 * @return value of positions based on the player count
+	 */
+	public List<Integer> takeSpawnPoints(Integer positionMapCounter){
+		Integer key = positionMapCounter;
+//		System.out.println("Creating spawnpoints");
+		List<Integer> listOne = Arrays.asList(50, 50);
+		List<Integer> listTwo = Arrays.asList(170, 50);
+		List<Integer> listThree = Arrays.asList(170, 170);
+		List<Integer> listFour = Arrays.asList(25, 320);
+		List<Integer> listFive = Arrays.asList(125, 310);
+		//
+		List<Integer> listSix = Arrays.asList(100, 210);
+		List<Integer> listSeven = Arrays.asList(305, 50);
+		List<Integer> listEight = Arrays.asList(270, 170);
+		List<Integer> listNine = Arrays.asList(310, 310);
+		List<Integer> listTen = Arrays.asList(15, 310);
+		spawnMap.put(1, listOne);
+		spawnMap.put(2, listTwo);
+		spawnMap.put(3, listThree);
+		spawnMap.put(4, listFour);
+		spawnMap.put(5, listFive);
+		spawnMap.put(6, listSix);
+		spawnMap.put(7, listSeven);
+		spawnMap.put(8, listEight);
+		spawnMap.put(9, listNine);
+		spawnMap.put(10, listTen);
+		if (key > 10) {
+			key = key % 10;
+		}
+		if (key==0) {
+			key++;
+		}
+		return spawnMap.get(key);
 	}
 
 	/**

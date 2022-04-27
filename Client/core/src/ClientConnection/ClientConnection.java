@@ -53,7 +53,7 @@ public class ClientConnection {
 
                             // Check if client world doesn't contain this player
                             if (!clientWorld.getPlayers().containsKey(addPlayer.getPlayerId()) && addPlayer.getPlayerId() != 0) {
-                                Entity player = lvlFactory.createPlayer(cam, addPlayer.getSkinId());
+                                Entity player = lvlFactory.createPlayer(cam, addPlayer.getSkinId(), playerId);
                                 player.getComponent(PlayerComponent.class).id = addPlayer.getPlayerId();
                                 if (clientWorld.getPlayers().size() == 0) {
                                     player.getComponent(PlayerComponent.class).isThisClient = true;
