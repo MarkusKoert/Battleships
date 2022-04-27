@@ -55,6 +55,9 @@ public class ClientConnection {
                             if (!clientWorld.getPlayers().containsKey(addPlayer.getPlayerId()) && addPlayer.getPlayerId() != 0) {
                                 Entity player = lvlFactory.createPlayer(cam, addPlayer.getSkinId());
                                 player.getComponent(PlayerComponent.class).id = addPlayer.getPlayerId();
+                                if (clientWorld.getPlayers().size() == 0) {
+                                    player.getComponent(PlayerComponent.class).isThisClient = true;
+                                }
                                 clientWorld.addPlayer(addPlayer.getPlayerId(), player);
                             }
                         }
@@ -87,7 +90,7 @@ public class ClientConnection {
                             if (entry.getKey() == ((PacketUpdatePlayerInfo) object).getId()) {
                                 PlayerComponent playerCom = entry.getValue().getComponent(PlayerComponent.class);
                                 B2dBodyComponent bodyCom = entry.getValue().getComponent(B2dBodyComponent.class);
-                                playerCom.health = ((PacketUpdatePlayerInfo) object).getHealth();
+                                playerCom.currentHealth = ((PacketUpdatePlayerInfo) object).getHealth();
                                 playerCom.lastUpdatePacket = (PacketUpdatePlayerInfo) object;
                                 playerCom.needsUpdate = true;
                             }

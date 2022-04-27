@@ -1,0 +1,40 @@
+
+effects.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+explosion1
+  rotate: false
+  xy: 1, 44
+  size: 74, 75
+  orig: 74, 75
+  offset: 0, 0
+  index: -1
+explosion2
+  rotate: false
+  xy: 77, 60
+  size: 60, 59
+  orig: 60, 59
+  offset: 0, 0
+  index: -1
+explosion3
+  rotate: false
+  xy: 1, 1
+  size: 42, 41
+  orig: 42, 41
+  offset: 0, 0
+  index: -1
+fire1
+  rotate: false
+  xy: 139, 80
+  size: 18, 39
+  orig: 18, 39
+  offset: 0, 0
+  index: -1
+fire2
+  rotate: false
+  xy: 45, 15
+  size: 11, 27
+  orig: 11, 27
+  offset: 0, 0
+  index: -1

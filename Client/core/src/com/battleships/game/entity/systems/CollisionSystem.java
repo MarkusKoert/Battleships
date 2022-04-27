@@ -77,8 +77,8 @@ public class CollisionSystem extends IteratingSystem {
 						if(bullet.ownerId != pl.id) {
 							bullet.isDead = true;
 							getRandomSound(impactSounds).play(0.4f);
-							pl.health -= 10;
-							if (pl.health <= 0) {
+							pl.currentHealth -= 10;
+							if (pl.currentHealth <= 0) {
 								pl.isDead = true;
 							}
 							System.out.println("A player just got shot.");

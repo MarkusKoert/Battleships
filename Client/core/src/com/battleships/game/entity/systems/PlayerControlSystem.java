@@ -7,7 +7,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -20,9 +19,6 @@ import com.battleships.game.controller.KeyboardController;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.battleships.game.entity.components.StateComponent;
-import com.battleships.game.loader.B2dAssetManager;
-
-import java.util.Random;
 
 public class PlayerControlSystem extends IteratingSystem {
 	private final LevelFactory lvlFactory;
@@ -34,7 +30,6 @@ public class PlayerControlSystem extends IteratingSystem {
 	private float entityAcceleration = 0.2f;
 	private float entityMaxSpeed = 10f;
 	private int bulletSpeedMultiplier = 2;
-	private Sound[] cannonSounds = new Sound[5];
 	private ClientWorld clientWorld;
 	private TextureAtlas shipAtlas;
 
@@ -49,22 +44,6 @@ public class PlayerControlSystem extends IteratingSystem {
 		bodm = ComponentMapper.getFor(B2dBodyComponent.class);
 		sm = ComponentMapper.getFor(StateComponent.class);
 		txm = ComponentMapper.getFor(TextureComponent.class);
-
-		// tells our asset manger that we want to load the sounds
-		lvlFactory.assman.queueAddSounds();
-		// tells the asset manager to load the sounds and wait until finsihed loading.
-		lvlFactory.assman.manager.finishLoading();
-		// loads the cannonball sounds
-		Sound cannonBlast1 = lvlFactory.assman.manager.get("sounds/CannonBlast1.mp3", Sound.class);
-		Sound cannonBlast2 = lvlFactory.assman.manager.get("sounds/CannonBlast2.mp3", Sound.class);
-		Sound cannonBlast3 = lvlFactory.assman.manager.get("sounds/CannonBlast3.mp3", Sound.class);
-		Sound cannonBlast4 = lvlFactory.assman.manager.get("sounds/CannonBlast4.mp3", Sound.class);
-		Sound cannonBlast5 = lvlFactory.assman.manager.get("sounds/CannonBlast5.mp3", Sound.class);
-		cannonSounds[0] = cannonBlast1;
-		cannonSounds[1] = cannonBlast2;
-		cannonSounds[2] = cannonBlast3;
-		cannonSounds[3] = cannonBlast4;
-		cannonSounds[4] = cannonBlast5;
 	}
 
 	@Override
@@ -75,35 +54,35 @@ public class PlayerControlSystem extends IteratingSystem {
 
 		// Changing player skin according to HP
 		if (player.skinId == 0) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (4)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (10)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (16)");
 			}
 		} else if (player.skinId == 1) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (5)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (11)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (17)");
 			}
 		} else if (player.skinId == 2) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (3)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (9)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (15)");
 			}
 		} else if (player.skinId == 3) {
-			if (player.health > 50) {
+			if (player.currentHealth > 50) {
 				texture.region = shipAtlas.findRegion("ship (6)");
-			} else if (player.health < 50 && player.health > 25) {
+			} else if (player.currentHealth < 50 && player.currentHealth > 25) {
 				texture.region = shipAtlas.findRegion("ship (12)");
-			} else if (player.health <= 25) {
+			} else if (player.currentHealth <= 25) {
 				texture.region = shipAtlas.findRegion("ship (18)");
 			}
 		}
@@ -151,8 +130,6 @@ public class PlayerControlSystem extends IteratingSystem {
 					Vector2 aim = DFUtils.aimTo(b2body.body.getPosition(), mousePos);
 					aim.scl(7);
 
-					// create a bullet
-					getRandomSound(cannonSounds).play();
 					lvlFactory.createBullet(b2body.body.getPosition().x,
 							b2body.body.getPosition().y,
 							aim.x * bulletSpeedMultiplier,
@@ -184,7 +161,7 @@ public class PlayerControlSystem extends IteratingSystem {
 		float xSend = b2body.body.getPosition().x;
 		float ySend = b2body.body.getPosition().y;
 		float angleSend = b2body.body.getAngle();
-		int healthSend = player.health;
+		int healthSend = player.currentHealth;
 		int playerId = clientWorld.getClientConnection().getThisClientId();
 		PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, healthSend, playerId);
 		clientWorld.getClientConnection().getClient().sendTCP(packetUpdatePlayer);
@@ -208,8 +185,5 @@ public class PlayerControlSystem extends IteratingSystem {
 		b2body.body.setTransform(b2body.body.getPosition(), (float) angle);
 	}
 
-	public static Sound getRandomSound(Sound[] array) {
-		int rnd = new Random().nextInt(array.length);
-		return array[rnd];
-	}
+
 }

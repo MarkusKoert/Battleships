@@ -47,6 +47,7 @@ public class MenuScreen implements Screen {
         // gets the images as a texture
         backGroundTexture = parent.assMan.manager.get("images/water.png");
 
+
         sb = new SpriteBatch();
         // tells our asset manger that we want to load the sounds
         parent.assMan.queueAddSounds();

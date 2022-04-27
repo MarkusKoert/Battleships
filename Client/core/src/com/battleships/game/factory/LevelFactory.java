@@ -1,5 +1,6 @@
 package com.battleships.game.factory;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.battleships.game.B2dContactListener;
 import com.battleships.game.gameinfo.ClientWorld;
@@ -14,6 +15,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
 public class LevelFactory {
 	public static World world;
 	private ClientWorld clientWorld;
@@ -24,6 +29,7 @@ public class LevelFactory {
 	private TextureRegion bulletTex;
 	private TextureAtlas atlas;
 	public B2dAssetManager assman;
+	private Sound[] cannonSounds = new Sound[5];
 
 	public LevelFactory(PooledEngine en, B2dAssetManager assMan, ClientWorld clientWorld){
 		engine = en;
@@ -42,6 +48,22 @@ public class LevelFactory {
 		world = new World(new Vector2(0,0), true);
 		world.setContactListener(new B2dContactListener());
 		bodyFactory = BodyFactory.getInstance(world);
+
+		// tells our asset manger that we want to load the sounds
+		assman.queueAddSounds();
+		// tells the asset manager to load the sounds and wait until finsihed loading.
+		assman.manager.finishLoading();
+		// loads the cannonball sounds
+		Sound cannonBlast1 = assman.manager.get("sounds/CannonBlast1.mp3", Sound.class);
+		Sound cannonBlast2 = assman.manager.get("sounds/CannonBlast2.mp3", Sound.class);
+		Sound cannonBlast3 = assman.manager.get("sounds/CannonBlast3.mp3", Sound.class);
+		Sound cannonBlast4 = assman.manager.get("sounds/CannonBlast4.mp3", Sound.class);
+		Sound cannonBlast5 = assman.manager.get("sounds/CannonBlast5.mp3", Sound.class);
+		cannonSounds[0] = cannonBlast1;
+		cannonSounds[1] = cannonBlast2;
+		cannonSounds[2] = cannonBlast3;
+		cannonSounds[3] = cannonBlast4;
+		cannonSounds[4] = cannonBlast5;
 	}
 
 	/**
@@ -92,13 +114,11 @@ public class LevelFactory {
 		TypeComponent type = engine.createComponent(TypeComponent.class);
 		StateComponent stateCom = engine.createComponent(StateComponent.class);
 		ConnectionComponent connCom = engine.createComponent(ConnectionComponent.class);
-		System.out.println(cam);
 		player.cam = cam;
 
 		// create the data for the components and add them to the components
 		b2dbody.body = bodyFactory.makeBoxPolyBody(50,50,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
 
-		// set object position (x,y,z) z used to define draw order 0 first drawn
 		position.position.set(10,10,1);
 		texture.region = playerTex;
 		type.type = TypeComponent.PLAYER;
@@ -168,7 +188,14 @@ public class LevelFactory {
 		entity.add(type);
 
 		engine.addEntity(entity);
+		// create a bullet
+		getRandomSound(cannonSounds).play();
 		return entity;
+	}
+
+	public static Sound getRandomSound(Sound[] array) {
+		int rnd = new Random().nextInt(array.length);
+		return array[rnd];
 	}
 
 	/**
