@@ -96,6 +96,14 @@ public class ConnectScreen implements Screen {
             }
         });
 
+        // Delete username on click
+        usernameField.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                usernameField.setText("");
+            }
+        });
+
         connectButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
