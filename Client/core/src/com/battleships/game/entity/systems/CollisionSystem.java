@@ -52,6 +52,7 @@ public class CollisionSystem extends IteratingSystem {
 	private void upgradePlayer(PlayerComponent pl, LootComponent loot) {
 		switch (loot.lootType) {
 			case HealthPack:
+				System.out.println("LOOT: +25HP");
 				if (pl.currentHealth <= pl.maxHealth - 25) {
 					pl.currentHealth += 25;
 				} else {
@@ -59,19 +60,24 @@ public class CollisionSystem extends IteratingSystem {
 				}
 				break;
 			case CannonUpgrade:
+				System.out.println("LOOT: +10 bullet damage");
 				pl.bulletDamage += 10;
 				break;
 			case HealthUpgrade:
+				System.out.println("LOOT: +25HP max HP");
 				pl.maxHealth += 25;
 				pl.currentHealth += 25;
 				break;
 			case SpeedUpgrade:
+				System.out.println("LOOT: SPEED BONUS");
 				pl.maxSpeed += 2f;
 				break;
 			case ReloadUpgrade:
+				System.out.println("LOOT: FASTER RELOAD");
 				pl.shootDelay -= 0.2f;
 				break;
 			case BulletSpeedUpgrade:
+				System.out.println("LOOT: FASTER BULLETS");
 				pl.bulletSpeedMultiplier += 1;
 				break;
 		}

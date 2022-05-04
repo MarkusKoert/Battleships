@@ -157,9 +157,7 @@ public class PlayerControlSystem extends IteratingSystem {
 	 */
 	private void sendPlayerUpdatePackage(B2dBodyComponent b2body, PlayerComponent player) {
 		float xSend = b2body.body.getPosition().x;
-		System.out.println(b2body.body.getPosition().x + "x");
 		float ySend = b2body.body.getPosition().y;
-		System.out.println(b2body.body.getPosition().y + "y");
 		float angleSend = b2body.body.getAngle();
 		int currentHealthSend = player.currentHealth;
 		int maxHealthSend = player.maxHealth;
