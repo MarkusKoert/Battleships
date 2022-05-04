@@ -1,4 +1,4 @@
-package com.battleships.game;
+package com.battleships.game.utility;
 
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;

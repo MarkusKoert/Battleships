@@ -12,6 +12,8 @@ public class B2dAssetManager {
     public final AssetManager manager = new AssetManager();
     // Textures
     public final String gameImages = "images/ships.atlas";
+    public final String effectImages = "images/effects.atlas";
+    public final String lootImages = "images/loot.atlas";
     public final String backGroundimage = "images/water.png";
     public final String connectGroundimage = "images/waterConnect.png";
     // Skin
@@ -32,6 +34,8 @@ public class B2dAssetManager {
 
     public void queueAddImages(){
         manager.load(gameImages, TextureAtlas.class);
+        manager.load(effectImages, TextureAtlas.class);
+        manager.load(lootImages, TextureAtlas.class);
         manager.load(backGroundimage, Texture.class);
         manager.load(connectGroundimage, Texture.class);
     }

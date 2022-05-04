@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.battleships.game.Physics;
+import com.battleships.game.utility.Physics;
 
 public final class ShapeFactory {
 

@@ -4,7 +4,7 @@ import Packets.*;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.factory.LevelFactory;
@@ -39,6 +39,8 @@ public class ClientConnection {
         client.getKryo().register(PacketUpdatePlayerInfo.class);
         client.getKryo().register(Vector2.class);
         client.getKryo().register(PacketAddBullet.class);
+        client.getKryo().register(PacketAddLoot.class);
+        client.getKryo().register(PacketRemoveLoot.class);
 
         client.addListener(new Listener() {
             @Override
@@ -65,24 +67,8 @@ public class ClientConnection {
                 }
                 else if (object instanceof PacketRemovePlayer) {
                     PacketRemovePlayer removePlayer = (PacketRemovePlayer) object;
-
-                    // Remove player from clientWorld map.
-                    for (Map.Entry<Integer, Entity> player : clientWorld.getPlayers().entrySet()) {
-                        if (player.getKey() == removePlayer.getId()) {
-                            clientWorld.removePlayer(player.getKey());
-                        }
-                    }
-
-                    // Remove player entity from client engine
-                    for (Entity entity : lvlFactory.engine.getEntities()) {
-                        try {
-                            if (entity.getComponent(PlayerComponent.class).id == removePlayer.getId()) {
-                                lvlFactory.removeEntity(entity);
-                            }
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    Entity playerEntity = clientWorld.getPlayers().get(removePlayer.getId());
+                    lvlFactory.removeEntity(playerEntity);
                 }
                 else if (object instanceof PacketUpdatePlayerInfo) {
                     if (((PacketUpdatePlayerInfo) object).getId() != connection.getID()) {
@@ -90,7 +76,14 @@ public class ClientConnection {
                             if (entry.getKey() == ((PacketUpdatePlayerInfo) object).getId()) {
                                 PlayerComponent playerCom = entry.getValue().getComponent(PlayerComponent.class);
                                 B2dBodyComponent bodyCom = entry.getValue().getComponent(B2dBodyComponent.class);
-                                playerCom.currentHealth = ((PacketUpdatePlayerInfo) object).getHealth();
+                                playerCom.currentHealth = ((PacketUpdatePlayerInfo) object).getCurrentHealth();
+
+                                playerCom.maxHealth = ((PacketUpdatePlayerInfo) object).getMaxHealth();
+                                playerCom.maxSpeed = ((PacketUpdatePlayerInfo) object).getMaxSpeed();
+                                playerCom.shootDelay = ((PacketUpdatePlayerInfo) object).getShootDelay();
+                                playerCom.bulletDamage = ((PacketUpdatePlayerInfo) object).getBulletDamage();
+                                playerCom.bulletSpeedMultiplier = ((PacketUpdatePlayerInfo) object).getBulletSpeedMultiplier();
+
                                 playerCom.lastUpdatePacket = (PacketUpdatePlayerInfo) object;
                                 playerCom.needsUpdate = true;
                             }
@@ -107,6 +100,23 @@ public class ClientConnection {
                         float yVel = ((PacketAddBullet) object).getyVel();
                         lvlFactory.createBullet(x, y, xVel, yVel, id);
                     }
+                }
+                else if (object instanceof PacketAddLoot) {
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            float x = ((PacketAddLoot) object).getX();
+                            float y = ((PacketAddLoot) object).getY();
+                            int id = ((PacketAddLoot) object).getId();
+                            Entity loot = lvlFactory.createLoot(x, y, id);
+                            clientWorld.addLoot(id, loot);
+                        }
+                    });
+                }
+                else if (object instanceof PacketRemoveLoot) {
+                    PacketRemoveLoot removeLoot = (PacketRemoveLoot) object;
+                    Entity lootEntity = clientWorld.getLoot().get(removeLoot.getId());
+                    lvlFactory.removeEntity(lootEntity);
                 }
             }
         });

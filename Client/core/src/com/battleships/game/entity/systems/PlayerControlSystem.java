@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.battleships.game.DFUtils;
+import com.battleships.game.utility.DFUtils;
 import com.battleships.game.entity.components.TextureComponent;
 import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.factory.LevelFactory;
@@ -28,8 +28,6 @@ public class PlayerControlSystem extends IteratingSystem {
 	ComponentMapper<TextureComponent> txm;
 	KeyboardController controller;
 	private float entityAcceleration = 0.2f;
-	private float entityMaxSpeed = 10f;
-	private int bulletSpeedMultiplier = 2;
 	private ClientWorld clientWorld;
 	private TextureAtlas shipAtlas;
 
@@ -104,16 +102,16 @@ public class PlayerControlSystem extends IteratingSystem {
 			player.cam.position.set(b2body.body.getPosition().x, b2body.body.getPosition().y, 0);
 
 			if(controller.left) {
-				b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, -entityMaxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
+				b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, -player.maxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
 			}
 			if(controller.right) {
-				b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, entityMaxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
+				b2body.body.setLinearVelocity(MathUtils.lerp(b2body.body.getLinearVelocity().x, player.maxSpeed, entityAcceleration),b2body.body.getLinearVelocity().y);
 			}
 			if(controller.up) {
-				b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, entityMaxSpeed, entityAcceleration));
+				b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, player.maxSpeed, entityAcceleration));
 			}
 			if(controller.down) {
-				b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, -entityMaxSpeed, entityAcceleration));
+				b2body.body.setLinearVelocity(b2body.body.getLinearVelocity().x, MathUtils.lerp(b2body.body.getLinearVelocity().y, -player.maxSpeed, entityAcceleration));
 			}
 
 			if(player.timeSinceLastShot > 0) {
@@ -132,15 +130,15 @@ public class PlayerControlSystem extends IteratingSystem {
 
 					lvlFactory.createBullet(b2body.body.getPosition().x,
 							b2body.body.getPosition().y,
-							aim.x * bulletSpeedMultiplier,
-							aim.y * bulletSpeedMultiplier,
+							aim.x * player.bulletSpeedMultiplier,
+							aim.y * player.bulletSpeedMultiplier,
 							player.id);
 
 					// send bullet to server
 					sendBulletUpdatePackage(b2body.body.getPosition().x,
 							b2body.body.getPosition().y,
-							aim.x * bulletSpeedMultiplier,
-							aim.y * bulletSpeedMultiplier,
+							aim.x * player.bulletSpeedMultiplier,
+							aim.y * player.bulletSpeedMultiplier,
 							player.id);
 
 					// reset timeSinceLastShot
@@ -159,11 +157,18 @@ public class PlayerControlSystem extends IteratingSystem {
 	 */
 	private void sendPlayerUpdatePackage(B2dBodyComponent b2body, PlayerComponent player) {
 		float xSend = b2body.body.getPosition().x;
+		System.out.println(b2body.body.getPosition().x + "x");
 		float ySend = b2body.body.getPosition().y;
+		System.out.println(b2body.body.getPosition().y + "y");
 		float angleSend = b2body.body.getAngle();
-		int healthSend = player.currentHealth;
+		int currentHealthSend = player.currentHealth;
+		int maxHealthSend = player.maxHealth;
+		int bulletDamageSend = player.bulletDamage;
+		int bulletSpeedMultiplierSend = player.bulletSpeedMultiplier;
+		float maxSpeedSend = player.maxSpeed;
+		float shootDelaySend = player.shootDelay;
 		int playerId = clientWorld.getClientConnection().getThisClientId();
-		PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, healthSend, playerId);
+		PacketUpdatePlayerInfo packetUpdatePlayer = PacketCreator.createPacketUpdatePlayer(xSend, ySend, angleSend, currentHealthSend, playerId, maxHealthSend, bulletDamageSend, bulletSpeedMultiplierSend, maxSpeedSend, shootDelaySend);
 		clientWorld.getClientConnection().getClient().sendTCP(packetUpdatePlayer);
 	}
 
@@ -172,10 +177,10 @@ public class PlayerControlSystem extends IteratingSystem {
 	 * @param y - bullets initial y coordinate
 	 * @param xVel - bullets initial x velocity
 	 * @param yVel - bullets initial y velocity
-	 * @param ownerId - owner entity ID
+	 * @param id - owner id
 	 */
-	private void sendBulletUpdatePackage(float x, float y, float xVel, float yVel, int ownerId) {
-		PacketAddBullet packetAddBullet = PacketCreator.createPacketAddBullet(x, y, xVel, yVel, ownerId);
+	private void sendBulletUpdatePackage(float x, float y, float xVel, float yVel, int id) {
+		PacketAddBullet packetAddBullet = PacketCreator.createPacketAddBullet(x, y, xVel, yVel, id);
 		clientWorld.getClientConnection().getClient().sendTCP(packetAddBullet);
 	}
 
@@ -184,6 +189,4 @@ public class PlayerControlSystem extends IteratingSystem {
 		double angle = Math.atan2(vec.y, vec.x);
 		b2body.body.setTransform(b2body.body.getPosition(), (float) angle);
 	}
-
-
 }

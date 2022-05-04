@@ -136,10 +136,6 @@ public class Battleships extends Game {
 		return clientConnection;
 	}
 
-	public ClientConnection clientConnection () {
-		return clientConnection;
-	}
-
 	public ClientWorld getClientWorld() {
 		return clientWorld;
 	}

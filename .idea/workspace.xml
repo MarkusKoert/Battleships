@@ -4,11 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="">
+    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="ConnectScreen.java &#10;&#10;Delete username on Click">
+      <change afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketAddLoot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketRemoveLoot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/LootComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketAddLoot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketRemoveLoot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_09_04_2022__11_17__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_09_04_2022__11_17__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_15_2022_10_48_AM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/assets/map/WorldMap.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/assets/map/WorldMap.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/assets/images/effects.atlas" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/assets/images/effects.atlas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/assets/images/effects.png" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/assets/images/effects.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketAddBullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketAddBullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/Packets/PacketUpdatePlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketUpdatePlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/B2dContactListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/utility/B2dContactListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/DFUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/utility/DFUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Physics.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/utility/Physics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/BulletComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/BulletComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/PlayerComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/PlayerComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/TypeComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/components/TypeComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/ShapeFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/ShapeFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/gameinfo/ClientWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/gameinfo/ClientWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/loader/B2dAssetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/loader/B2dAssetManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/MainScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/MainScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/Packets/PacketAddBullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketAddBullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/Packets/PacketCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/Packets/PacketUpdatePlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketUpdatePlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/ServerConnection/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/ServerConnection/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/com/battleships/game/server/ServerWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/com/battleships/game/server/ServerWorld.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +74,9 @@
         <task path="$PROJECT_DIR$/Server">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -54,18 +87,11 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Client" type="f1a62948:ProjectNode" />
-                <item name="desktop" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Client" type="f1a62948:ProjectNode" />
-                <item name="desktop" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Client" type="f1a62948:ProjectNode" />
-                <item name="desktop" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="other" type="c8890929:TasksNode$1" />
               </path>
@@ -129,7 +155,7 @@
       <recent name="Packets" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Client:desktop [run]">
+  <component name="RunManager" selected="Gradle.Client [run]">
     <configuration name="ServerConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ServerConnection.ServerConnection" />
       <module name="Server.core.main" />
@@ -187,8 +213,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Client:desktop [run]" />
         <item itemvalue="Gradle.Client [run]" />
+        <item itemvalue="Gradle.Client:desktop [run]" />
         <item itemvalue="Application.ServerConnection" />
       </list>
     </recent_temporary>
@@ -212,6 +238,7 @@
       <workItem from="1649926737362" duration="16814000" />
       <workItem from="1650309668789" duration="6367000" />
       <workItem from="1650392606359" duration="1114000" />
+      <workItem from="1651677349673" duration="12949000" />
     </task>
     <task id="LOCAL-00001" summary="Clear unused methods, dependencies, classes and etc. Update Client module. 3h">
       <created>1649497410891</created>
