@@ -27,8 +27,8 @@ public class ClientConnection {
     private boolean isConnected = false;
 
     public ClientConnection() {
-        String ip = "localhost";
-        final int tcpPort = 54555, udpPort = 54777;
+        String ip = "193.40.156.219";
+        final int tcpPort = 8081, udpPort = 8082;
 
         client = new Client();
         client.start();
