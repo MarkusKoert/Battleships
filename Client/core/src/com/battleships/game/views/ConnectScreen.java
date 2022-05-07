@@ -76,7 +76,7 @@ public class ConnectScreen implements Screen {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                buttonClick.play(parent.getPreferences().getSoundVolume());
                 parent.changeScreen(Battleships.MENU);
             }
         });
@@ -85,7 +85,7 @@ public class ConnectScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (!playing) {
-                    buttonHover.play();
+                    if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
                     playing = true;
                 }
             }
@@ -108,7 +108,7 @@ public class ConnectScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 username = usernameField.getText();
-                buttonHover.play();
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
                 playing = true;
                 if (username.replaceAll("\\s", "").equals("")
                         || username.equals("Username") ) {
@@ -145,7 +145,7 @@ public class ConnectScreen implements Screen {
         skinOneCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
             }
         });
 
@@ -160,7 +160,7 @@ public class ConnectScreen implements Screen {
         skinTwoCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
             }
         });
 
@@ -175,7 +175,7 @@ public class ConnectScreen implements Screen {
         skinThreeCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
             }
         });
 
@@ -190,7 +190,7 @@ public class ConnectScreen implements Screen {
         skinFourCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
             }
         });
 

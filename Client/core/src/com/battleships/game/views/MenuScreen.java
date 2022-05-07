@@ -47,7 +47,6 @@ public class MenuScreen implements Screen {
         // gets the images as a texture
         backGroundTexture = parent.assMan.manager.get("images/water.png");
 
-
         sb = new SpriteBatch();
         // tells our asset manger that we want to load the sounds
         parent.assMan.queueAddSounds();
@@ -85,7 +84,7 @@ public class MenuScreen implements Screen {
         exit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                buttonClick.play(parent.getPreferences().getSoundVolume());
                 Gdx.app.exit();
             }
         });
@@ -94,7 +93,7 @@ public class MenuScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (!playing) {
-                    buttonHover.play();
+                    if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
                     playing = true;
                 }
             }
@@ -109,7 +108,7 @@ public class MenuScreen implements Screen {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
                 parent.changeScreen(Battleships.CONNECT);
             }
         });
@@ -118,7 +117,7 @@ public class MenuScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (!playing) {
-                    buttonHover.play();
+                    if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
                     playing = true;
                 }
             }
@@ -133,7 +132,7 @@ public class MenuScreen implements Screen {
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
                 parent.changeScreen(Battleships.PREFERENCES);
             }
         });
@@ -142,7 +141,7 @@ public class MenuScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (!playing) {
-                    buttonHover.play();
+                    if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
                     playing = true;
                 }
             }

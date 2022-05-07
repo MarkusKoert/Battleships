@@ -1,5 +1,7 @@
 package com.battleships.game.entity.systems;
 
+import Packets.PacketCreator;
+import Packets.PacketRemoveLoot;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -7,16 +9,22 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.audio.Sound;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.*;
+import com.battleships.game.gameinfo.ClientWorld;
 
 import java.util.Random;
+import java.util.logging.Level;
 
 public class CollisionSystem extends IteratingSystem {
+	private ClientWorld clientWorld;
 	ComponentMapper<CollisionComponent> cm;
 	ComponentMapper<PlayerComponent> pm;
 	private final Sound[] impactSounds = new Sound[3];
+	private LevelFactory levelFactory;
 
 	public CollisionSystem(LevelFactory lvlFactory) {
 		super(Family.all(CollisionComponent.class).get());
+		this.clientWorld = lvlFactory.getClientWorld();
+		this.levelFactory = lvlFactory;
 
 		cm = ComponentMapper.getFor(CollisionComponent.class);
 		pm = ComponentMapper.getFor(PlayerComponent.class);
@@ -43,6 +51,41 @@ public class CollisionSystem extends IteratingSystem {
 		return array[rnd];
 	}
 
+	private void upgradePlayer(PlayerComponent pl, LootComponent loot) {
+		switch (loot.lootType) {
+			case HealthPack:
+				System.out.println("LOOT: +25HP");
+				if (pl.currentHealth <= pl.maxHealth - 25) {
+					pl.currentHealth += 25;
+				} else {
+					pl.currentHealth = pl.maxHealth;
+				}
+				break;
+			case CannonUpgrade:
+				System.out.println("LOOT: +10 bullet damage");
+				pl.bulletDamage += 10;
+				break;
+			case HealthUpgrade:
+				System.out.println("LOOT: +25HP max HP");
+				pl.maxHealth += 25;
+				pl.currentHealth += 25;
+				break;
+			case SpeedUpgrade:
+				System.out.println("LOOT: SPEED BONUS");
+				pl.maxSpeed += 2f;
+				break;
+			case ReloadUpgrade:
+				System.out.println("LOOT: FASTER RELOAD");
+				pl.shootDelay -= 0.2f;
+				break;
+			case BulletSpeedUpgrade:
+				System.out.println("LOOT: FASTER BULLETS");
+				pl.bulletSpeedMultiplier += 1;
+				break;
+		}
+		loot.isDead = true;
+	}
+
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		// get collision for this entity
@@ -63,9 +106,14 @@ public class CollisionSystem extends IteratingSystem {
 						//do player hit enemy thing
 						System.out.println("player hit enemy");
 						break;
-					case TypeComponent.SCENERY:
-						//do player hit scenery thing
-						System.out.println("player hit scenery");
+					case TypeComponent.LOOT:
+						LootComponent loot = collidedEntity.getComponent(LootComponent.class);
+						B2dBodyComponent lootBody = collidedEntity.getComponent(B2dBodyComponent.class);
+						upgradePlayer(pl, loot);
+						lootBody.isDead = true;
+						System.out.println(loot.lootType);
+						System.out.println("player hit loot");
+						sendRemoveLootPacket(loot.getId());
 						break;
 					case TypeComponent.OTHER:
 						//do player hit other thing
@@ -73,11 +121,11 @@ public class CollisionSystem extends IteratingSystem {
 						break;
 					case TypeComponent.BULLET:
 						BulletComponent bullet = Mapper.bulletCom.get(collidedEntity);
-						// cant shoot yourself
+						// can't shoot yourself
 						if(bullet.ownerId != pl.id) {
 							bullet.isDead = true;
-							getRandomSound(impactSounds).play(0.4f);
-							pl.currentHealth -= 10;
+							if (levelFactory.parent.getPreferences().isSoundEffectsEnabled()) getRandomSound(impactSounds).play(levelFactory.parent.getPreferences().getSoundVolume());
+							pl.currentHealth -= bullet.damage;
 							if (pl.currentHealth <= 0) {
 								pl.isDead = true;
 							}
@@ -90,7 +138,6 @@ public class CollisionSystem extends IteratingSystem {
 					cc.collisionEntity = null; // collision handled reset component
 				}
 			}
-		// Enemy type collisions (AI)
 		}
 		else if(thisType.type == TypeComponent.ENEMY) {
 			if(collidedEntity != null) {
@@ -103,7 +150,7 @@ public class CollisionSystem extends IteratingSystem {
 					case TypeComponent.ENEMY:
 						System.out.println("enemy hit enemy");
 						break;
-					case TypeComponent.SCENERY:
+					case TypeComponent.LOOT:
 						System.out.println("enemy hit scenery");
 						break;
 					case TypeComponent.OTHER:
@@ -113,8 +160,8 @@ public class CollisionSystem extends IteratingSystem {
 						EnemyComponent enemy = Mapper.enemyCom.get(entity);
 						BulletComponent bullet = Mapper.bulletCom.get(collidedEntity);
 						bullet.isDead = true;
-						getRandomSound(impactSounds).play(0.4f);
-						enemy.health -= 25;
+						if (levelFactory.parent.getPreferences().isSoundEffectsEnabled()) getRandomSound(impactSounds).play(levelFactory.parent.getPreferences().getSoundVolume());
+						enemy.health -= bullet.damage;
 						if (enemy.health <= 0) {
 							enemy.isDead = true;
 						}
@@ -131,4 +178,10 @@ public class CollisionSystem extends IteratingSystem {
 			cc.collisionEntity = null;
 		}
 	}
+
+	private void sendRemoveLootPacket(int id) {
+		PacketRemoveLoot packetRemoveLoot = PacketCreator.createPacketRemoveLoot(id);
+		clientWorld.getClientConnection().getClient().sendTCP(packetRemoveLoot);
+	}
+
 }

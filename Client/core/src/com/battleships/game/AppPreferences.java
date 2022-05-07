@@ -31,7 +31,7 @@ public class AppPreferences {
     }
 
     public void setMusicEnabled(boolean musicEnabled) {
-        getPrefs().putBoolean(PREF_MUSIC_ENABLED, true);
+        getPrefs().putBoolean(PREF_MUSIC_ENABLED, musicEnabled);
         getPrefs().flush();
     }
 
@@ -43,7 +43,7 @@ public class AppPreferences {
     }
 
     public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
-        getPrefs().putBoolean(PREF_SOUND_ENABLED, true);
+        getPrefs().putBoolean(PREF_SOUND_ENABLED, soundEffectsEnabled);
         getPrefs().flush();
     }
 

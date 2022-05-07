@@ -82,7 +82,6 @@ public class KeyboardController implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         isDragged = false;
-        //System.out.println(button);
         if(button == 0){
             isMouse1Down = false;
         }else if(button == 1){

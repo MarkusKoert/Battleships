@@ -12,6 +12,8 @@ public class B2dAssetManager {
     public final AssetManager manager = new AssetManager();
     // Textures
     public final String gameImages = "images/ships.atlas";
+    public final String effectImages = "images/effects.atlas";
+    public final String lootImages = "images/loot.atlas";
     public final String backGroundimage = "images/water.png";
     public final String connectGroundimage = "images/waterConnect.png";
     // Skin
@@ -28,10 +30,13 @@ public class B2dAssetManager {
     public final String cannonImpact2 = "sounds/cannonImpact2.mp3";
     public final String cannonImpact3 = "sounds/cannonImpact3.mp3";
     // music
-    public final String playingSong = "sounds/north_sea.mp3";
+    public final String northSea = "sounds/north_sea.mp3";
+    public final String soundTrack = "sounds/main_soundtrack.mp3";
 
     public void queueAddImages(){
         manager.load(gameImages, TextureAtlas.class);
+        manager.load(effectImages, TextureAtlas.class);
+        manager.load(lootImages, TextureAtlas.class);
         manager.load(backGroundimage, Texture.class);
         manager.load(connectGroundimage, Texture.class);
     }
@@ -55,6 +60,7 @@ public class B2dAssetManager {
     }
 
     public void queueAddMusic(){
-        manager.load(playingSong, Music.class);
+        manager.load(northSea, Music.class);
+        manager.load(soundTrack, Music.class);
     }
 }

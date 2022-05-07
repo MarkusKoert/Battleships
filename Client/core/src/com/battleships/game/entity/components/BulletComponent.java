@@ -10,6 +10,7 @@ public class BulletComponent implements Component, Poolable{
 	public boolean isDead = false;
 	public float initalBulletX;
 	public float initalBulletY;
+	public int damage;
 	
 	@Override
 	public void reset() {

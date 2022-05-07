@@ -31,7 +31,8 @@ public class Battleships extends Game {
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
 	public final static int CONNECT = 4;
-	private Music playingSong;
+	public Music playingSong;
+	public Music northSea;
 	private LevelFactory lvlFactory;
 	private PooledEngine engine;
 	private KeyboardController controller;
@@ -41,6 +42,8 @@ public class Battleships extends Game {
 	public void create () {
 		loadingScreen = new LoadingScreen(this);
 		preferences = new AppPreferences();
+		preferences.setMusicEnabled(true);
+		preferences.setSoundEffectsEnabled(true);
 		setScreen(loadingScreen);
 
 		// tells our asset manger that we want to load the images set in loadImages method
@@ -48,8 +51,10 @@ public class Battleships extends Game {
 		// tells the asset manager to load the images and wait until finished loading.
 		assMan.manager.finishLoading();
 		// loads the 2 sounds we use
-		playingSong = assMan.manager.get("sounds/north_sea.mp3");
-		playingSong.setVolume(0.5F);
+		playingSong = assMan.manager.get("sounds/main_soundtrack.mp3");
+		northSea = assMan.manager.get("sounds/north_sea.mp3");
+		playingSong.setVolume(preferences.getMusicVolume());
+		northSea.setVolume(preferences.getMusicVolume());
 		playingSong.play();
 		playingSong.setLooping(true);
 
@@ -65,7 +70,7 @@ public class Battleships extends Game {
 		clientWorld = new ClientWorld();
 
 		// create a level factory (factory for making bullets, enemies, players etc)
-		lvlFactory = new LevelFactory(engine,this.assMan, clientWorld);
+		lvlFactory = new LevelFactory(engine,this, clientWorld);
 
 		// add all the relevant systems our engine should run
 		engine.addSystem(new AnimationSystem());
@@ -101,6 +106,12 @@ public class Battleships extends Game {
 			case APPLICATION:
 				if(mainScreen == null) mainScreen = new MainScreen(this);
 				if (clientConnection.getIsConnected()) {
+					playingSong.stop();
+					if (preferences.isMusicEnabled()) {
+						northSea.setVolume(preferences.getSoundVolume());
+						if (getPreferences().isSoundEffectsEnabled()) northSea.play();
+						northSea.setLooping(true);
+					}
 					this.setScreen(mainScreen);
 				} else {
 					this.setScreen(menuScreen);
@@ -127,17 +138,9 @@ public class Battleships extends Game {
 		clientConnection.setCam(cam);
 		clientConnection.setClientWorld(clientWorld);
 		clientConnection.setPlayerName(connectScreen.getPlayer());
-		clientConnection.setPlayerskinId(connectScreen.getCheckedSkin());
+		clientConnection.setPlayerSkinId(connectScreen.getCheckedSkin());
 		clientConnection.sendPacketConnect();
 		clientWorld.setClientConnection(clientConnection);
-	}
-
-	public ClientConnection getClientConnection() {
-		return clientConnection;
-	}
-
-	public ClientConnection clientConnection () {
-		return clientConnection;
 	}
 
 	public ClientWorld getClientWorld() {

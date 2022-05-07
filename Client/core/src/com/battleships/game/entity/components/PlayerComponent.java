@@ -16,4 +16,7 @@ public class PlayerComponent implements Component {
     public boolean needsUpdate = false;
     public int skinId;
     public boolean isThisClient = false;
+    public int bulletDamage = 10;
+    public int bulletSpeedMultiplier = 2;
+    public float maxSpeed = 10f;
 }

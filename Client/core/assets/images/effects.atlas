@@ -3,16 +3,23 @@ effects.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-explosion1
+explosionsheet
   rotate: false
   xy: 1, 44
+  size: 176, 75
+  orig: 176, 75
+  offset: 0, 0
+  index: -1
+explosion1
+  rotate: false
+  xy: 179, 44
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
   index: -1
 explosion2
   rotate: false
-  xy: 77, 60
+  xy: 255, 60
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
@@ -26,7 +33,7 @@ explosion3
   index: -1
 fire1
   rotate: false
-  xy: 139, 80
+  xy: 317, 80
   size: 18, 39
   orig: 18, 39
   offset: 0, 0

@@ -1,8 +1,8 @@
 package Packets;
 
 public class PacketUpdatePlayerInfo {
-    private float x, y, angle;
-    private int health, id;
+    private float x, y, angle, shootDelay, maxSpeed;
+    private int currentHealth, id, maxHealth, bulletDamage, bulletSpeedMultiplier;
 
     public int getId() {
         return id;
@@ -36,13 +36,51 @@ public class PacketUpdatePlayerInfo {
         this.angle = angle;
     }
 
-    public int getHealth() {
-        return health;
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setCurrentHealth(int health) {
+        this.currentHealth = health;
     }
 
+    public float getShootDelay() {
+        return shootDelay;
+    }
 
+    public void setShootDelay(float shootDelay) {
+        this.shootDelay = shootDelay;
+    }
+
+    public int getBulletDamage() {
+        return bulletDamage;
+    }
+
+    public void setBulletDamage(int bulletDamage) {
+        this.bulletDamage = bulletDamage;
+    }
+
+    public int getBulletSpeedMultiplier() {
+        return bulletSpeedMultiplier;
+    }
+
+    public void setBulletSpeedMultiplier(int bulletSpeedMultiplier) {
+        this.bulletSpeedMultiplier = bulletSpeedMultiplier;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
 }
