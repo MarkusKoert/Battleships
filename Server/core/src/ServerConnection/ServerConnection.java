@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ServerConnection extends Listener {
     private Server server;
-    static final int tcpPort = 54555, udpPort = 54777;
+    static final int tcpPort = 8081, udpPort = 8082;
     private ServerWorld serverWorld;
 
     public ServerConnection() {
