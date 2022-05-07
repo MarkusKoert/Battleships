@@ -18,7 +18,7 @@ public class ServerConnection extends Listener {
 
     public ServerConnection() {
         try {
-            server = new Server();
+            server = new Server(4915200, 4915200);
             server.start(); // handle incoming connections, reading/writing to the socket, and notifying listeners
             server.bind(tcpPort, udpPort);
             this.serverWorld = new ServerWorld();
