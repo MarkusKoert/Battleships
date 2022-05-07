@@ -19,7 +19,7 @@ public class LootComponent implements Component {
         this.lootType = randomEnum(LootType.class);
     }
 
-    public static <T extends Enum<?>> T randomEnum(Class<T> clazz){
+    private static <T extends Enum<?>> T randomEnum(Class<T> clazz){
         int x = random.nextInt(clazz.getEnumConstants().length);
         return clazz.getEnumConstants()[x];
     }

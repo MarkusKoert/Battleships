@@ -5,6 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * This class stores data needed for multiplayer.
+ */
 public class ClientWorld {
 
     private ClientConnection clientConnection;

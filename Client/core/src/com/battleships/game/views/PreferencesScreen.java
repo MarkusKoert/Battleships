@@ -28,6 +28,7 @@ public class PreferencesScreen implements Screen {
     private boolean playing;
     private SpriteBatch sb;
     private Object backGroundTexture;
+    private final Skin skin;
 
     public PreferencesScreen(Battleships battleships){
         parent = battleships;
@@ -50,6 +51,9 @@ public class PreferencesScreen implements Screen {
         // gets the images as a texture
         backGroundTexture = parent.assMan.manager.get("images/water.png");
         sb = new SpriteBatch();
+
+        // Assign new skin to use for buttons
+        skin = new Skin(Gdx.files.internal("skin/game-ui-skin.json"));
     }
 
     @Override
@@ -63,8 +67,6 @@ public class PreferencesScreen implements Screen {
         // table.setDebug(true);
         stage.addActor(table);
 
-        // Assign new skin to use for buttons
-        Skin skin = new Skin(Gdx.files.internal("skin/game-ui-skin.json"));
 
         // Slider for music volume
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
@@ -73,6 +75,8 @@ public class PreferencesScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 parent.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
+                parent.northSea.setVolume(volumeMusicSlider.getValue());
+                parent.playingSong.setVolume(volumeMusicSlider.getValue());
                 return false;
             }
         });
@@ -96,31 +100,36 @@ public class PreferencesScreen implements Screen {
             public boolean handle(Event event) {
                 boolean enabled = musicCheckbox.isChecked();
                 parent.getPreferences().setMusicEnabled(enabled);
+                if (enabled && !parent.playingSong.isPlaying()) {
+                    parent.playingSong.play();
+                } else if (!enabled && parent.playingSong.isPlaying()) {
+                    parent.playingSong.stop();
+                }
                 return false;
             }
         });
         musicCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
             }
         });
 
         // Checkbox for sound volume
         final CheckBox soundCheckbox = new CheckBox(null, skin);
-        soundCheckbox.setChecked((parent.getPreferences().isMusicEnabled()));
+        soundCheckbox.setChecked((parent.getPreferences().isSoundEffectsEnabled()));
         soundCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = soundCheckbox.isChecked();
-                parent.getPreferences().setMusicEnabled(enabled);
+                parent.getPreferences().setSoundEffectsEnabled(enabled);
                 return false;
             }
         });
         soundCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
             }
         });
 
@@ -130,7 +139,7 @@ public class PreferencesScreen implements Screen {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buttonClick.play(0.7F);
+                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
                 parent.changeScreen(Battleships.MENU);
             }
         });
@@ -139,7 +148,7 @@ public class PreferencesScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (!playing) {
-                    buttonHover.play();
+                    if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
                     playing = true;
                 }
             }

@@ -94,7 +94,7 @@ public class PlayerControlSystem extends IteratingSystem {
 		// update other client entities
 		if (this.clientWorld.getThisClientId() != player.id && player.needsUpdate) {
 			PacketUpdatePlayerInfo object = player.lastUpdatePacket;
-			b2body.body.setTransform(((PacketUpdatePlayerInfo) object).getX(), ((PacketUpdatePlayerInfo) object).getY(), ((PacketUpdatePlayerInfo) object).getAngle());
+			b2body.body.setTransform(object.getX(), object.getY(), object.getAngle());
 		}
 
 		// Movement with controller, check is player is this client.

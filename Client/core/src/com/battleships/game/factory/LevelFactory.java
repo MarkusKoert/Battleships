@@ -2,7 +2,7 @@ package com.battleships.game.factory;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.battleships.game.Battleships;
 import com.battleships.game.utility.B2dContactListener;
 import com.battleships.game.gameinfo.ClientWorld;
 import com.battleships.game.entity.components.*;
@@ -31,19 +31,21 @@ public class LevelFactory {
 	private TextureAtlas lootAtlas;
 	public B2dAssetManager assman;
 	private Sound[] cannonSounds = new Sound[5];
+	public Battleships parent;
 	Map<Integer, List<Integer>> spawnMap = new HashMap<Integer, List<Integer>>(); // storing the spawnpoints
 
-	public LevelFactory(PooledEngine en, B2dAssetManager assMan, ClientWorld clientWorld){
+	public LevelFactory(PooledEngine en, Battleships battleships, ClientWorld clientWorld){
 		engine = en;
 		this.clientWorld = clientWorld;
+		this.assman = battleships.assMan;
+		this.parent = battleships;
 
 		// loads and gets images with asset manager
-		assMan.queueAddImages();
-		assMan.manager.finishLoading();
+		assman.queueAddImages();
+		assman.manager.finishLoading();
 
-		this.atlas = assMan.manager.get("images/ships.atlas", TextureAtlas.class);
-		this.lootAtlas = assMan.manager.get("images/loot.atlas", TextureAtlas.class);
-		this.assman = assMan;
+		this.atlas = assman.manager.get("images/ships.atlas", TextureAtlas.class);
+		this.lootAtlas = assman.manager.get("images/loot.atlas", TextureAtlas.class);
 
 		bulletTex = atlas.findRegion("cannonBall");
 		playerTex = atlas.findRegion("ship (1)");
@@ -117,10 +119,9 @@ public class LevelFactory {
 		CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
 		TypeComponent type = engine.createComponent(TypeComponent.class);
 		StateComponent stateCom = engine.createComponent(StateComponent.class);
-		ConnectionComponent connCom = engine.createComponent(ConnectionComponent.class);
 		player.cam = cam;
 
-		// get positsion of spawnpoints
+		// get position of spawn points
 		float posx = takeSpawnPoints(playerId).get(0);
 		float posy = takeSpawnPoints(playerId).get(1);
 
@@ -141,7 +142,6 @@ public class LevelFactory {
 		entity.add(colComp);
 		entity.add(type);
 		entity.add(stateCom);
-		entity.add(connCom);
 
 		// add the entity to the engine
 		engine.addEntity(entity);
@@ -230,7 +230,7 @@ public class LevelFactory {
 
 		engine.addEntity(entity);
 		// create a bullet
-		getRandomSound(cannonSounds).play();
+		if (parent.getPreferences().isSoundEffectsEnabled()) getRandomSound(cannonSounds).play(parent.getPreferences().getSoundVolume());
 		return entity;
 	}
 

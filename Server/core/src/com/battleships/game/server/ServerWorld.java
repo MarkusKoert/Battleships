@@ -1,7 +1,6 @@
 package com.battleships.game.server;
 
 import Packets.PacketAddPlayer;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +26,19 @@ public class ServerWorld {
             new Point(185, 130)
     };
 
+    /**
+     * Add a player to server map
+     * @param id - player ID
+     * @param addPlayer - player add packet
+     */
     public void addPlayer(Integer id, PacketAddPlayer addPlayer) {
         players.put(id, addPlayer);
     }
 
+    /**
+     * Add player to server map
+     * @param id - player ID
+     */
     public void removePlayer(int id) {
         players.remove(id);
     }

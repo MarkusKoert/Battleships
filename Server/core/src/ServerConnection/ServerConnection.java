@@ -12,9 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class ServerConnection extends Listener {
-    //Server object
     private Server server;
-    //Ports to listen on
     static final int tcpPort = 54555, udpPort = 54777;
     private ServerWorld serverWorld;
 
@@ -43,6 +41,11 @@ public class ServerConnection extends Listener {
 
         // Listener to handle receiving objects
         server.addListener(new Listener() {
+            /**
+             * Recieve and process incoming packets
+             * @param connection - Connection
+             * @param object - packet
+             */
             @Override
             public void received (Connection connection, Object object) {
                 if (object instanceof PacketAddPlayer) {
@@ -66,12 +69,15 @@ public class ServerConnection extends Listener {
                      }
 
 
-                } else if (object instanceof PacketUpdatePlayerInfo) {
+                }
+                else if (object instanceof PacketUpdatePlayerInfo) {
                     // update existing players clients x, y, angle, vel etc with update package
                     server.sendToAllTCP(object);
-                } else if (object instanceof PacketAddBullet) {
+                }
+                else if (object instanceof PacketAddBullet) {
                     server.sendToAllTCP(object);
-                } else if (object instanceof PacketRemoveLoot) {
+                }
+                else if (object instanceof PacketRemoveLoot) {
                     server.sendToAllTCP(object);
                 }
             }

@@ -30,7 +30,8 @@ public class B2dAssetManager {
     public final String cannonImpact2 = "sounds/cannonImpact2.mp3";
     public final String cannonImpact3 = "sounds/cannonImpact3.mp3";
     // music
-    public final String playingSong = "sounds/north_sea.mp3";
+    public final String northSea = "sounds/north_sea.mp3";
+    public final String soundTrack = "sounds/main_soundtrack.mp3";
 
     public void queueAddImages(){
         manager.load(gameImages, TextureAtlas.class);
@@ -59,6 +60,7 @@ public class B2dAssetManager {
     }
 
     public void queueAddMusic(){
-        manager.load(playingSong, Music.class);
+        manager.load(northSea, Music.class);
+        manager.load(soundTrack, Music.class);
     }
 }

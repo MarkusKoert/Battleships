@@ -4,9 +4,8 @@ import Packets.*;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Vector2;
 import com.battleships.game.gameinfo.ClientWorld;
-import com.battleships.game.entity.components.B2dBodyComponent;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.PlayerComponent;
 import com.esotericsoftware.kryonet.Client;
@@ -16,6 +15,9 @@ import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * This class manages the client's connection to the server.
+ */
 public class ClientConnection {
     private final Client client;
     private ClientWorld clientWorld;
@@ -75,7 +77,6 @@ public class ClientConnection {
                         for (Map.Entry<Integer, Entity> entry : clientWorld.getPlayers().entrySet()) {
                             if (entry.getKey() == ((PacketUpdatePlayerInfo) object).getId()) {
                                 PlayerComponent playerCom = entry.getValue().getComponent(PlayerComponent.class);
-                                B2dBodyComponent bodyCom = entry.getValue().getComponent(B2dBodyComponent.class);
                                 playerCom.currentHealth = ((PacketUpdatePlayerInfo) object).getCurrentHealth();
 
                                 playerCom.maxHealth = ((PacketUpdatePlayerInfo) object).getMaxHealth();
@@ -91,7 +92,6 @@ public class ClientConnection {
                     }
                 }
                 else if (object instanceof PacketAddBullet) {
-                    // System.out.println("recieved bullet packet");
                     int id = ((PacketAddBullet) object).getOwnerId();
                     if (id != connection.getID()) {
                         float x = ((PacketAddBullet) object).getX();
@@ -129,6 +129,9 @@ public class ClientConnection {
         }
     }
 
+    /**
+     * Send a PacketAddPlayer to server
+     */
     public void sendPacketConnect() {
         PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName, playerId, playerskinId);
         client.sendTCP(packetConnect);
@@ -158,19 +161,15 @@ public class ClientConnection {
         return client;
     }
 
-    public void setPlayerskinId(int playerskinId) {
+    public void setPlayerSkinId(int playerskinId) {
         this.playerskinId = playerskinId;
-    }
-
-    public int getPlayerskinId() {
-        return playerskinId;
-    }
-
-    public static void main(String[] args) {
-        new ClientConnection();
     }
 
     public boolean getIsConnected() {
         return isConnected;
+    }
+
+    public static void main(String[] args) {
+        new ClientConnection();
     }
 }

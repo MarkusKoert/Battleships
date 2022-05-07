@@ -2,7 +2,6 @@ package com.battleships.game.entity.systems;
 
 import Packets.PacketCreator;
 import Packets.PacketRemoveLoot;
-import Packets.PacketUpdatePlayerInfo;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -13,16 +12,19 @@ import com.battleships.game.entity.components.*;
 import com.battleships.game.gameinfo.ClientWorld;
 
 import java.util.Random;
+import java.util.logging.Level;
 
 public class CollisionSystem extends IteratingSystem {
 	private ClientWorld clientWorld;
 	ComponentMapper<CollisionComponent> cm;
 	ComponentMapper<PlayerComponent> pm;
 	private final Sound[] impactSounds = new Sound[3];
+	private LevelFactory levelFactory;
 
 	public CollisionSystem(LevelFactory lvlFactory) {
 		super(Family.all(CollisionComponent.class).get());
 		this.clientWorld = lvlFactory.getClientWorld();
+		this.levelFactory = lvlFactory;
 
 		cm = ComponentMapper.getFor(CollisionComponent.class);
 		pm = ComponentMapper.getFor(PlayerComponent.class);
@@ -122,7 +124,7 @@ public class CollisionSystem extends IteratingSystem {
 						// can't shoot yourself
 						if(bullet.ownerId != pl.id) {
 							bullet.isDead = true;
-							getRandomSound(impactSounds).play(0.4f);
+							if (levelFactory.parent.getPreferences().isSoundEffectsEnabled()) getRandomSound(impactSounds).play(levelFactory.parent.getPreferences().getSoundVolume());
 							pl.currentHealth -= bullet.damage;
 							if (pl.currentHealth <= 0) {
 								pl.isDead = true;
@@ -158,7 +160,7 @@ public class CollisionSystem extends IteratingSystem {
 						EnemyComponent enemy = Mapper.enemyCom.get(entity);
 						BulletComponent bullet = Mapper.bulletCom.get(collidedEntity);
 						bullet.isDead = true;
-						getRandomSound(impactSounds).play(0.4f);
+						if (levelFactory.parent.getPreferences().isSoundEffectsEnabled()) getRandomSound(impactSounds).play(levelFactory.parent.getPreferences().getSoundVolume());
 						enemy.health -= bullet.damage;
 						if (enemy.health <= 0) {
 							enemy.isDead = true;
