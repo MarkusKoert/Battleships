@@ -146,8 +146,11 @@ public class PlayerControlSystem extends IteratingSystem {
 				}
 			}
 			ChangeBodyAngle(b2body);
+
 			// Send update package
-			sendPlayerUpdatePackage(b2body, player);
+			if (!player.isDead || !b2body.isDead) {
+				sendPlayerUpdatePackage(b2body, player);
+			}
 		}
 	}
 

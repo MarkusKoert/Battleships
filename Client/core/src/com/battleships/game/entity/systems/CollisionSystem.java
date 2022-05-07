@@ -10,9 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.battleships.game.factory.LevelFactory;
 import com.battleships.game.entity.components.*;
 import com.battleships.game.gameinfo.ClientWorld;
-
 import java.util.Random;
-import java.util.logging.Level;
 
 public class CollisionSystem extends IteratingSystem {
 	private ClientWorld clientWorld;

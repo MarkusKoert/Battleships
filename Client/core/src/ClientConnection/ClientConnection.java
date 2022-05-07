@@ -32,7 +32,7 @@ public class ClientConnection {
         String ip = "193.40.156.219";
         final int tcpPort = 8081, udpPort = 8082;
 
-        client = new Client();
+        client = new Client(49152, 49152);
         client.start();
 
         // Register all packets that are sent over the network.
@@ -77,16 +77,16 @@ public class ClientConnection {
                         for (Map.Entry<Integer, Entity> entry : clientWorld.getPlayers().entrySet()) {
                             if (entry.getKey() == ((PacketUpdatePlayerInfo) object).getId()) {
                                 PlayerComponent playerCom = entry.getValue().getComponent(PlayerComponent.class);
-                                playerCom.currentHealth = ((PacketUpdatePlayerInfo) object).getCurrentHealth();
-
-                                playerCom.maxHealth = ((PacketUpdatePlayerInfo) object).getMaxHealth();
-                                playerCom.maxSpeed = ((PacketUpdatePlayerInfo) object).getMaxSpeed();
-                                playerCom.shootDelay = ((PacketUpdatePlayerInfo) object).getShootDelay();
-                                playerCom.bulletDamage = ((PacketUpdatePlayerInfo) object).getBulletDamage();
-                                playerCom.bulletSpeedMultiplier = ((PacketUpdatePlayerInfo) object).getBulletSpeedMultiplier();
-
-                                playerCom.lastUpdatePacket = (PacketUpdatePlayerInfo) object;
-                                playerCom.needsUpdate = true;
+                                if (playerCom != null) {
+                                    playerCom.currentHealth = ((PacketUpdatePlayerInfo) object).getCurrentHealth();
+                                    playerCom.maxHealth = ((PacketUpdatePlayerInfo) object).getMaxHealth();
+                                    playerCom.maxSpeed = ((PacketUpdatePlayerInfo) object).getMaxSpeed();
+                                    playerCom.shootDelay = ((PacketUpdatePlayerInfo) object).getShootDelay();
+                                    playerCom.bulletDamage = ((PacketUpdatePlayerInfo) object).getBulletDamage();
+                                    playerCom.bulletSpeedMultiplier = ((PacketUpdatePlayerInfo) object).getBulletSpeedMultiplier();
+                                    playerCom.lastUpdatePacket = (PacketUpdatePlayerInfo) object;
+                                    playerCom.needsUpdate = true;
+                                }
                             }
                         }
                     }
