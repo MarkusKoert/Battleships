@@ -30,7 +30,12 @@ public class ClientConnection {
     public boolean gotConnection = true;
 
     public ClientConnection() {
-        String ip = "localhost";
+        // localhost ip & ports:
+        // String ip = "localhost";
+        // final int tcpPort = 8081, udpPort = 8082;
+
+        // Taltech server ip & ports:
+        String ip = "193.40.156.219";
         final int tcpPort = 8081, udpPort = 8082;
 
         client = new Client(49152, 49152);
