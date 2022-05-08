@@ -4,13 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="Cleaned Code&#10;Settings screen now works">
-      <change afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/LobbyScreen.java" afterDir="false" />
+    <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="Added lobbyscreen + nullpointer check">
+      <change afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketAskPlayers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/core/src/Packets/PacketGameState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketAskPlayers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/core/src/Packets/PacketGameState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/ClientConnection/ClientConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/CollisionSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/PlayerControlSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/Battleships.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/gameinfo/ClientWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/gameinfo/ClientWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/ConnectScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/LobbyScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/LobbyScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/MenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/MenuScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/ServerConnection/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/ServerConnection/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/core/src/com/battleships/game/server/ServerWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/core/src/com/battleships/game/server/ServerWorld.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,12 +74,6 @@
                 <item name="Client" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="other" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Client" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -218,7 +220,8 @@
       <workItem from="1650392606359" duration="1114000" />
       <workItem from="1651677349673" duration="14206000" />
       <workItem from="1651912952720" duration="13111000" />
-      <workItem from="1651927221861" duration="3600000" />
+      <workItem from="1651927221861" duration="14039000" />
+      <workItem from="1652024000399" duration="8081000" />
     </task>
     <task id="LOCAL-00001" summary="Clear unused methods, dependencies, classes and etc. Update Client module. 3h">
       <created>1649497410891</created>
@@ -303,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651923212136</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added lobbyscreen + nullpointer check">
+      <created>1651930869174</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1651930869174</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -332,7 +342,8 @@
     <MESSAGE value="Loot system added.&#10;Loot spawning at spots defined in serverworld." />
     <MESSAGE value="removed some println-s and added Loot type logging to console" />
     <MESSAGE value="Cleaned Code&#10;Settings screen now works" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned Code&#10;Settings screen now works" />
+    <MESSAGE value="Added lobbyscreen + nullpointer check" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added lobbyscreen + nullpointer check" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

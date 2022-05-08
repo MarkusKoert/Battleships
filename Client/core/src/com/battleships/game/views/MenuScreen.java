@@ -20,7 +20,6 @@ import com.battleships.game.Battleships;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class MenuScreen implements Screen {
-
     private final Stage stage;
     private final Skin skin;
     private final Sound buttonClick;
@@ -72,13 +71,13 @@ public class MenuScreen implements Screen {
         TextButton preferences = new TextButton("Settings", skin);
         TextButton exit = new TextButton("Exit", skin);
 
-        table.add(titleLabel).fillX().uniformX();
+        table.add(titleLabel).uniformX();
         table.row().pad(50,0,10,0);
-        table.add(newGame).fillX().uniformX();
+        table.add(newGame).uniformX();
         table.row().pad(10,0,10,0);
-        table.add(preferences).fillX().uniformX();
+        table.add(preferences).uniformX();
         table.row().pad(10,0,10,0);
-        table.add(exit).fillX().uniformX();
+        table.add(exit).uniformX();
 
         // Create listeners for menu screen buttons
         exit.addListener(new ChangeListener() {

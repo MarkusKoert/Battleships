@@ -126,7 +126,7 @@ public class LevelFactory {
 		float posy = takeSpawnPoints(playerId).get(1);
 
 		// create the data for the components and add them to the components
-		b2dbody.body = bodyFactory.makeBoxPolyBody(55,55,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
+		b2dbody.body = bodyFactory.makeBoxPolyBody(posx,posy,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
 		position.position.set(10,10,1);
 		texture.region = playerTex;
 		type.type = TypeComponent.PLAYER;
@@ -274,7 +274,9 @@ public class LevelFactory {
 	 * @param ent - removes entity from game engine
 	 */
 	public void removeEntity(Entity ent){
-		engine.removeEntity(ent);
+		if (engine.getEntities().contains(ent, true)) {
+			engine.removeEntity(ent);
+		}
 	}
 
 	public TextureAtlas getShipAtlas() {

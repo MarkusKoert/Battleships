@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class ServerWorld {
     private Map<Integer, PacketAddPlayer> players = new HashMap<>();
+    private boolean gameState;
     private final Point[] lootCoordinates = {
             new Point(83, 25),
             new Point(18, 169),
@@ -49,5 +50,13 @@ public class ServerWorld {
 
     public Map<Integer, PacketAddPlayer> getPlayers() {
         return players;
+    }
+
+    public boolean getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(boolean gameState) {
+        this.gameState = gameState;
     }
 }

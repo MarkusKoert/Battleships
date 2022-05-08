@@ -1,6 +1,5 @@
 package com.battleships.game.views;
 
-import ClientConnection.ClientConnection;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -26,6 +25,8 @@ public class ConnectScreen implements Screen {
     private String username;
     private ButtonGroup buttonGroup;
     private boolean isSkinSelected = false;
+    private float timeSeconds = 0f;
+    private float period = 5f;
 
     public ConnectScreen(Battleships battleships) {
         parent = battleships;
@@ -48,6 +49,7 @@ public class ConnectScreen implements Screen {
         // gets the images as a texture
         backGroundTexture = parent.assMan.manager.get("images/waterConnect.png");
         sb = new SpriteBatch();
+
     }
 
     @Override
@@ -114,12 +116,29 @@ public class ConnectScreen implements Screen {
                         || username.equals("Username") ) {
                     JOptionPane.showMessageDialog(null, "Please write your player name");
                     return false;
-                } else if (!isSkinSelected) {
+                }
+                else if (!isSkinSelected) {
                     JOptionPane.showMessageDialog(null, "Please choose the skin for your ship");
                     return false;
-                } else {
+                }
+                else {
                     parent.createClient(parent.getClientWorld());
-                    parent.changeScreen(Battleships.APPLICATION);
+                    // wait for a response from server
+                    while (timeSeconds < period) {
+                        timeSeconds += Gdx.graphics.getDeltaTime();
+                    }
+
+                    if (parent.getClientWorld().currentPlayerCount >= parent.getLobbyScreen().getLobbyPlayerCount() || parent.getClientWorld().gameInProgess) {
+                        JOptionPane.showMessageDialog(null, "A game is currently in progress, try again later.");
+                        return false;
+                    }
+
+                    parent.getClientWorld().getClientConnection().sendPacketConnect();
+                    if (!parent.getClientWorld().getClientConnection().gotConnection) {
+                        return false;
+                    }
+
+                    parent.changeScreen(Battleships.LOBBY);
                     return super.touchDown(event, x, y, pointer, button);
                 }
             }

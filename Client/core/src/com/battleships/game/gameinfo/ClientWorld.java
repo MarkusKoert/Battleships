@@ -12,6 +12,8 @@ public class ClientWorld {
 
     private ClientConnection clientConnection;
     private Map<Integer, Entity> players =  new LinkedHashMap<>(); // {id, player}
+    public int currentPlayerCount = 0;
+    public boolean gameInProgess;
 
     private Map<Integer, Entity> lootMap =  new LinkedHashMap<>(); // {id, loot}
 
@@ -51,4 +53,7 @@ public class ClientWorld {
         lootMap.remove(id);
     }
 
+    public int getCurrentPlayerCount() {
+        return currentPlayerCount;
+    }
 }

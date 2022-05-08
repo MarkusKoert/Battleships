@@ -38,6 +38,8 @@ public class ServerConnection extends Listener {
         server.getKryo().register(PacketAddBullet.class);
         server.getKryo().register(PacketAddLoot.class);
         server.getKryo().register(PacketRemoveLoot.class);
+        server.getKryo().register(PacketAskPlayers.class);
+        server.getKryo().register(PacketGameState.class);
 
         // Listener to handle receiving objects
         server.addListener(new Listener() {
@@ -48,6 +50,7 @@ public class ServerConnection extends Listener {
              */
             @Override
             public void received (Connection connection, Object object) {
+                System.out.println(object);
                 if (object instanceof PacketAddPlayer) {
                     PacketAddPlayer connectPlayer = (PacketAddPlayer) object;
                     connectPlayer.setPlayerId(connection.getID());
@@ -67,8 +70,6 @@ public class ServerConnection extends Listener {
                         PacketAddLoot addLoot = PacketCreator.createPacketAddLoot(point.x, point.y, i);
                         server.sendToTCP(connection.getID(), addLoot);
                      }
-
-
                 }
                 else if (object instanceof PacketUpdatePlayerInfo) {
                     // update existing players clients x, y, angle, vel etc with update package
@@ -80,15 +81,30 @@ public class ServerConnection extends Listener {
                 else if (object instanceof PacketRemoveLoot) {
                     server.sendToAllTCP(object);
                 }
+                else if (object instanceof PacketAskPlayers) {
+                    PacketAskPlayers askPlayers = (PacketAskPlayers) object;
+                    askPlayers.playerAmount = serverWorld.getPlayers().size();
+                    PacketGameState gameState = new PacketGameState();
+                    gameState.setGameInProgress(serverWorld.getGameState());
+                    server.sendToTCP(connection.getID(), gameState);
+                    server.sendToTCP(connection.getID(), askPlayers);
+                }
+                else if (object instanceof PacketGameState) {
+                    PacketGameState gameState = (PacketGameState) object;
+                    serverWorld.setGameState(gameState.isGameInProgress());
+                    server.sendToAllTCP(gameState);
+                }
             }
 
             @Override
             public void disconnected(Connection connection) {
                 PacketRemovePlayer removePlayer = PacketCreator.createPacketRemovePlayer(connection.getID());
-
                 // Remove player from serverWorld and send packet to all clients
                 serverWorld.removePlayer(connection.getID());
                 server.sendToAllTCP(removePlayer);
+                if (server.getConnections().length == 0) {
+                    serverWorld.setGameState(false);
+                }
             }
         });
     }

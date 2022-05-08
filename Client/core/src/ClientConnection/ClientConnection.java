@@ -27,9 +27,10 @@ public class ClientConnection {
     private int playerId;
     private int playerskinId;
     private boolean isConnected = false;
+    public boolean gotConnection = true;
 
     public ClientConnection() {
-        String ip = "193.40.156.219";
+        String ip = "localhost";
         final int tcpPort = 8081, udpPort = 8082;
 
         client = new Client(49152, 49152);
@@ -43,6 +44,8 @@ public class ClientConnection {
         client.getKryo().register(PacketAddBullet.class);
         client.getKryo().register(PacketAddLoot.class);
         client.getKryo().register(PacketRemoveLoot.class);
+        client.getKryo().register(PacketAskPlayers.class);
+        client.getKryo().register(PacketGameState.class);
 
         client.addListener(new Listener() {
             @Override
@@ -63,6 +66,7 @@ public class ClientConnection {
                                     player.getComponent(PlayerComponent.class).isThisClient = true;
                                 }
                                 clientWorld.addPlayer(addPlayer.getPlayerId(), player);
+                                // clientWorld.currentPlayerCount++;
                             }
                         }
                     });
@@ -70,6 +74,7 @@ public class ClientConnection {
                 else if (object instanceof PacketRemovePlayer) {
                     PacketRemovePlayer removePlayer = (PacketRemovePlayer) object;
                     Entity playerEntity = clientWorld.getPlayers().get(removePlayer.getId());
+                    // clientWorld.currentPlayerCount--;
                     lvlFactory.removeEntity(playerEntity);
                 }
                 else if (object instanceof PacketUpdatePlayerInfo) {
@@ -118,6 +123,14 @@ public class ClientConnection {
                     Entity lootEntity = clientWorld.getLoot().get(removeLoot.getId());
                     lvlFactory.removeEntity(lootEntity);
                 }
+                else if (object instanceof PacketAskPlayers) {
+                    PacketAskPlayers askPlayers = (PacketAskPlayers) object;
+                    clientWorld.currentPlayerCount = askPlayers.playerAmount;
+                }
+                else if (object instanceof PacketGameState) {
+                    PacketGameState gameState = (PacketGameState) object;
+                    clientWorld.gameInProgess = gameState.isGameInProgress();
+                }
             }
         });
 
@@ -125,6 +138,7 @@ public class ClientConnection {
             // Connected to the server - wait 5000ms before failing.
             client.connect(5000, ip, tcpPort, udpPort);
         } catch (IOException exception) {
+            gotConnection = false;
             JOptionPane.showMessageDialog(null, "Can not connect to the Server.");
         }
     }
@@ -135,6 +149,24 @@ public class ClientConnection {
     public void sendPacketConnect() {
         PacketAddPlayer packetConnect = PacketCreator.createPacketAddPlayer(playerName, playerId, playerskinId);
         client.sendTCP(packetConnect);
+    }
+
+    /**
+     * sends a PacketAskPlayers to the server.
+     */
+    public void sendPacketAskPlayers() {
+        PacketAskPlayers askPlayers = new PacketAskPlayers();
+        client.sendTCP(askPlayers);
+    }
+
+    /**
+     * sends the game state to the server.
+     * @param gameState - boolean
+     */
+    public void sendPacketGameState(boolean gameState) {
+        PacketGameState packetGameState = new PacketGameState();
+        packetGameState.setGameInProgress(gameState);
+        client.sendTCP(packetGameState);
     }
 
     public void setLvlFactory(LevelFactory lvlFactory) {

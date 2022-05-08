@@ -21,6 +21,7 @@ public class Battleships extends Game {
 	private EndScreen endScreen;
 	private ConnectScreen connectScreen;
 	private AppPreferences preferences;
+	private LobbyScreen lobbyScreen;
 	public B2dAssetManager assMan = new B2dAssetManager();
 	public SpriteBatch sb;
 	private OrthographicCamera cam;
@@ -31,6 +32,7 @@ public class Battleships extends Game {
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
 	public final static int CONNECT = 4;
+	public final static int LOBBY = 5;
 	public Music playingSong;
 	public Music northSea;
 	private LevelFactory lvlFactory;
@@ -81,6 +83,8 @@ public class Battleships extends Game {
 		engine.addSystem(new PlayerControlSystem(controller,lvlFactory));
 		engine.addSystem(new EnemySystem(lvlFactory));
 		engine.addSystem(new BulletSystem());
+
+		lobbyScreen = lobbyScreen = new LobbyScreen(this);
 	}
 
 	@Override
@@ -125,6 +129,10 @@ public class Battleships extends Game {
 				if (connectScreen == null) connectScreen = new ConnectScreen(this);
 				this.setScreen(connectScreen);
 				break;
+			case LOBBY:
+				if (lobbyScreen == null) lobbyScreen = new LobbyScreen(this);
+				this.setScreen(lobbyScreen);
+				break;
 		}
 	}
 
@@ -139,8 +147,13 @@ public class Battleships extends Game {
 		clientConnection.setClientWorld(clientWorld);
 		clientConnection.setPlayerName(connectScreen.getPlayer());
 		clientConnection.setPlayerSkinId(connectScreen.getCheckedSkin());
-		clientConnection.sendPacketConnect();
+		// clientConnection.sendPacketConnect();
+		clientConnection.sendPacketAskPlayers();
 		clientWorld.setClientConnection(clientConnection);
+	}
+
+	public LobbyScreen getLobbyScreen() {
+		return lobbyScreen;
 	}
 
 	public ClientWorld getClientWorld() {
