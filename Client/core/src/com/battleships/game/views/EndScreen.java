@@ -70,6 +70,7 @@ public class EndScreen implements Screen {
 
         if (parent.getLvlFactory().getAliveplayers() == 1) {
             winOrLoss = "You Won";
+            parent.getClientWorld().getClientConnection().sendPacketGameState(false);
         } else {
             winOrLoss = "You Lost";
         }
