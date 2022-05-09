@@ -102,9 +102,6 @@ public class ServerConnection extends Listener {
                 // Remove player from serverWorld and send packet to all clients
                 serverWorld.removePlayer(connection.getID());
                 server.sendToAllTCP(removePlayer);
-                if (server.getConnections().length == 0) {
-                    serverWorld.setGameState(false);
-                }
             }
         });
     }

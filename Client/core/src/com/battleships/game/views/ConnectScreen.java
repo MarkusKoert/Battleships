@@ -25,8 +25,6 @@ public class ConnectScreen implements Screen {
     private String username;
     private ButtonGroup buttonGroup;
     private boolean isSkinSelected = false;
-    private float timeSeconds = 0f;
-    private float period = 5f;
 
     public ConnectScreen(Battleships battleships) {
         parent = battleships;
@@ -123,10 +121,19 @@ public class ConnectScreen implements Screen {
                 }
                 else {
                     parent.createClient(parent.getClientWorld());
+
                     // wait for a response from server
-                    while (timeSeconds < period) {
-                        timeSeconds += Gdx.graphics.getDeltaTime();
+                    try
+                    {
+                        Thread.sleep(3000);
                     }
+                    catch(InterruptedException ex)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
+
+                    System.out.println("IS GAME IN PROGRESS:" + parent.getClientWorld().gameInProgess);
+                    System.out.println("PLAYERS IN GAME:" + parent.getClientWorld().currentPlayerCount);
 
                     if (parent.getClientWorld().currentPlayerCount >= parent.getLobbyScreen().getLobbyPlayerCount() || parent.getClientWorld().gameInProgess) {
                         JOptionPane.showMessageDialog(null, "A game is currently in progress, try again later.");

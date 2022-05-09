@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.battleships.game.Battleships;
 import com.battleships.game.utility.DFUtils;
 import com.battleships.game.entity.components.TextureComponent;
 import com.battleships.game.gameinfo.ClientWorld;
@@ -150,6 +151,16 @@ public class PlayerControlSystem extends IteratingSystem {
 			// Send update package
 			if (!player.isDead || !b2body.isDead) {
 				sendPlayerUpdatePackage(b2body, player);
+			}
+
+			// Check if player is dead and end game
+			if (player.isDead && player.id == clientWorld.getThisClientId()) {
+				lvlFactory.parent.changeScreen(Battleships.ENDGAME);
+			}
+
+			// Check if player is last alive
+			if (lvlFactory.getAliveplayers() == 1) {
+				lvlFactory.parent.changeScreen(Battleships.ENDGAME);
 			}
 		}
 	}
