@@ -275,7 +275,7 @@ public class ConnectScreen implements Screen {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
+        stage.dispose();
     }
 
     public String getPlayer() {

@@ -67,7 +67,6 @@ public class PreferencesScreen implements Screen {
         // table.setDebug(true);
         stage.addActor(table);
 
-
         // Slider for music volume
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
         volumeMusicSlider.setValue(parent.getPreferences().getMusicVolume());
@@ -223,6 +222,6 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
+        stage.dispose();
     }
 }

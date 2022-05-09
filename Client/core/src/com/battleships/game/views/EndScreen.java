@@ -75,6 +75,8 @@ public class EndScreen implements Screen {
             winOrLoss = "You Lost";
         }
 
+        parent.getLvlFactory().engine.removeAllEntities();
+
         Label titleLabel = new Label("GAME OVER", skin, "title");
         Label wonLabel = new Label(winOrLoss, skin, "subtitle");
         TextButton mainMenu = new TextButton("Back to menu", skin);
@@ -160,6 +162,6 @@ public class EndScreen implements Screen {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
+        stage.dispose();
     }
 }
