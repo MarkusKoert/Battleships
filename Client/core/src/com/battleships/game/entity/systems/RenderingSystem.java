@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -134,14 +135,16 @@ public class RenderingSystem extends SortedIteratingSystem {
                     float width = (float) pl.currentHealth / (float) pl.maxHealth * 11.4f;
                     batch.draw(texture,3,44,17,3);
                     batch.draw(texture2,7,44.6f,width,1.8f);
-                    font.getData().setScale(0.1f);
+                    font.getData().setScale(0.05f);
+                    font.setColor(Color.BROWN);
                     font.setUseIntegerPositions(false);
                     font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-                    // font.draw(batch, "HP: " + pl.currentHealth, 3, 47);
+                    if (pl.lastUpgrade != null & System.currentTimeMillis() < pl.lastUpgradeTime + 5000) {
+                        font.draw(batch, "LOOT: " + pl.lastUpgrade, 5, 5);
+                    }
                 }
             }
         }
-
         batch.end();
         renderQueue.clear();
     }

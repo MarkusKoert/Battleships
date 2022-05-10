@@ -161,6 +161,8 @@ public class LobbyScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stage.clear();
+        skin.dispose();
     }
 
     public int getLobbyPlayerCount() {

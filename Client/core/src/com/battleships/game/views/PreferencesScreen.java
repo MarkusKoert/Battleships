@@ -223,5 +223,7 @@ public class PreferencesScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stage.clear();
+        skin.dispose();
     }
 }

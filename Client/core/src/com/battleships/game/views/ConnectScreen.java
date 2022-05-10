@@ -122,6 +122,7 @@ public class ConnectScreen implements Screen {
                 else {
                     parent.createClient(parent.getClientWorld());
 
+                    // parent.getClientWorld().getClientConnection().sendPacketGameState(false);
                     // wait for a response from server
                     try
                     {
@@ -276,6 +277,7 @@ public class ConnectScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stage.clear();
     }
 
     public String getPlayer() {

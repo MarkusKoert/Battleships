@@ -1,6 +1,5 @@
 package com.battleships.game.factory;
 
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.battleships.game.Battleships;

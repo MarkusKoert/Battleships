@@ -53,6 +53,8 @@ public class CollisionSystem extends IteratingSystem {
 		switch (loot.lootType) {
 			case HealthPack:
 				System.out.println("LOOT: +25HP");
+				pl.lastUpgrade = "Healthpack!";
+				pl.lastUpgradeTime = System.currentTimeMillis();
 				if (pl.currentHealth <= pl.maxHealth - 25) {
 					pl.currentHealth += 25;
 				} else {
@@ -61,23 +63,33 @@ public class CollisionSystem extends IteratingSystem {
 				break;
 			case CannonUpgrade:
 				System.out.println("LOOT: +10 bullet damage");
+				pl.lastUpgrade = "Cannon damage upgrade!";
+				pl.lastUpgradeTime = System.currentTimeMillis();
 				pl.bulletDamage += 10;
 				break;
 			case HealthUpgrade:
 				System.out.println("LOOT: +25HP max HP");
+				pl.lastUpgrade = "Max health upgrade!";
+				pl.lastUpgradeTime = System.currentTimeMillis();
 				pl.maxHealth += 25;
 				pl.currentHealth += 25;
 				break;
 			case SpeedUpgrade:
 				System.out.println("LOOT: SPEED BONUS");
+				pl.lastUpgrade = "Speed upgrade!";
+				pl.lastUpgradeTime = System.currentTimeMillis();
 				pl.maxSpeed += 2f;
 				break;
 			case ReloadUpgrade:
 				System.out.println("LOOT: FASTER RELOAD");
+				pl.lastUpgrade = "Faster reload!";
+				pl.lastUpgradeTime = System.currentTimeMillis();
 				pl.shootDelay -= 0.2f;
 				break;
 			case BulletSpeedUpgrade:
 				System.out.println("LOOT: FASTER BULLETS");
+				pl.lastUpgrade = "Faster bullets!";
+				pl.lastUpgradeTime = System.currentTimeMillis();
 				pl.bulletSpeedMultiplier += 1;
 				break;
 		}

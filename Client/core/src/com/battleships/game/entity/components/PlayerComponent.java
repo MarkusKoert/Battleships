@@ -19,4 +19,8 @@ public class PlayerComponent implements Component {
     public int bulletDamage = 10;
     public int bulletSpeedMultiplier = 2;
     public float maxSpeed = 10f;
+    public String lastUpgrade = "none";
+    public long lastUpgradeTime;
 }
+
+
