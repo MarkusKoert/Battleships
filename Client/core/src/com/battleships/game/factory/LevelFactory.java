@@ -1,6 +1,5 @@
 package com.battleships.game.factory;
 
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.battleships.game.Battleships;
@@ -134,6 +133,7 @@ public class LevelFactory {
 		stateCom.set(StateComponent.STATE_NORMAL);
 		b2dbody.body.setUserData(entity);
 		player.skinId = skinId;
+		player.isDead = false;
 
 		// add the components to the entity
 		entity.add(b2dbody);

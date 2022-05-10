@@ -122,6 +122,7 @@ public class ConnectScreen implements Screen {
                 else {
                     parent.createClient(parent.getClientWorld());
 
+                    // parent.getClientWorld().getClientConnection().sendPacketGameState(false);
                     // wait for a response from server
                     try
                     {

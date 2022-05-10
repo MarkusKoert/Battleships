@@ -22,7 +22,7 @@ public class Battleships extends Game {
 	private ConnectScreen connectScreen;
 	private AppPreferences preferences;
 	private LobbyScreen lobbyScreen;
-	public B2dAssetManager assMan = new B2dAssetManager();
+	public B2dAssetManager assMan;
 	public SpriteBatch sb;
 	private OrthographicCamera cam;
 	public RenderingSystem renderingSystem;
@@ -44,6 +44,7 @@ public class Battleships extends Game {
 	public void create () {
 		loadingScreen = new LoadingScreen(this);
 		preferences = new AppPreferences();
+		assMan = new B2dAssetManager();
 		preferences.setMusicEnabled(true);
 		preferences.setSoundEffectsEnabled(true);
 		setScreen(loadingScreen);
@@ -84,7 +85,8 @@ public class Battleships extends Game {
 		engine.addSystem(new EnemySystem(lvlFactory));
 		engine.addSystem(new BulletSystem());
 
-		lobbyScreen = lobbyScreen = new LobbyScreen(this);
+		lobbyScreen = new LobbyScreen(this);
+		mainScreen = new MainScreen(this);
 	}
 
 	@Override
