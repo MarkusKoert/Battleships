@@ -56,4 +56,11 @@ public class ClientWorld {
     public int getCurrentPlayerCount() {
         return currentPlayerCount;
     }
+
+    public void resetClientWorld() {
+        this.clientConnection = null;
+        this.currentPlayerCount = 0;
+        this.gameInProgess = false;
+        this.players.clear();
+    }
 }

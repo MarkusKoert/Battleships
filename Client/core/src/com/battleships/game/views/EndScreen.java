@@ -76,6 +76,7 @@ public class EndScreen implements Screen {
         }
 
         parent.getLvlFactory().engine.removeAllEntities();
+        parent.getClientWorld().resetClientWorld();
 
         Label titleLabel = new Label("GAME OVER", skin, "title");
         Label wonLabel = new Label(winOrLoss, skin, "subtitle");
