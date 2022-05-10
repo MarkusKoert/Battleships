@@ -133,7 +133,6 @@ public class LevelFactory {
 		stateCom.set(StateComponent.STATE_NORMAL);
 		b2dbody.body.setUserData(entity);
 		player.skinId = skinId;
-		player.isDead = false;
 
 		// add the components to the entity
 		entity.add(b2dbody);

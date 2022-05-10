@@ -80,9 +80,9 @@ public class EndScreen implements Screen {
         TextButton exit = new TextButton("Exit", skin);
 
         table.add(titleLabel).uniformX();
-        table.row().pad(50,0,10,0);
+        table.row().pad(50, 0, 10, 0);
         table.add(wonLabel).uniformX();
-        table.row().pad(50,0,10,0);
+        table.row().pad(50, 0, 10, 0);
         table.add(exit).uniformX();
 
         // Create listeners for menu screen buttons

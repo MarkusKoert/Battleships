@@ -22,3 +22,5 @@ public class PlayerComponent implements Component {
     public String lastUpgrade = "none";
     public long lastUpgradeTime;
 }
+
+
