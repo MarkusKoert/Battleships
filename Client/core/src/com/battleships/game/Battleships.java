@@ -84,7 +84,8 @@ public class Battleships extends Game {
 		engine.addSystem(new EnemySystem(lvlFactory));
 		engine.addSystem(new BulletSystem());
 
-		lobbyScreen = lobbyScreen = new LobbyScreen(this);
+		lobbyScreen = new LobbyScreen(this);
+		mainScreen = new MainScreen(this);
 	}
 
 	@Override

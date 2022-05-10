@@ -192,6 +192,8 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stage.clear();
+        skin.dispose();
     }
 }
 

@@ -276,6 +276,7 @@ public class ConnectScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stage.clear();
     }
 
     public String getPlayer() {

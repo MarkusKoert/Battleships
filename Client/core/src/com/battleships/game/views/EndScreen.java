@@ -80,15 +80,12 @@ public class EndScreen implements Screen {
 
         Label titleLabel = new Label("GAME OVER", skin, "title");
         Label wonLabel = new Label(winOrLoss, skin, "subtitle");
-        TextButton mainMenu = new TextButton("Back to menu", skin);
         TextButton exit = new TextButton("Exit", skin);
 
         table.add(titleLabel).uniformX();
-        table.row().pad(50,0,10,0);
+        table.row().pad(50, 0, 10, 0);
         table.add(wonLabel).uniformX();
-        table.row().pad(50,0,10,0);
-        table.add(mainMenu).uniformX();
-        table.row().pad(10,0,10,0);
+        table.row().pad(50, 0, 10, 0);
         table.add(exit).uniformX();
 
         // Create listeners for menu screen buttons
@@ -97,31 +94,6 @@ public class EndScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 buttonClick.play(parent.getPreferences().getSoundVolume());
                 Gdx.app.exit();
-            }
-        });
-
-        mainMenu.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if (parent.getPreferences().isSoundEffectsEnabled()) buttonClick.play(parent.getPreferences().getSoundVolume());
-                parent.getClientWorld().getClientConnection().getClient().stop();
-                parent.changeScreen(Battleships.MENU);
-            }
-        });
-        mainMenu.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (!playing) {
-                    if (parent.getPreferences().isSoundEffectsEnabled()) buttonHover.play(parent.getPreferences().getSoundVolume());
-                    playing = true;
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                playing = false;
             }
         });
     }

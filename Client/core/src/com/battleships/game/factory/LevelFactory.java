@@ -1,5 +1,6 @@
 package com.battleships.game.factory;
 
+import Packets.PacketUpdatePlayerInfo;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -123,8 +124,11 @@ public class LevelFactory {
 		player.cam = cam;
 
 		// get position of spawn points
-		float posx = takeSpawnPoints(playerId).get(0);
-		float posy = takeSpawnPoints(playerId).get(1);
+		//TODO: Uncomment 128 - 129 before launch and comment/delete 130-131
+//		float posx = takeSpawnPoints(playerId).get(0); //actual game positions
+//		float posy = takeSpawnPoints(playerId).get(1); //actual game positions
+		float posx = 60; // testing positions
+		float posy = 60; // testing positions
 
 		// create the data for the components and add them to the components
 		b2dbody.body = bodyFactory.makeBoxPolyBody(55,55,9.5f, 6, BodyFactory.SHIP, BodyDef.BodyType.DynamicBody,false);
@@ -133,7 +137,9 @@ public class LevelFactory {
 		type.type = TypeComponent.PLAYER;
 		stateCom.set(StateComponent.STATE_NORMAL);
 		b2dbody.body.setUserData(entity);
+
 		player.skinId = skinId;
+		player.isDead = false;
 
 		// add the components to the entity
 		entity.add(b2dbody);
@@ -289,6 +295,15 @@ public class LevelFactory {
 		}
 		return alivePlayers;
 	}
+
+//	public int getAliveplayers() {
+//		int alivePlayers = 0;
+//
+////		for (i=0 ; engine.getEntities().size() ; i++)
+//			for (Entity i : engine.getEntities()) {
+//
+//			}
+//	}
 
 	public TextureAtlas getShipAtlas() {
 		return atlas;

@@ -29,7 +29,7 @@ public class LobbyScreen implements Screen {
     private boolean playing;
     private int playerCount;
     private Label titleLabel;
-    private final int lobbyPlayerCount = 3;
+    private final int lobbyPlayerCount = 2;
     private float timeSeconds = 0f;
     private float period = 1f;
 
@@ -161,6 +161,8 @@ public class LobbyScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        stage.clear();
+        skin.dispose();
     }
 
     public int getLobbyPlayerCount() {
