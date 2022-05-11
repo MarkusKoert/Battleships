@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f09b424f-4ff6-4828-892c-c1e44916e4fe" name="Changes" comment="loot type rendering">
-      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/LobbyScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/views/LobbyScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/EnemySystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/entity/systems/EnemySystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/core/src/com/battleships/game/factory/LevelFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,6 +215,7 @@
       <workItem from="1652116961240" duration="7555000" />
       <workItem from="1652181862355" duration="215000" />
       <workItem from="1652205114895" duration="305000" />
+      <workItem from="1652284415403" duration="446000" />
     </task>
     <task id="LOCAL-00001" summary="Clear unused methods, dependencies, classes and etc. Update Client module. 3h">
       <created>1649497410891</created>
@@ -346,7 +349,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652123576032</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="loot type rendering">
+      <created>1652214121100</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1652214121100</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -380,7 +390,8 @@
     <MESSAGE value="Changed lobby size to 3" />
     <MESSAGE value="Endscreen + lobby fix" />
     <MESSAGE value="engine remove all entities after game" />
-    <option name="LAST_COMMIT_MESSAGE" value="engine remove all entities after game" />
+    <MESSAGE value="loot type rendering" />
+    <option name="LAST_COMMIT_MESSAGE" value="loot type rendering" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
