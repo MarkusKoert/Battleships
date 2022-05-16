@@ -11,7 +11,8 @@
 - [How To](#how-to)
     - [Run game](#run-game)
     - [Change lobby player quantity](#change-lobby-player-quantity)
-    - [Build Client or Server as a JAR file after any changes](#build-client-or-server-as-a-jar-file-after-any-changes)
+    - [Build Client as a JAR file after any changes](#build-client-as-a-jar-file-after-any-changes)
+    - [Build Server as a JAR file after any changes](#build-server-as-a-jar-file-after-any-changes)
     - [Upload game server to the remote server and run it](#upload-game-server-to-the-remote-server-and-run-it)
     - [Make a game server as service](#make-a-game-server-as-service)
 
@@ -57,13 +58,19 @@ Aleksandr Trofimov <b><i><a href="https://gitlab.cs.ttu.ee/altrof">@altrof</a></
 
 ## How To
 ### Run game
-  #### Go to the /out folder
-      java -jar Client.jar
+  #### Go to the /game-jar folder
+      java -jar Battleships.jar
 ### Change lobby player quantity
     Client > core > src > com > battleships > game > views > LobbyScreen.java
     
     private final int lobbyPlayerCount = 3;  // 32 line
-### Build Client or Server as a JAR file after any changes
+
+### Build Client as a JAR file after any changes
+  #### Run this command from module folder "Client" (not from global!).
+    ./gradlew desktop:dist
+This jar file will be in: ```desktop > build > libs > desktop-1.0.jar``` (by default)
+
+### Build Server as a JAR file after any changes
   #### After any changes in code, its have to rebuild.
     File > Project Structure > Artifacts
   Here is the button [+] on the upside. 
